@@ -1,5 +1,6 @@
+import type { NextPage } from 'next';
 import { Seo } from 'src/components/seo';
-
+import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as MarketingLayout } from 'src/layouts/marketing';
 
 import {HomeCaps} from 'src/sections/home/home-caps';
@@ -10,7 +11,8 @@ import { HomeCta } from 'src/sections/home/home-cta';
 
 import { HomeSendero } from 'src/sections/home/home-sendero';
 
-const Page = () => {
+const Page: NextPage = () => {
+    usePageView();
 
   return (
     <>
