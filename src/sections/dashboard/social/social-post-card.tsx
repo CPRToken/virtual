@@ -22,7 +22,7 @@ import Typography from '@mui/material/Typography';
 import type { Comment} from 'src/types/social';
 import { SocialComment } from './social-comment';
 import { SocialCommentAdd } from './social-comment-add';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 import { db, auth } from 'src/libs/firebase';
 import { arrayRemove, arrayUnion, getDoc, increment, doc, updateDoc } from 'firebase/firestore';
 
@@ -71,30 +71,31 @@ interface SocialPostCardProps {
 
 
         const handleLike = useCallback(async (): Promise<void> => {
-            const uid = auth.currentUser?.uid;
-            if (!uid) {
-                console.error("User not logged in");
-                return;
-            }
-
-
-            const postRef = doc(db, 'posts', postId);
-            const postSnapshot = await getDoc(postRef);
-            if (postSnapshot.exists()) {
-                const postData = postSnapshot.data();
-                const likedBy = postData.likedBy || [];
-
-                if (!likedBy.includes(uid)) {
-                    // User hasn't liked yet, so like the post
-                    await updateDoc(postRef, {
-                        likes: increment(1),
-                        likedBy: arrayUnion(uid)
-                    });
-                    setIsLiked(true);
-                    setLikes((prevLikes) => prevLikes + 1);
+                const uid = auth.currentUser?.uid;
+                if (!uid) {
+                    console.error("User not logged in");
+                    return;
                 }
-            }
-        }, [postId]);
+
+
+                const postRef = doc(db, 'posts', postId);
+                const postSnapshot = await getDoc(postRef);
+                if (postSnapshot.exists()) {
+                    const postData = postSnapshot.data();
+                    const likedBy = postData.likedBy || [];
+
+                    if (!likedBy.includes(uid)) {
+                        // User hasn't liked yet, so like the post
+                        await updateDoc(postRef, {
+                            likes: increment(1),
+                            likedBy: arrayUnion(uid)
+                        });
+                        setIsLiked(true);
+                        setLikes((prevLikes) => prevLikes + 1);
+                    }
+                }
+            },
+            [postId]);
 
 
 
