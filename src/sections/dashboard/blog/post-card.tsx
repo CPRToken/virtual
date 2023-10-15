@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+
 
 import type { SxProps } from '@mui/system/styleFunctionSx';
 import Avatar from '@mui/material/Avatar';
@@ -20,18 +20,15 @@ interface PostCardProps {
 
   avatar: string;
   cover: string;
-  name: string;
-  dob: string;
-  dod: string;
-  email: string;
-  gender?: string;
-  publishedAt: number;
-  originCity: string,
-  highSchool: string;
-  university: string;
-  currentCity: string;
-  quote: string;
-  userUrl: string;
+  name?: string;
+  dob?: number;
+  dod?: string;
+ gender?: string;
+  originCity?: string,
+  highSchool?: string;
+  university?: string;
+  quote?: string;
+  userUrl?: string;
   sx?: SxProps;
 
 }
@@ -40,24 +37,21 @@ export const PostCard: FC<PostCardProps> = (props) => {
   const {
 
 
-    avatar,
-    cover,
-    name,
-  email,
-  dob,
-      dod,
-  gender,
-   publishedAt,
-  originCity,
+        avatar,
+        cover,
+      name,
+        dob,
+          dod,
+        gender,
+        originCity,
       highSchool,
   university,
-  currentCity,
   quote,
   userUrl,
         ...other
   } = props;
 
-  const formattedPublishedAt = publishedAt ? format(publishedAt, 'MMM d, yyyy') : '';
+
 
   return (
 
@@ -121,13 +115,11 @@ export const PostCard: FC<PostCardProps> = (props) => {
 };
 
 PostCard.propTypes = {
-  avatar: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  dod: PropTypes.string,
-  category: PropTypes.string,
-  cover: PropTypes.string.isRequired,
-    publishedAt: PropTypes.number,
-  readTime: PropTypes.string.isRequired,
-  quote: PropTypes.string.isRequired,
-  lastName: PropTypes.string,
+        avatar: PropTypes.string.isRequired,
+         name: PropTypes.string.isRequired,
+        dod: PropTypes.string.isRequired,
+        originCity: PropTypes.string,
+        cover: PropTypes.string.isRequired,
+        quote: PropTypes.string,
+
 };

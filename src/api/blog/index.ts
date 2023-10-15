@@ -2,7 +2,7 @@ import type { Caps } from 'src/types/caps';
 
 
 import { collection, getDocs,  } from 'firebase/firestore';
-import { db, storage } from 'src/libs/firebase';
+import { db} from 'src/libs/firebase';
 
 type GetCapsRequest = object;
 
@@ -19,19 +19,20 @@ class BlogApi {
         const user = doc.data();
         data.push({
 
-          email: user.email,
-          name: `${user.firstName} ${user.lastName}`,
-          avatar: user.avatar,
-          gender: user.gender,
-          maritalStatus: user.maritalStatus,
-          cover: user.cover,
-          originCity: user.originCity,
-          highSchool: user.highSchool,
-          university: user.university,
-          currentCity: user.currentCity,
 
-          quote: user.quote,
-          userUrl: user.userUrl,
+          avatar:  user.avatar,
+          cover: user.cover,
+          dob: user.dob,
+          maritalStatus: user.maritalStatus,
+          name: `${user.firstName} ${user.lastName}`,
+          originCity: user.originCity,
+          highSchool:  user.highSchool,
+          university:  user.university,
+          quote:  user.quote,
+          userUrl:  user.userUrl,
+
+
+
         });
       });
     } catch (error) {

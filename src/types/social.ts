@@ -25,7 +25,7 @@ export interface Profile {
 export interface Post {
 
 
-        id: string;
+        uid: string;
     postId: string;
         avatar: string;
         name: string;
@@ -42,7 +42,7 @@ export interface Post {
 
 
 export interface Comment {
-    id: string;
+    uid: string;
     postId: string;
         avatar: string;
         name: string;

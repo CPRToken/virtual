@@ -16,7 +16,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import {ModalOffer} from "src/sections/components/modals/modal-offer";
+
 import { socialApi } from 'src/api/social/socialApi';
 import { RouterLink } from 'src/components/router-link';
 import { Seo } from 'src/components/seo';
@@ -356,8 +356,8 @@ const Page: NextPage = () => {
                                 <SocialPostCard
                                     key={post.id}
                                     postId={post.id}
-                                    authorAvatar={post.author.avatar}
-                                    authorName={post.author.name}
+                                    authorAvatar={post.avatar}
+                                    authorName={post.name}
                                     comments={post.comments}
                                     createdAt={post.createdAt}
                                     isLiked={post.isLiked}

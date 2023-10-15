@@ -150,7 +150,7 @@ const useItemsStore = (searchState: ItemsSearchState) => {
             const user = auth.currentUser;
             if (user) {
                 await deleteDoc(doc(db, `users/${user.uid}/folders/${itemId}`));
-            };
+            }
         } , [] );
 
 

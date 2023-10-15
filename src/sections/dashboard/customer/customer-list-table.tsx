@@ -22,14 +22,14 @@ import Typography from '@mui/material/Typography';
 import { RouterLink } from 'src/components/router-link';
 import { Scrollbar } from 'src/components/scrollbar';
 import { paths } from 'src/paths';
-import type { Customer } from 'src/types/customer';
+import type { User } from 'src/types/user';
 import { getInitials } from 'src/utils/get-initials';
 
 interface CustomerListTableProps {
   count?: number;
-  items?: Customer[];
+  items?: User[];
   onDeselectAll?: () => void;
-  onDeselectOne?: (customerId: string) => void;
+  onDeselectOne?: (uid?: string) => void;
   onPageChange?: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
   onRowsPerPageChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onSelectAll?: () => void;
@@ -120,8 +120,8 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                   }}
                 />
               </TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Location</TableCell>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Ubicación</TableCell>
               <TableCell>Orders</TableCell>
               <TableCell>Spent</TableCell>
               <TableCell align="right">Actions</TableCell>
@@ -129,14 +129,16 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
           </TableHead>
           <TableBody>
             {items.map((customer) => {
-              const isSelected = selected.includes(customer.id);
-              const location = `${customer.city}, ${customer.state}, ${customer.country}`;
+              // @ts-ignore
+              const isSelected = selected.includes(customer.uid);
+              const location = `${customer.originCity}`;
               const totalSpent = numeral(customer.totalSpent).format(`${customer.currency}0,0.00`);
 
+              // @ts-ignore
               return (
                 <TableRow
                   hover
-                  key={customer.id}
+                  key={customer.uid}
                   selected={isSelected}
                 >
                   <TableCell padding="checkbox">
@@ -144,9 +146,9 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                       checked={isSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>): void => {
                         if (event.target.checked) {
-                          onSelectOne?.(customer.id);
+                          onSelectOne?.(customer.uid);
                         } else {
-                          onDeselectOne?.(customer.id);
+                          onDeselectOne?.(customer.uid);
                         }
                       }}
                       value={isSelected}

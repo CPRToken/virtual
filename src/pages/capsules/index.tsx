@@ -149,13 +149,13 @@ const Page: NextPage = () => {
                 <PostCard
                   avatar={caps.avatar}
                   name={caps.name}
-                  email={caps.email}
                   cover={caps.cover}
-                  dob={caps.dob}
-
+                  originCity={caps.originCity}
+                  highSchool={caps.highSchool}
+                  university={caps.university}
+                   userUrl={caps.userUrl}
                   quote={caps.quote}
-                  gender={caps.gender}
-                  sx={{ height: '100%' }}
+                   sx={{ height: '100%' }}
                 />
               </Grid>
             ))}

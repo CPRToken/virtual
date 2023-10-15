@@ -1,6 +1,6 @@
 import type { Post, Profile } from 'src/types/social';
 import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore';
-import { db, auth } from 'src/libs/firebase';
+import { db } from 'src/libs/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 
@@ -59,7 +59,9 @@ class SocialApi {
       });
   }
 
-  async getPosts(request: GetPostsRequest = {}, callback: (posts: Post[]) => void): Promise<() => void> {
+  async getPosts(request: GetPostsRequest = {
+    uid: ''
+  }, callback: (posts: Post[]) => void): Promise<() => void> {
     const uid = request.uid;
 
     if (!uid) {
@@ -78,24 +80,21 @@ class SocialApi {
       const posts: Post[] = snapshot.docs.map(doc => {
         const postData = doc.data();
         return {
-          id: doc.id,
-          author: {
-            id: postData.uid,  // Assuming uid is the user ID
-            avatar: postData.avatar,
-            name: postData.name,
-          },
-            comments: postData.comments || [],
-
-            createdAt: postData.createdAt,
+          uid: postData.uid,
+          postId: doc.id,  // or some other field
+          avatar: postData.avatar,
+          name: postData.name,
+          comments: postData.comments || [],
+          createdAt: postData.createdAt,
           isLiked: postData.isLiked || false,
           likes: postData.likes || 0,
           media: postData.media,
           message: postData.message,
-
         };
       });
 
-        console.log("Fetched Posts:", posts);
+
+      console.log("Fetched Posts:", posts);
 
         callback(posts);
     }, error => {

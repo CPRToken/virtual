@@ -12,10 +12,10 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 import { Seo } from 'src/components/seo';
 import { useDialog } from 'src/hooks/use-dialog';
-import { useMounted } from 'src/hooks/use-mounted';
+
 import { usePageView } from 'src/hooks/use-page-view';
 import { useSettings } from 'src/hooks/use-settings';
-import {getDocs, deleteDoc, doc, query, where, collection} from 'firebase/firestore';
+import {getDocs, deleteDoc, doc,  collection} from 'firebase/firestore';
 import { FileUploader } from './file-uploader';
 import { ItemList } from 'src/sections/dashboard/file-manager/item-list';
 

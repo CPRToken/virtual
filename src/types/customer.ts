@@ -1,27 +1,19 @@
 export interface Customer {
-  uid: string;
-  address1?: string;
-  address2?: string;
+
+   id: any;
+
+  uid?: string;
   avatar?: string;
-  balance?: number;
-  city?: string;
-  country?: string;
-  currency?: string;
-  email: string;
-  hasAcceptedMarketing?: boolean;
-  hasDiscount?: boolean;
-  isProspect?: boolean;
-  isReturning?: boolean;
-  isVerified?: boolean;
-  name: string;
-  phone?: string;
-  state?: string;
-  totalSpent?: number;
-  totalOrders?: number;
-  updatedAt?: number;
-  vatRate?: number;
-  zipCode?: string;
-}
+
+  cover?: string;
+  cityOrigin?: string;
+  dob?: string; // you can be more specific here if you know the exact type
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  gender?: string;
+  quote?: string;
+};
 
 export interface CustomerLog {
   uid: string;
@@ -33,15 +25,6 @@ export interface CustomerLog {
   status: number;
 }
 
-export interface CustomerEmail {
-  uid: string;
-  description: string;
-  createdAt: number;
-}
 
-export interface CustomerInvoice {
-  uid: string;
-  issueDate: number;
-  status: string;
-  amount: number;
-}
+
+

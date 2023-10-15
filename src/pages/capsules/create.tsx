@@ -14,7 +14,7 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {collection, doc, addDoc, updateDoc, serverTimestamp} from 'firebase/firestore';
+
 import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator';
 import type { File } from 'src/pages/dashboard/documentos/file-dropzone';
 import { FileDropzone } from 'src/pages/dashboard/documentos/file-dropzone';

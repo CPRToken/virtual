@@ -18,7 +18,7 @@ import {Profile, Comment} from "../../../types/social";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import { db} from "src/libs/firebase";
 import {socialApi} from "src/api/social/socialApi";
-import { doc, getDoc, updateDoc, serverTimestamp} from "firebase/firestore";
+import { doc, getDoc, updateDoc} from "firebase/firestore";
 
 
 interface SocialCommentAddProps {

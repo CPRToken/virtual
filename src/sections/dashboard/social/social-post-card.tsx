@@ -30,11 +30,12 @@ interface SocialPostCardProps {
 
 
     postId?: string;
-    authorAvatar: string;
-    authorName: string;
+    authorAvatar?: string;
+    authorName?: string;
     comments: Comment[];
     isLiked?: boolean;
     likes?: number;
+    name?: string;
     media?: string;
     createdAt?: number;
     message?: string;
@@ -124,6 +125,8 @@ interface SocialPostCardProps {
 
 
 
+        // @ts-ignore
+        // @ts-ignore
         return (
 
 
@@ -262,7 +265,7 @@ interface SocialPostCardProps {
                         authorName={comment?.name}
 
                         createdAt={comment.createdAt}
-                        key={comment.id}
+                        key={comment.postId}
                         message={comment.message}
                     />
 
