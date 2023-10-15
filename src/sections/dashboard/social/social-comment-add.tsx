@@ -31,7 +31,8 @@ export const SocialCommentAdd: FC<SocialCommentAddProps> = (props) => {
     const auth = getAuth();
     const { postId } = props;
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-    const [comment, setComment] = useState<Comment[]>([]);
+    const [comment, setComment] = useState<string>('');
+
 
 
 
@@ -89,7 +90,9 @@ export const SocialCommentAdd: FC<SocialCommentAddProps> = (props) => {
                     console.log("Successfully added the comment");
 
                     // Clear the comment text field
-                    setComment('');
+                    setComment(''); // Empty string
+
+
                 }
 
             } catch (err) {

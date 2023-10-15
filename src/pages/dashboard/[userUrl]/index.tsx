@@ -3,7 +3,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import type { NextPage } from 'next';
 
 import Image01Icon from '@untitled-ui/icons-react/build/esm/Image01';
-import { tokens } from 'src/locales/tokens';
+
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/system/colorManipulator';
 import Box from '@mui/material/Box';
@@ -29,7 +29,7 @@ import { SocialTimeline } from 'src/sections/dashboard/social/social-timeline';
 import type { Profile, Post } from 'src/types/social';
 import { useRouter } from 'next/router';
 
-import { doc, query, where, collection, updateDoc, addDoc, getDocs } from "firebase/firestore";
+import { doc, query, where, collection, updateDoc, getDocs } from "firebase/firestore";
 
 import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
@@ -114,7 +114,9 @@ const usePosts = (uid: string | undefined): Post[] => {
         let unsubscribe: (() => void) | null = null;
 
         handlePostsGet().then((unsub) => {
-            unsubscribe = unsub;
+            if (unsub !== undefined) {
+                unsubscribe = unsub;
+            }
         });
 
         // Cleanup function
@@ -143,9 +145,6 @@ const Page: NextPage = () => {
 
 
     const [currentTab, setCurrentTab] = useState<string>('timeline');
-
-
-    const [userData, setUserData] = useState<Profile | null>(null);
 
 
 
@@ -183,8 +182,9 @@ const Page: NextPage = () => {
 
         }
 
-        const storageReference = storageRef(storage, 'avatars/' + uid + '/' + file.name);
-        try {
+      const storageReference = storageRef(storage, 'avatars/' + uid + '/' + (file as File).name);
+
+      try {
 
             const snapshot = await uploadBytesResumable(storageReference, file);
 
@@ -211,67 +211,24 @@ const Page: NextPage = () => {
             console.error('Error uploading the file:', error);
         }
     }
+    const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const file = e.target.files[0];
+            const imageType = e.target.getAttribute('data-type');
 
-
-
-
-
-
-    const handleCoverUpload = async (file) => {
-
-        const uid = auth.currentUser?.uid;
-
-        if (!file || !uid) {
-
-            return;
-        }
-
-        const storageReference = storageRef(storage, 'covers/' + uid + '/' + file.name);
-
-        try {
-
-            const snapshot = await uploadBytesResumable(storageReference, file);
-
-            const coverUrl = await getDownloadURL(snapshot.ref);
-
-
-            const userRef = doc(db, `users/${uid}`);
-            const publicUserRef = doc(db, `public/${uid}`);
-
-// Update cover in both user and public documents
-            await updateDoc(userRef, { cover: coverUrl });
-            await updateDoc(publicUserRef, { cover: coverUrl });
-
-            // Assuming you have a method to update user data for the cover
-            setUserData(prevState => {
-                const updatedState = prevState ? { ...prevState, cover: coverUrl } : null;
-                return updatedState;
-            });
-
-            if (coverInputRef.current) {
-                coverInputRef.current.value = '';
-            }
-
-        } catch (error) {
-
-        }
-    }
-
-    const handleImageChange =   async (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
-        const imageType = e.target.getAttribute('data-type');
-
-        if (file) {
-            if (imageType === 'avatar') {
-                await handleUpload(file); // For avatar
-            } else if (imageType === 'cover') {
-                await handleCoverUpload(file); // For cover
+            if (file) {
+                if (imageType === 'avatar') {
+                    await handleUpload(file); // For avatar
+                } else if (imageType === 'cover') {
+                    // your cover upload logic here
+                }
             }
         }
-    }
+    };
 
 
-  const SendFlowers = () => {
+
+    const SendFlowers = () => {
     // Your code here
   };
 
@@ -344,7 +301,8 @@ const Page: NextPage = () => {
                                         backgroundColor: blueGrey[900],
                                     },
                                 }}
-                                onClick={() => coverInputRef.current.click()}
+                                onClick={() => coverInputRef.current?.click()}
+
                                 variant="contained"
                             >
                               {t('headings.changeCover')}
@@ -401,7 +359,7 @@ const Page: NextPage = () => {
                                                         opacity: 1,
                                                     },
                                                 }}
-                                                onClick={() => inputRef.current.click()}
+                                                onClick={() => inputRef.current?.click()}
                                             >
                                                 <Stack
                                                     alignItems="center"
@@ -469,6 +427,7 @@ const Page: NextPage = () => {
                             <SocialPostCard
                               key={post.postId}
                               name={post?.name}
+                              comments={post?.comments}
                               avatar={post?.avatar}
                               message={post.message}
                               createdAt={post.createdAt}
