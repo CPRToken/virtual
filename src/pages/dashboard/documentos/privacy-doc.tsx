@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useState} from 'react';
-import AdapterDateFns from '@mui/x-date-pickers';
+
 import { RadioGroup, FormControlLabel, Radio, TextField, Button, Box, Typography } from '@mui/material';
 import { Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import DateFnsUtils from '@date-io/date-fns';
 
 import '@mui/material/styles';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -182,7 +183,8 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
                 value="saveOrPublish"
                 control={<Radio />}
                 label="Save or publish"
-                onChange={(e) => setVisibility(e.target.value)}
+                onChange={(e) => setVisibility((e.target as HTMLInputElement).value)}
+
             />
 
             <Box mb={3}>
@@ -294,16 +296,18 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
 
                   </Box>
 
-                  {isScheduledShare && (
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
-                        label="Share on Date and Time"
-                        value={scheduleDate}
-                        onChange={(date) => setScheduleDate(date)}
-                        text={(params) => <TextField fullWidth {...params} />}
-                      />
-                    </LocalizationProvider>
-                  )}
+                    {isScheduledShare && (
+                        <LocalizationProvider dateAdapter={DateFnsUtils as any}>
+                            <DateTimePicker
+                                label="Share on Date and Time"
+                                value={scheduleDate}
+                                onChange={(date) => setScheduleDate(date)}
+
+
+                            />
+                        </LocalizationProvider>
+                    )}
+
 
 
 

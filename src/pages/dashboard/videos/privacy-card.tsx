@@ -1,8 +1,8 @@
 import React, {FC, useEffect, useState} from 'react';
-import AdapterDateFns from '@mui/x-date-pickers';
+
 import { RadioGroup, FormControlLabel, Checkbox, Radio, TextField, Button, Box, Typography } from '@mui/material';
 import { Chip, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+
 import '@mui/material/styles';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { addDoc, collection, arrayUnion, serverTimestamp} from 'firebase/firestore';
@@ -10,6 +10,7 @@ import {socialApi} from "src/api/social/socialApi";
 import type { Profile } from 'src/types/social';
 import { db, auth } from 'src/libs/firebase';
 import {usePageView} from "src/hooks/use-page-view";
+import DateFnsUtils from "@date-io/date-fns";
 
 
 // ...
@@ -184,7 +185,8 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                 value="saveOrPublish"
                 control={<Radio />}
                 label="Save or publish"
-                onChange={(e) => setVisibility(e.target.value)}
+                onChange={(e) => setVisibility((e.target as HTMLInputElement).value)}
+
             />
 
             <Box mb={3}>
@@ -296,16 +298,17 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
 
                   </Box>
 
-                  {isScheduledShare && (
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
-                        label="Share on Date and Time"
-                        value={scheduleDate}
-                        onChange={(date) => setScheduleDate(date)}
-                        text={(params) => <TextField fullWidth {...params} />}
-                      />
-                    </LocalizationProvider>
-                  )}
+                    {isScheduledShare && (
+                        <LocalizationProvider dateAdapter={DateFnsUtils as any}>
+                            <DateTimePicker
+                                label="Share on Date and Time"
+                                value={scheduleDate}
+                                onChange={(date) => setScheduleDate(date)}
+
+
+                            />
+                        </LocalizationProvider>
+                    )}
 
 
 

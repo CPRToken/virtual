@@ -12,7 +12,8 @@ export async function sendScheduledEmails() {
     // Filter for records that are scheduled up to the current time
     const querySnapshot = await schedulesCollection.where('scheduleDate', '<=', now).get();
 
-    let fetchedSchedules = [];
+    let fetchedSchedules: any[] = [];
+
     querySnapshot.forEach((doc) => {
         const data = doc.data();
         data.docId = doc.id;
