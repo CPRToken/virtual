@@ -356,7 +356,7 @@ const Page: NextPage = () => {
                                 <SocialPostCard
                                     key={post.postId}
                                     postId={post.postId}
-                                    authorAvatar={post.avatar}
+                                    avatar={post.avatar}
                                     authorName={post.name}
                                     comments={post.comments}
                                     createdAt={post.createdAt}
