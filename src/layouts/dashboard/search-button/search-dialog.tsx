@@ -1,5 +1,5 @@
 import type { FC, SyntheticEvent } from 'react';
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd';
 import XIcon from '@untitled-ui/icons-react/build/esm/X';
@@ -13,83 +13,47 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
-import type { Profile } from 'src/types/social';
-import { socialApi } from 'src/api/social/socialApi';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { db, storage } from 'src/libs/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
+
 import { Tip } from 'src/components/tip';
 import { wait } from 'src/utils/wait';
-import algoliasearch from 'algoliasearch/lite';
 
-
-
-
-type Profile = {
-
-    uid: string;
-    avatar: string;
-    cover: string;
-    currentCity: string;
-    currentJobCompany: string;
-    currentJobTitle: string;
-    email: string;
-    gender: string;
-    name: string;
-    originCity: string;
-    previousJobCompany: string;
-    previousJobTitle: string;
-    placesWorked: string;
-    highSchool: string;
-    university: string;
-    quote: string;
+type Article = {
+    description: string;
+    title: string;
+    path: string;
 };
 
+const articles: Record<string, Article[]> = {
+    Platform: [
 
+    ],
+    Resources: [
 
+    ],
+};
 
 interface SearchDialogProps {
     onClose?: () => void;
     open?: boolean;
 }
 
-const client = algoliasearch(
-    process.env.REACT_APP_ALGOLIA_APP_ID,
-    process.env.REACT_APP_ALGOLIA_SEARCH_KEY
-);
-const index = client.initIndex('Virtual Eternity');
-
-
 export const SearchDialog: FC<SearchDialogProps> = (props) => {
-    const [profiles, setProfiles] = useState<Profile[]>([]);
     const { onClose, open = false, ...other } = props;
     const [value, setValue] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [displayResults, setDisplayResults] = useState<boolean>(false);
+    const [displayArticles, setDisplayArticles] = useState<boolean>(false);
 
     const handleSubmit = useCallback(async (event: SyntheticEvent): Promise<void> => {
         event.preventDefault();
+        setDisplayArticles(false);
         setIsLoading(true);
-
-        try {
-            if (value) {
-                index.search(value).then(({ hits }) => {
-                    setProfiles(uid);
-                    setDisplayResults(true);
-                });
-            } else {
-                console.error("Search value is empty or undefined.");
-            }
-        } catch (error) {
-            console.error("Failed to fetch profiles:", error);
-        }
-
+        // Do search here
+        await wait(1500);
         setIsLoading(false);
-    }, [value]);
-
-
+        setDisplayArticles(true);
+    }, []);
 
     return (
         <Dialog
@@ -154,17 +118,60 @@ export const SearchDialog: FC<SearchDialogProps> = (props) => {
                         <CircularProgress />
                     </Box>
                 )}
-                {displayResults && (
-                    <Stack spacing={2} sx={{ mt: 3 }}>
-                        {profiles.map((profile, index) => (
-                            <Box key={profile.uid} sx={{ p: 2 }}>
-                                {/* Display avatar, name, etc. or any other fields you want */}
-                                <Typography variant="subtitle1">{profile.name}</Typography>
-                                <Typography color="text.secondary" variant="body2">
-                                    {profile.email}
-                                </Typography>
-                                {/* Add more details here as needed */}
-                            </Box>
+                {displayArticles && (
+                    <Stack
+                        spacing={2}
+                        sx={{ mt: 3 }}
+                    >
+                        {Object.keys(articles).map((type, index) => (
+                            <Stack
+                                key={index}
+                                spacing={2}
+                            >
+                                <Typography variant="h6">{type}</Typography>
+                                <Stack
+                                    divider={<Divider />}
+                                    sx={{
+                                        borderColor: 'divider',
+                                        borderRadius: 1,
+                                        borderStyle: 'solid',
+                                        borderWidth: 1,
+                                    }}
+                                >
+                                    {articles[type].map((article, index) => (
+                                        <Box
+                                            key={article.title}
+                                            sx={{ p: 2 }}
+                                        >
+                                            <Stack
+                                                alignItems="center"
+                                                direction="row"
+                                                spacing={2}
+                                                sx={{ pl: 1 }}
+                                            >
+                                                <Badge
+                                                    color="primary"
+                                                    variant="dot"
+                                                />
+                                                <Typography variant="subtitle1">{article.title}</Typography>
+                                            </Stack>
+                                            <Typography
+                                                color="text.secondary"
+                                                variant="body2"
+                                            >
+                                                {article.path}
+                                            </Typography>
+                                            <Typography
+                                                color="text.secondary"
+                                                variant="body2"
+                                                sx={{ mt: 1 }}
+                                            >
+                                                {article.description}
+                                            </Typography>
+                                        </Box>
+                                    ))}
+                                </Stack>
+                            </Stack>
                         ))}
                     </Stack>
                 )}
