@@ -18,6 +18,10 @@ import { useSettings } from "../../../hooks/use-settings";
 import { useDialog } from "../../../hooks/use-dialog";
 import { StorageStats } from "../../../sections/dashboard/file-manager/storage-stats";
 
+
+
+
+
 const Page: NextPage = () => {
     const [imageUrls, setImageUrls] = useState<Array<{ url: string, name: string }>>([]);
     const [open, setOpen] = useState(false);
@@ -152,7 +156,7 @@ const Page: NextPage = () => {
         <FotosUploader
             onClose={uploadDialog.handleClose}
             open={uploadDialog.open}
-            uid={uid}
+
             onUploadSuccess={fetchFotos}
         />
     </>

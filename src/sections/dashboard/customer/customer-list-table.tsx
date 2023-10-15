@@ -146,6 +146,7 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                       checked={isSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>): void => {
                         if (event.target.checked) {
+                          // @ts-ignore
                           onSelectOne?.(customer.uid);
                         } else {
                           onDeselectOne?.(customer.uid);

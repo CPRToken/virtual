@@ -63,6 +63,7 @@ interface SocialPostCardProps {
 
 
         const [isLiked, setIsLiked] = useState<boolean>(isLikedProp);
+        // @ts-ignore
         const [likes, setLikes] = useState<number>(likesProp);
 
 
@@ -125,6 +126,7 @@ interface SocialPostCardProps {
 
 
 
+        // @ts-ignore
         // @ts-ignore
         // @ts-ignore
         return (

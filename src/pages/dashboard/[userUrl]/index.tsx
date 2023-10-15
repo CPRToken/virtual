@@ -257,7 +257,7 @@ const Page: NextPage = () => {
         }
     }
 
-    const handleImageChange = async (e) => {
+    const handleImageChange =   async (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files[0];
         const imageType = e.target.getAttribute('data-type');
 

@@ -29,9 +29,8 @@ export const FotosUploader: FC<FotosUploaderProps> = (props) => {
 
   const user = auth.currentUser;
   const uid = user ? user.uid : null;
-    const settings = useSettings();
 
-
+  useSettings();
   const uploadFile = () => {
     if (fotosUpload == null) return;
 
@@ -47,7 +46,6 @@ export const FotosUploader: FC<FotosUploaderProps> = (props) => {
         }
       };
       updateMetadata(snapshot.ref, metadata);
-
       getDownloadURL(snapshot.ref).then((url) => {
         setFotosUrls((prev) => [...prev, url]);
         setFotosUpload(null);
@@ -84,7 +82,7 @@ export const FotosUploader: FC<FotosUploaderProps> = (props) => {
 
   const handleRemove = useCallback((file: Fotos): void => {
     setFiles((prevFiles) => {
-      return prevFiles.filter((_file) => _file.path !== file.path);
+      return prevFiles.filter((_file) => _file._file !== file.path);
     });
   }, []);
 
