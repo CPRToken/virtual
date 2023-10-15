@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
