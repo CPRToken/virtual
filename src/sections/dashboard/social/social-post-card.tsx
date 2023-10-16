@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ClockIcon from '@untitled-ui/icons-react/build/esm/Clock';
@@ -22,7 +22,7 @@ import Typography from '@mui/material/Typography';
 import type { Comment} from 'src/types/social';
 import { SocialComment } from './social-comment';
 import { SocialCommentAdd } from './social-comment-add';
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from 'src/libs/firebase';
 import { arrayRemove, arrayUnion, getDoc, increment, doc, updateDoc } from 'firebase/firestore';
 
@@ -30,12 +30,11 @@ interface SocialPostCardProps {
 
 
     postId?: string;
-    avatar?: string;
-    authorName?: string;
+    authorAvatar: string;
+    authorName: string;
     comments: Comment[];
     isLiked?: boolean;
     likes?: number;
-    name?: string;
     media?: string;
     createdAt?: number;
     message?: string;
@@ -48,7 +47,7 @@ interface SocialPostCardProps {
         const {
 
             postId,
-            avatar,
+            authorAvatar,
             authorName,
             comments,
             createdAt,
@@ -62,9 +61,7 @@ interface SocialPostCardProps {
 
 
 
-        const [isLiked, setIsLiked] = useState<boolean>(isLikedProp ?? false); // Fallback to false if isLikedProp is undefined
-
-        // @ts-ignore
+        const [isLiked, setIsLiked] = useState<boolean>(isLikedProp);
         const [likes, setLikes] = useState<number>(likesProp);
 
 
@@ -78,27 +75,22 @@ interface SocialPostCardProps {
                 return;
             }
 
-            if (postId) {
-                const postRef = doc(db, 'posts', postId);
-                const postSnapshot = await getDoc(postRef);
 
-                if (postSnapshot.exists()) {
-                    const postData = postSnapshot.data();
-                    const likedBy = postData.likedBy || [];
+            const postRef = doc(db, 'posts', postId);
+            const postSnapshot = await getDoc(postRef);
+            if (postSnapshot.exists()) {
+                const postData = postSnapshot.data();
+                const likedBy = postData.likedBy || [];
 
-                    if (!likedBy.includes(uid)) {
-                        // User hasn't liked yet, so like the post
-                        await updateDoc(postRef, {
-                            likes: increment(1),
-                            likedBy: arrayUnion(uid),
-                        });
-                        setIsLiked(true);
-                        setLikes((prevLikes) => prevLikes + 1);
-                    }
+                if (!likedBy.includes(uid)) {
+                    // User hasn't liked yet, so like the post
+                    await updateDoc(postRef, {
+                        likes: increment(1),
+                        likedBy: arrayUnion(uid)
+                    });
+                    setIsLiked(true);
+                    setLikes((prevLikes) => prevLikes + 1);
                 }
-            } else {
-                // Handle the case when postId is undefined
-                console.error("postId is undefined");
             }
         }, [postId]);
 
@@ -111,36 +103,27 @@ interface SocialPostCardProps {
                 return;
             }
 
-            if (postId) {
-                const postRef = doc(db, 'posts', postId);
-                const postSnapshot = await getDoc(postRef);
+            const postRef = doc(db, 'posts', postId);
+            const postSnapshot = await getDoc(postRef);
+            if (postSnapshot.exists()) {
+                const postData = postSnapshot.data();
+                const likedBy = postData.likedBy || [];
 
-                if (postSnapshot.exists()) {
-                    const postData = postSnapshot.data();
-                    const likedBy = postData.likedBy || [];
-
-                    if (likedBy.includes(uid)) {
-                        // User has liked before, so unlike the post
-                        await updateDoc(postRef, {
-                            likes: increment(-1),
-                            likedBy: arrayRemove(uid),
-                        });
-                        setIsLiked(false);
-                        setLikes((prevLikes) => prevLikes - 1);
-                    }
+                if (likedBy.includes(uid)) {
+                    // User has liked before, so unlike the post
+                    await updateDoc(postRef, {
+                        likes: increment(-1),
+                        likedBy: arrayRemove(uid)
+                    });
+                    setIsLiked(false);
+                    setLikes((prevLikes) => prevLikes - 1);
                 }
-            } else {
-                // Handle the case when postId is undefined
-                console.error("postId is undefined");
             }
         }, [postId]);
 
 
 
 
-        // @ts-ignore
-        // @ts-ignore
-        // @ts-ignore
         return (
 
 
@@ -151,7 +134,7 @@ interface SocialPostCardProps {
               <Avatar
                   component="a"
                   href="#"
-                  src={avatar}
+                  src={authorAvatar}
               />
             }
             disableTypography
@@ -168,8 +151,7 @@ interface SocialPostCardProps {
                     color="text.secondary"
                     variant="caption"
                 >
-                    {createdAt && formatDistanceToNowStrict(new Date(createdAt))} ago
-
+                    {createdAt && 'toDate' in createdAt && formatDistanceToNowStrict(createdAt.toDate())} ago
 
 
 
@@ -280,7 +262,7 @@ interface SocialPostCardProps {
                         authorName={comment?.name}
 
                         createdAt={comment.createdAt}
-                        key={comment.postId}
+                        key={comment.id}
                         message={comment.message}
                     />
 
@@ -288,8 +270,10 @@ interface SocialPostCardProps {
             </Stack>
           <Divider sx={{ my: 2 }} />
 
-            <SocialCommentAdd postId={postId!} />
+            <SocialCommentAdd
+                postId={postId}
 
+            />
 
         </Box>
       </Card>
@@ -300,7 +284,7 @@ interface SocialPostCardProps {
 SocialPostCard.propTypes = {
 
 
-    avatar: PropTypes.string,
+    authorAvatar: PropTypes.string.isRequired,
     postId: PropTypes.string,
     authorName: PropTypes.string.isRequired,
     comments: PropTypes.array.isRequired,

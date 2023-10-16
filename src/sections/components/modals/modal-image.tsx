@@ -1,7 +1,7 @@
 import { Box, Paper, Stack, Typography, IconButton, SvgIcon } from '@mui/material';
 import { FC } from 'react';
 import XIcon from '@untitled-ui/icons-react/build/esm/X'; // Assuming the path is correct
-
+import Image from 'next/image';
 
 interface ImageViewerProps {
   imageUrl: string;
@@ -51,7 +51,8 @@ export const ImageViewer: FC<ImageViewerProps> = ({ imageUrl, onClose }) => {
             </SvgIcon>
           </IconButton>
         </Stack>
-        <img src={imageUrl} alt="Modal content" width="100%" />
+        <Image src={imageUrl} alt="Modal content" width={100} />
+
       </Paper>
     </Box>
   );

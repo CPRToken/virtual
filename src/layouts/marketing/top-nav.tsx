@@ -5,20 +5,22 @@ import Menu01Icon from '@untitled-ui/icons-react/build/esm/Menu01';
 import { alpha } from '@mui/system/colorManipulator';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-
+import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import type { Theme } from '@mui/material/styles/createTheme';
-import { RouterLink } from 'src/components/router-link';
 
+import { useTheme } from '@mui/material/styles';
+import { RouterLink } from 'src/components/router-link';
+import { version } from 'src/config';
 import { usePathname } from 'src/hooks/use-pathname';
 import { useWindowScroll } from 'src/hooks/use-window-scroll';
 
 import { paths } from 'src/paths';
-
+import { PagesPopover } from './pages-popover';
 import { TopNavItem } from './top-nav-item';
 import {useTranslation} from "react-i18next";
 import {tokens} from "src/locales/tokens";
@@ -126,17 +128,17 @@ export const TopNav: FC<TopNavProps> = (props) => {
                 src="/assets/logos/logo.svg"
                 sx={{
                   display: 'inline-flex',
-                  height: 40,
-                  width: 40,
+                  height: 45,
+                  width: 45,
                 }}
               />
               {mdUp && (
                 <Box
                   sx={{
                     color: 'text.primary',
-                      fontFamily: "Montserrat, sans-serif",
-                    fontSize: 25,
-                    fontWeight: 900,
+                      variant: "inherit",
+                    fontSize: 34,
+                    fontWeight: 550,
                     letterSpacing: '0.3px',
                     lineHeight: 2.5,
                     '& span': {

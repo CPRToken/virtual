@@ -19,7 +19,7 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
   if (settings.layout === 'horizontal') {
     return (
         <HorizontalLayout
-
+            sections={sections}
             navColor={settings.navColor}
             {...props}
         />
@@ -28,7 +28,7 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
 
   return (
       <VerticalLayout
-
+          sections={sections}
           navColor={settings.navColor}
           {...props}
       />

@@ -19,19 +19,17 @@ class BlogApi {
         const user = doc.data();
         data.push({
 
-
-          avatar:  user.avatar,
-          cover: user.cover,
-          dob: user.dob,
-          maritalStatus: user.maritalStatus,
+          email: user.email,
           name: `${user.firstName} ${user.lastName}`,
+          avatar: user.avatar,
+
+
+          cover: user.cover,
           originCity: user.originCity,
-          highSchool:  user.highSchool,
-          university:  user.university,
-          quote:  user.quote,
-          userUrl:  user.userUrl,
+          highSchool: user.highSchool,
+          university: user.university,
 
-
+         quote: user.quote,
 
         });
       });

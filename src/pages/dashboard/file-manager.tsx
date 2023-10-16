@@ -20,16 +20,17 @@ import { ItemList } from 'src/sections/dashboard/file-manager/item-list';
 import { ItemSearch } from 'src/sections/dashboard/file-manager/item-search';
 import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats';
 import type { Item } from 'src/types/file-manager';
-import {db, auth} from 'src/libs/firebase';
+import {db, auth, storage} from 'src/libs/firebase';
 import {onSnapshot, query, collection, deleteDoc, where, doc, getDoc} from 'firebase/firestore';
 import {useTranslation} from "react-i18next";
 import {tokens} from "src/locales/tokens";
 
 import { useRouter } from 'next/router'
-
+import {getDownloadURL, listAll, ref} from "firebase/storage";
 import { usePopover } from "src/hooks/use-popover"
+import Popover from '@mui/material/Popover';
 
-
+import {t} from "i18next";
 
 
 // Get the current user
@@ -149,7 +150,7 @@ const useItemsStore = (searchState: ItemsSearchState) => {
             const user = auth.currentUser;
             if (user) {
                 await deleteDoc(doc(db, `users/${user.uid}/folders/${itemId}`));
-            }
+            };
         } , [] );
 
 

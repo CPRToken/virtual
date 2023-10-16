@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import type { NextPage } from 'next';
-
+import MessageChatSquareIcon from '@untitled-ui/icons-react/build/esm/MessageChatSquare';
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import UserPlus02Icon from '@untitled-ui/icons-react/build/esm/UserPlus02';
 import Avatar from '@mui/material/Avatar';
@@ -16,7 +16,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-
+import {ModalOffer} from "src/sections/components/modals/modal-offer";
 import { socialApi } from 'src/api/social/socialApi';
 import { RouterLink } from 'src/components/router-link';
 import { Seo } from 'src/components/seo';
@@ -354,10 +354,10 @@ const Page: NextPage = () => {
                         {currentTab === 'posts' && (
                             posts.map((post) => (
                                 <SocialPostCard
-                                    key={post.postId}
-                                    postId={post.postId}
-                                    avatar={post.avatar}
-                                    authorName={post.name}
+                                  key={post.postId}
+                                  postId={post.postId}
+                                  authorAvatar={post.avatar}
+                                  authorName={post.name}
                                     comments={post.comments}
                                     createdAt={post.createdAt}
                                     isLiked={post.isLiked}

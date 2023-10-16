@@ -1,80 +1,74 @@
 import React, {FC, useEffect, useState} from 'react';
 
-import { RadioGroup, FormControlLabel, Radio, TextField, Button, Box, Typography } from '@mui/material';
-import { Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import DateFnsUtils from '@date-io/date-fns';
-
+import { RadioGroup, FormControlLabel, Radio, TextField, Button, Box, Typography, FilledTextFieldProps, OutlinedTextFieldProps, StandardTextFieldProps, TextFieldVariants} from '@mui/material';
+import {Chip, Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import '@mui/material/styles';
-import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { addDoc, collection, serverTimestamp} from 'firebase/firestore';
+import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
+import {addDoc, collection, serverTimestamp} from 'firebase/firestore';
 import {socialApi} from "src/api/social/socialApi";
-import type { Profile } from 'src/types/social';
-import { db, auth } from 'src/libs/firebase';
+import type {Profile} from 'src/types/social';
+import {db, auth} from 'src/libs/firebase';
 import {usePageView} from "src/hooks/use-page-view";
 
 
 // ...
 interface PrivacyDocProps {
-  onUpload: (data: { visibility: string, scheduleDate?: Date, sharedEmails: string[] }) => void;
-  fileLink?: string;
-  downloadUrl?: string;
-  description?: string;
-  to?: string;
-  title?: string;
-  onClose?: () => void;
-  onBack?: () => void;
+    onUpload: (data: { visibility: string, scheduleDate?: Date, sharedEmails: string[] }) => void;
+    fileLink?: string;
+    downloadUrl?: string;
+    description?: string;
+    to?: string;
+    title?: string;
+    onClose?: () => void;
+    onBack?: () => void;
 }
 
 export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
-  const { onUpload, onBack, onClose, title, description , } = props;
-  const [uid, setUid] = useState<string | null>(auth.currentUser ? auth.currentUser.uid : null);
-   const [visibility, setVisibility] = useState('public');
-  const [scheduleDate, setScheduleDate] = useState<Date | null>(null);
-  const [isScheduledShare, setIsScheduledShare] = useState(false);
-  const [openShareModal, setOpenShareModal] = useState(false);
-  const [emails, setEmails] = useState<string[]>([]);
-  const [user , setUser] = useState<Profile | null>(null);
-  const [currentEmail, setCurrentEmail] = useState("");
+    const {onUpload, onBack, onClose, title, description,} = props;
+    const [uid, setUid] = useState<string | null>(auth.currentUser ? auth.currentUser.uid : null);
+    const [visibility, setVisibility] = useState('public');
+    const [scheduleDate, setScheduleDate] = useState<Date | null>(null);
+    const [isScheduledShare, setIsScheduledShare] = useState(false);
+    const [openShareModal, setOpenShareModal] = useState(false);
+    const [emails, setEmails] = useState<string[]>([]);
+    const [user, setUser] = useState<Profile | null>(null);
+    const [currentEmail, setCurrentEmail] = useState("");
 
 
+    useEffect(() => {
+        if (!uid) return; // Exit if uid is null
 
-  useEffect(() => {
-    if (!uid) return; // Exit if uid is null
+        const user = async () => {
+            try {
+                const userData = await socialApi.getProfile({uid});
 
-    const user = async () => {
-      try {
-        const userData = await socialApi.getProfile({ uid });
+                if (!userData) {
+                    console.error("User data not found");
+                    return;
+                }
 
-        if (!userData) {
-          console.error("User data not found");
-          return;
-        }
+                // Use userData instead of fetchedUser
+                setUser(userData);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
 
-        // Use userData instead of fetchedUser
-        setUser(userData);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+        user();
+    }, [uid]);
+
+
+    usePageView();
+
+
+    const handleOpenShareModal = () => {
+        setOpenShareModal(true);
     };
 
-    user();
-  }, [uid]);
-
-
-
-
-
-
-  usePageView();
-
-
-  const handleOpenShareModal = () => {
-    setOpenShareModal(true);
-  };
-
-  const handleCloseShareModal = () => {
-    setOpenShareModal(false);
-  };
+    const handleCloseShareModal = () => {
+        setOpenShareModal(false);
+    };
 
     const handleAddEmail = () => {
         if (currentEmail && !emails.includes(currentEmail)) {
@@ -84,45 +78,41 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
     };
 
 
-
-  const handleRemoveEmail = (emailToRemove: string) => {
-    setEmails(prev => prev.filter(email => email !== emailToRemove));
-  };
-
-
+    const handleRemoveEmail = (emailToRemove: string) => {
+        setEmails(prev => prev.filter(email => email !== emailToRemove));
+    };
 
 
     const handleSendEmail = async () => {
-
         const pdfDownloadUrl = localStorage.getItem('pdfDownloadUrl');
-
-
         const senderName = user ? user.name : null;
         const allEmails = [currentEmail, ...emails].join(",");
 
         const payload = {
-          uid: uid,
-          to: allEmails,
+            uid: uid,
+            contentType: 'document',
+            to: allEmails,
             name: senderName,
             downloadUrl: pdfDownloadUrl,
-              subject: title,
-            text: `${senderName} te ha enviado ${title} de ${description} "
+            subject: title,
+            text: `${senderName} has sent you a private video titled "${title}"].
+Description: "${description}" "${allEmails}" "${pdfDownloadUrl}"
 
 `,
             scheduledFor: isScheduledShare && scheduleDate ? scheduleDate.toISOString() : null
         };
-        console.log("Payload to be sent:", payload);
+
         try {
             // Always send the email payload to your endpoint
-          if (!isScheduledShare) {
-            await fetch('/api/docmail', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(payload)
-            });
-          }
+            if (!isScheduledShare) {
+                await fetch('/api/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+            }
 
             if (isScheduledShare && scheduleDate && uid) {
 
@@ -134,13 +124,13 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
 
                     createdAt: serverTimestamp(),
                     uid: uid,
-                    contentType: 'documento',
-                  title: title,
-                  name: senderName,
+                    contentType: 'document',
+                    title: title,
+                    name: senderName,
                     description: description,
                     downloadUrl: pdfDownloadUrl,
                     scheduleDate: scheduleDate,
-                    to:  currentEmail,
+                    to: currentEmail,
 
                 };
 
@@ -148,31 +138,27 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
             }
 
 
-          handleCloseShareModal();
+            handleCloseShareModal();
 
         } catch (error) {
-          console.error('Failed to send email:', error);
+            console.error('Failed to send email:', error);
         } finally {
-          handleCloseShareModal();
+            handleCloseShareModal();
         }
     };
 
 
-  const handleSubmit = () => {
-    if (onUpload) {
-      onUpload({ visibility, sharedEmails: emails }); // Added sharedEmails here
-    }
-    if (onClose) {
-      onClose();
-    }
-  };
+    const handleSubmit = () => {
+        if (onUpload) {
+            onUpload({visibility, sharedEmails: emails}); // Added sharedEmails here
+        }
+        if (onClose) {
+            onClose();
+        }
+    };
 
 
-
-
-
-
-  return (
+    return (
         <Box display="flex" flexDirection="column" height="auto" width="100%">
 
             <Typography variant="h5" gutterBottom>
@@ -181,21 +167,21 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
 
             <FormControlLabel
                 value="saveOrPublish"
-                control={<Radio />}
+                control={<Radio/>}
                 label="Save or publish"
                 onChange={(e) => setVisibility((e.target as HTMLInputElement).value)}
-
             />
 
             <Box mb={3}>
                 <RadioGroup value={visibility} onChange={(e) => setVisibility(e.target.value)}>
                     <FormControlLabel
                         value="private"
-                        control={<Radio />}
+                        control={<Radio/>}
                         label={
                             <Box>
                                 Private
-                                <Typography variant="caption" display="block">Only you and people you choose can watch your video</Typography>
+                                <Typography variant="caption" display="block">Only you and people you choose can watch
+                                    your video</Typography>
                                 {visibility === 'private' && (
                                     <Button
                                         variant="outlined"
@@ -211,7 +197,7 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
 
                     <FormControlLabel
                         value="public"
-                        control={<Radio />}
+                        control={<Radio/>}
                         label={
                             <Box>
                                 Public
@@ -222,11 +208,12 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
 
                     <FormControlLabel
                         value="unlisted"
-                        control={<Radio />}
+                        control={<Radio/>}
                         label={
                             <Box>
                                 Unlisted
-                                <Typography variant="caption" display="block">Anyone with the video link can watch your video</Typography>
+                                <Typography variant="caption" display="block">Anyone with the video link can watch your
+                                    video</Typography>
                             </Box>
                         }
                     />
@@ -245,20 +232,21 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
                 <DialogTitle>Share Document Privately</DialogTitle>
                 <DialogContent>
                     <Typography variant="caption">
-                        You can invite others to view your private video by entering in their email addresses below. Invitees must sign up to view the private video.
+                        You can invite others to view your private video by entering in their email addresses below.
+                        Invitees must sign up to view the private video.
                     </Typography>
 
-                  <Box marginTop={2}>
-                    <FormControlLabel
-                      control={
-                        <Radio
-                          checked={!isScheduledShare}
-                          onChange={() => setIsScheduledShare(false)}
+                    <Box marginTop={2}>
+                        <FormControlLabel
+                            control={
+                                <Radio
+                                    checked={!isScheduledShare}
+                                    onChange={() => setIsScheduledShare(false)}
+                                />
+                            }
+                            label="Send Now"
                         />
-                      }
-                      label="Send Now"
-                    />
-                  </Box>
+                    </Box>
 
                     <TextField
                         label="Invitees"
@@ -281,33 +269,29 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
                     </Box>
 
 
-
-                  <Box marginTop={2}>
-                    <FormControlLabel
-                      control={
-                        <Radio
-                          checked={isScheduledShare}
-                          onChange={() => setIsScheduledShare(true)}
+                    <Box marginTop={2}>
+                        <FormControlLabel
+                            control={
+                                <Radio
+                                    checked={isScheduledShare}
+                                    onChange={() => setIsScheduledShare(true)}
+                                />
+                            }
+                            label="Schedule"
                         />
-                      }
-                      label="Schedule"
-                    />
 
 
-                  </Box>
+                    </Box>
 
                     {isScheduledShare && (
-                        <LocalizationProvider dateAdapter={DateFnsUtils as any}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
                                 label="Share on Date and Time"
                                 value={scheduleDate}
                                 onChange={(date) => setScheduleDate(date)}
-
-
                             />
                         </LocalizationProvider>
                     )}
-
 
 
 

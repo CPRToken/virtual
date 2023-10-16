@@ -19,7 +19,7 @@ import { usePopover } from 'src/hooks/use-popover';
 import type { Item } from 'src/types/file-manager';
 import { bytesToSize } from 'src/utils/bytes-to-size';
 import { FotosMenu } from './fotos-menu';
-
+import {  ref, getMetadata } from "firebase/storage";
 
 interface ThumbnailCardProps {
   item: Item;
@@ -31,7 +31,7 @@ interface ThumbnailCardProps {
 }
 
 export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
-  const {  imageUrls, item, onDelete, onOpen } = props;
+  const {  imageUrls, item, onDelete, onFavorite, onOpen } = props;
   const popover = usePopover<HTMLButtonElement>();
 
   const handleDelete = useCallback((): void => {
@@ -45,10 +45,15 @@ export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
     size += `• ${item.itemsCount} items`;
   }
 
-    const createdAt = item.createdAt && item.createdAt instanceof Date ? format(item.createdAt, 'MMM dd, yyyy') : 'Unknown date';
+  const createdAt = item.createdAt instanceof Date ? format(item.createdAt, 'MMM dd, yyyy')
 
-    return (
-        <>
+    : 'Unknown date';
+
+
+  const showShared = !item.isPublic && (item.shared || []).length > 0;
+
+  return (
+    <>
       <Card
         key={item.id}
         sx={{

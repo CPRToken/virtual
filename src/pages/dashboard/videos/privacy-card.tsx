@@ -1,23 +1,22 @@
 import React, {FC, useEffect, useState} from 'react';
 
-import { RadioGroup, FormControlLabel, Checkbox, Radio, TextField, Button, Box, Typography } from '@mui/material';
-import { Chip, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, IconButton } from '@mui/material';
+import { RadioGroup, FormControlLabel, Radio, TextField, Button, Box, Typography } from '@mui/material';
+import { Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
 import '@mui/material/styles';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { addDoc, collection, arrayUnion, serverTimestamp} from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp} from 'firebase/firestore';
 import {socialApi} from "src/api/social/socialApi";
 import type { Profile } from 'src/types/social';
 import { db, auth } from 'src/libs/firebase';
 import {usePageView} from "src/hooks/use-page-view";
-import DateFnsUtils from "@date-io/date-fns";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 
 // ...
 interface PrivacyCardProps {
   onUpload: (data: { visibility: string, scheduleDate?: Date, sharedEmails: string[] }) => void;
   videoLink?: string;
-
   downloadURL?: string;
   description?: string;
   to?: string;
@@ -94,22 +93,23 @@ export const PrivacyCard: FC<PrivacyCardProps> = (props) => {
 
 
     const handleSendEmail = async () => {
-
-      const downloadUrl = localStorage.getItem('videoDownloadUrl');
-
+        const downloadUrl = localStorage.getItem('videoDownloadUrl');
         const senderName = user ? user.name : null;
         const allEmails = [currentEmail, ...emails].join(",");
 
         const payload = {
-          uid: uid,
-          to: allEmails,
+            uid: uid,
+            contentType: 'video',
+            to: allEmails,
             name: senderName,
-          downloadUrl: downloadUrl,
+            downloadUrl: downloadUrl,
             subject: title,
             text: `${senderName} has sent you a private video titled "${title}"].
 Description: "${description}" "${allEmails}" "${downloadUrl}"
 
 `,
+
+
             scheduledFor: isScheduledShare && scheduleDate ? scheduleDate.toISOString() : null
         };
 
@@ -186,7 +186,6 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                 control={<Radio />}
                 label="Save or publish"
                 onChange={(e) => setVisibility((e.target as HTMLInputElement).value)}
-
             />
 
             <Box mb={3}>
@@ -299,13 +298,11 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                   </Box>
 
                     {isScheduledShare && (
-                        <LocalizationProvider dateAdapter={DateFnsUtils as any}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
                                 label="Share on Date and Time"
                                 value={scheduleDate}
                                 onChange={(date) => setScheduleDate(date)}
-
-
                             />
                         </LocalizationProvider>
                     )}

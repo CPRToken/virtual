@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export default async function handler(req: { method: string; body: { to: any; text: any; inviteLink: any; name: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message?: string; error?: string; }): any; new(): any; }; }; }) {
+export default async function handler(req, res) {
   const transporter = nodemailer.createTransport({
     host: "mail.virtualeternity.cl",
     port: 587,

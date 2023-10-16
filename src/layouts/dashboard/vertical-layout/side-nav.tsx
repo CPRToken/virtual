@@ -1,13 +1,15 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import File04Icon from '@untitled-ui/icons-react/build/esm/File04';
 import Box from '@mui/material/Box';
-
+import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import Stack from '@mui/material/Stack';
-
+import SvgIcon from '@mui/material/SvgIcon';
+import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-
+import { newLogo } from ' assets/logos/newlogo.svg';
 
 import { RouterLink } from 'src/components/router-link';
 import { Scrollbar } from 'src/components/scrollbar';

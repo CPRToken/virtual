@@ -3,14 +3,14 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import type { NextPage } from 'next';
 
 import Image01Icon from '@untitled-ui/icons-react/build/esm/Image01';
-
+import { tokens } from 'src/locales/tokens';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/system/colorManipulator';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
-
+import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Tab from '@mui/material/Tab';
@@ -19,19 +19,19 @@ import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
 import Camera01Icon from '@untitled-ui/icons-react/build/esm/Camera01';
 import { socialApi } from 'src/api/social/socialApi';
-
+import { RouterLink } from 'src/components/router-link';
 import { Seo } from 'src/components/seo';
 import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-
+import { paths } from 'src/paths';
 import { SocialPostCard } from 'src/sections/dashboard/social/social-post-card';
 import { SocialTimeline } from 'src/sections/dashboard/social/social-timeline';
 import type { Profile, Post } from 'src/types/social';
 import { useRouter } from 'next/router';
 
-import { doc, query, where, collection, updateDoc, getDocs } from "firebase/firestore";
+import { doc, query, where, collection, updateDoc, addDoc, getDocs } from "firebase/firestore";
 
-import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { ref as storageRef, uploadBytesResumable, getDownloadURL, getStorage } from 'firebase/storage';
 
 import { db, auth, storage } from 'src/libs/firebase';
 import {useTranslation} from "react-i18next";
@@ -114,9 +114,7 @@ const usePosts = (uid: string | undefined): Post[] => {
         let unsubscribe: (() => void) | null = null;
 
         handlePostsGet().then((unsub) => {
-            if (unsub !== undefined) {
-                unsubscribe = unsub;
-            }
+            unsubscribe = unsub;
         });
 
         // Cleanup function
@@ -147,6 +145,9 @@ const Page: NextPage = () => {
     const [currentTab, setCurrentTab] = useState<string>('timeline');
 
 
+    const [userData, setUserData] = useState<Profile | null>(null);
+
+
 
 
 
@@ -173,7 +174,7 @@ const Page: NextPage = () => {
 //below is to upload and change the user's cover and avatar images.
 
 
-  const handleUpload = async (file: Blob | Uint8Array | ArrayBuffer) => {
+  const handleUpload = async (file) => {
 
         const uid = auth.currentUser?.uid;
         if (file && uid) {
@@ -182,9 +183,8 @@ const Page: NextPage = () => {
 
         }
 
-      const storageReference = storageRef(storage, 'avatars/' + uid + '/' + (file as File).name);
-
-      try {
+        const storageReference = storageRef(storage, 'avatars/' + uid + '/' + file.name);
+        try {
 
             const snapshot = await uploadBytesResumable(storageReference, file);
 
@@ -201,7 +201,13 @@ const Page: NextPage = () => {
 
 
             // Assuming you have a method to update user data
-
+            setUserData(prevState => {
+                if (prevState) {
+                    return { ...prevState, avatar: avatarUrl };
+                } else {
+                    return { avatar: avatarUrl };
+                }
+            });
 
 
             if (inputRef.current) {
@@ -211,24 +217,67 @@ const Page: NextPage = () => {
             console.error('Error uploading the file:', error);
         }
     }
-    const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const file = e.target.files[0];
-            const imageType = e.target.getAttribute('data-type');
 
-            if (file) {
-                if (imageType === 'avatar') {
-                    await handleUpload(file); // For avatar
-                } else if (imageType === 'cover') {
-                    // your cover upload logic here
-                }
+
+
+
+
+
+    const handleCoverUpload = async (file) => {
+
+        const uid = auth.currentUser?.uid;
+
+        if (!file || !uid) {
+
+            return;
+        }
+
+        const storageReference = storageRef(storage, 'covers/' + uid + '/' + file.name);
+
+        try {
+
+            const snapshot = await uploadBytesResumable(storageReference, file);
+
+            const coverUrl = await getDownloadURL(snapshot.ref);
+
+
+            const userRef = doc(db, `users/${uid}`);
+            const publicUserRef = doc(db, `public/${uid}`);
+
+// Update cover in both user and public documents
+            await updateDoc(userRef, { cover: coverUrl });
+            await updateDoc(publicUserRef, { cover: coverUrl });
+
+            // Assuming you have a method to update user data for the cover
+            setUserData(prevState => {
+                const updatedState = prevState ? { ...prevState, cover: coverUrl } : null;
+                return updatedState;
+            });
+
+            if (coverInputRef.current) {
+                coverInputRef.current.value = '';
+            }
+
+        } catch (error) {
+
+        }
+    }
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        const imageType = e.target.getAttribute('data-type');
+
+        if (file) {
+            if (imageType === 'avatar') {
+                await handleUpload(file); // For avatar
+            } else if (imageType === 'cover') {
+                await handleCoverUpload(file); // For cover
             }
         }
-    };
+    }
 
 
-
-    const SendFlowers = () => {
+  const SendFlowers = () => {
     // Your code here
   };
 
@@ -301,8 +350,7 @@ const Page: NextPage = () => {
                                         backgroundColor: blueGrey[900],
                                     },
                                 }}
-                                onClick={() => coverInputRef.current?.click()}
-
+                                onClick={() => coverInputRef.current.click()}
                                 variant="contained"
                             >
                               {t('headings.changeCover')}
@@ -359,7 +407,7 @@ const Page: NextPage = () => {
                                                         opacity: 1,
                                                     },
                                                 }}
-                                                onClick={() => inputRef.current?.click()}
+                                                onClick={() => inputRef.current.click()}
                                             >
                                                 <Stack
                                                     alignItems="center"
@@ -425,9 +473,8 @@ const Page: NextPage = () => {
                       {currentTab === 'posts' && (
                         posts.map((post) => (
                             <SocialPostCard
-                              key={post.postId}
+                              key={post.id}
                               name={post?.name}
-                              comments={post?.comments}
                               avatar={post?.avatar}
                               message={post.message}
                               createdAt={post.createdAt}

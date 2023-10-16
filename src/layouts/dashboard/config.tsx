@@ -106,8 +106,8 @@ export const useSections = () => {
               icon: <SvgIcon fontSize="small"><Users03Icon /></SvgIcon>,
               items: [
                 { title: t(tokens.nav.list), path: paths.dashboard.customers.index },
-
-
+                { title: t(tokens.nav.details), path: paths.dashboard.customers.details },
+                { title: t(tokens.nav.edit), path: paths.dashboard.customers.edit },
               ],
             },
             {
@@ -142,36 +142,36 @@ export const useSections = () => {
 
                 title: t(tokens.nav.login),
                 items: [
-                  { title: 'Classic', path: paths.auth.firebase.login },
-                  { title: 'Modern', path: paths.auth.firebase.login },
+                  { title: 'Classic', path: paths.authDemo.login.classic },
+                  { title: 'Modern', path: paths.authDemo.login.modern },
                 ],
               },
               {
                 title: t(tokens.nav.register),
                 items: [
-                  { title: 'Classic', path: paths.auth.firebase.register},
-                  { title: 'Modern', path: paths.auth.firebase.register },
+                  { title: 'Classic', path: paths.authDemo.register.classic },
+                  { title: 'Modern', path: paths.authDemo.register.modern },
                 ],
               },
               {
                 title: t(tokens.nav.forgotPassword),
                 items: [
-                  { title: 'Classic', path: paths.auth.firebase.forgot},
-                  { title: 'Modern', path: paths.auth.firebase.forgot },
+                  { title: 'Classic', path: paths.authDemo.forgotPassword.classic },
+                  { title: 'Modern', path: paths.authDemo.forgotPassword.modern },
                 ],
               },
               {
                 title: t(tokens.nav.resetPassword),
                 items: [
-                  { title: 'Classic', path: paths.auth.firebase },
-                  { title: 'Modern', path: paths.auth.firebase},
+                  { title: 'Classic', path: paths.authDemo.resetPassword.classic },
+                  { title: 'Modern', path: paths.authDemo.resetPassword.modern },
                 ],
               },
               {
                 title: t(tokens.nav.verifyCode),
                 items: [
-                  { title: 'Classic', path: paths.auth.firebase},
-                  { title: 'Modern', path: paths.auth.firebase },
+                  { title: 'Classic', path: paths.authDemo.verifyCode.classic },
+                  { title: 'Modern', path: paths.authDemo.verifyCode.modern },
                 ],
               },
             ],

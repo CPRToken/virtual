@@ -17,7 +17,7 @@ import {socialApi} from "src/api/social/socialApi";
 
 import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-import { AccountBillingSettings } from 'src/sections/dashboard/account/account-billing-settings';
+
 import { AccountGeneralSettings } from 'src/sections/dashboard/account/account-general-settings';
 import { AccountNotificationsSettings } from 'src/sections/dashboard/account/account-notifications-settings';
 import { AccountTeamSettings } from 'src/sections/dashboard/account/account-team-settings';
@@ -59,7 +59,8 @@ const Page: NextPage = () => {
                 }
 
                 setUser(userData);          // Use userData instead of fetchedUser
-                setAvatarUrl(userData.avatar);
+                setAvatarUrl(userData.avatar || null);
+
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -126,38 +127,11 @@ const Page: NextPage = () => {
               university={user.university || ''}
             />
           )}
-          {currentTab === 'billing' && (
-            <AccountBillingSettings
-              plan="standard"
-              invoices={[
-                {
-                  id: '5547409069c59755261f5546',
-                  amount: 4.99,
-                  createdAt: subMonths(now, 1).getTime(),
-                },
-                {
-                  id: 'a3e17f4b551ff8766903f31f',
-                  amount: 4.99,
-                  createdAt: subMonths(now, 2).getTime(),
-                },
-                {
-                  id: '28ca7c66fc360d8203644256',
-                  amount: 4.99,
-                  createdAt: subMonths(now, 3).getTime(),
-                },
-              ]}
-            />
-          )}
+
             {currentTab === 'team' &&(
                 <AccountTeamSettings
                     members={[
-                        {
-                            avatar: avatarUrl,
-                            email: user?.email,
-                            name: user?.name,
-                            role: 'Owner',
 
-                        },
 
                 ]}
 
@@ -172,20 +146,7 @@ const Page: NextPage = () => {
           {currentTab === 'security' && (
             <AccountSecuritySettings
               loginEvents={[
-                {
-                  id: '1bd6d44321cb78fd915462fa',
-                  createdAt: subDays(subHours(subMinutes(now, 5), 7), 1).getTime(),
-                  ip: '95.130.17.84',
-                  type: 'Credential login',
-                  userAgent: 'Chrome, Mac OS 10.15.7',
-                },
-                {
-                  id: 'bde169c2fe9adea5d4598ea9',
-                  createdAt: subDays(subHours(subMinutes(now, 25), 9), 1).getTime(),
-                  ip: '95.130.17.84',
-                  type: 'Credential login',
-                  userAgent: 'Chrome, Mac OS 10.15.7',
-                },
+
               ]}
             />
           )}

@@ -3,6 +3,17 @@ import admin from 'src/libs/firebaseAdmin';
 
 const { Timestamp } = require('firebase-admin').firestore;
 
+interface Schedule {
+    to: string;
+    name: string;
+    title: string;
+    description: string;
+    downloadUrl: string;
+    contentType: 'video' | 'document';
+    docId?: string;
+}
+
+
 export async function sendScheduledEmails() {
     const db = admin.firestore();
     const schedulesCollection = db.collection('schedules');
@@ -12,20 +23,21 @@ export async function sendScheduledEmails() {
     // Filter for records that are scheduled up to the current time
     const querySnapshot = await schedulesCollection.where('scheduleDate', '<=', now).get();
 
-    let fetchedSchedules: any[] = [];
+
+
+    let fetchedSchedules: Schedule[] = [];
+
 
     querySnapshot.forEach((doc) => {
         const data = doc.data();
         data.docId = doc.id;
-        fetchedSchedules.push(data);
+        fetchedSchedules.push(data as Schedule);
     });
 
-    if (fetchedSchedules.length === 0) {
-        console.log('No scheduled emails due for now found.');
-        return;
-    }
 
-    const transporter = nodemailer.createTransport({
+
+
+  const transporter = nodemailer.createTransport({
         host: "mail.virtualeternity.cl",
         port: 587,
         secure: false,

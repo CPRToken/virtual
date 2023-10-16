@@ -13,7 +13,6 @@ interface Cap {
     avatar: string;
     name: string;
     dob: Timestamp;
-    originCity: string;
     dod: string;
     cover: string;
     quote: string;

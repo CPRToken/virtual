@@ -32,7 +32,7 @@ export const HomeHero: FC = () => {
           <Container maxWidth="lg">
               <Box maxWidth="sm">
                   <Typography
-                      variant="h3"
+                      variant="h2"
                       sx={{ mb: 2 }}
                   >
                       Reinos virtuales para &nbsp;
@@ -48,12 +48,12 @@ export const HomeHero: FC = () => {
                   <Typography
                       color="text.primary"
                       sx={{
-                          fontSize:18,
-                          fontWeight: 600,
+                          fontSize:19,
+                          fontWeight: 500,
                       }}
                   >
                       {/* eslint-disable-next-line react/no-unescaped-entities */}
-              Únete a la red conmemorativa "Eternidad Virtual" y marca tu existencia para siempre.
+              Únete a la red conmemorativa "Virtual Eternity" y marca tu existencia para siempre.
           </Typography>
           <Stack
             alignItems="center"
