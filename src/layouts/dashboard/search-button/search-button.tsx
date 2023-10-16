@@ -6,7 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { useDialog } from 'src/hooks/use-dialog';
 
-import { SearchDialog } from './search-dialog';
+
 
 export const SearchButton: FC = () => {
   const dialog = useDialog();
@@ -20,10 +20,7 @@ export const SearchButton: FC = () => {
           </SvgIcon>
         </IconButton>
       </Tooltip>
-      <SearchDialog
-        onClose={dialog.handleClose}
-        open={dialog.open}
-      />
+
     </>
   );
 };
