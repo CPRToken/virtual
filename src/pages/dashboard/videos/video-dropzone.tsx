@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import PropTypes from 'prop-types';
-import type { DropzoneOptions, FileWithPath } from 'react-dropzone';
+import type { DropzoneOptions, Accept, FileWithPath } from 'react-dropzone';
 import { useDropzone } from 'react-dropzone';
 import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import XIcon from '@untitled-ui/icons-react/build/esm/X';
@@ -22,6 +22,7 @@ export type Videos = FileWithPath;
 interface VideosDropzoneProps extends DropzoneOptions {
     caption?: string;
     files?: Videos[];
+    accept?: Accept;
     onRemove?: (file: Videos) => void;
     onRemoveAll?: () => void;
     videoLink?: string;
@@ -185,28 +186,4 @@ export const VideoDropzone: FC<VideosDropzoneProps> = (props) => {
         </div>
 
     );
-};
-
-VideoDropzone.propTypes = {
-    caption: PropTypes.string,
-    files: PropTypes.array,
-    onRemove: PropTypes.func,
-    onRemoveAll: PropTypes.func,
-    onUpload: PropTypes.func,
-
-
-    disabled: PropTypes.bool,
-    getFilesFromEvent: PropTypes.func,
-    maxFiles: PropTypes.number,
-    maxSize: PropTypes.number,
-    minSize: PropTypes.number,
-    noClick: PropTypes.bool,
-    noDrag: PropTypes.bool,
-    noDragEventsBubbling: PropTypes.bool,
-    noKeyboard: PropTypes.bool,
-    onDrop: PropTypes.func,
-    onDropAccepted: PropTypes.func,
-    onDropRejected: PropTypes.func,
-    onFileDialogCancel: PropTypes.func,
-    preventDropOnDocument: PropTypes.bool,
 };

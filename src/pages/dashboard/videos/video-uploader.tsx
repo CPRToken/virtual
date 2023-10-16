@@ -1,10 +1,10 @@
-import { FC, useState, useCallback,  useEffect } from 'react';
+import { FC, useState,  useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ref, uploadBytes,  getDownloadURL,  } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc, getDoc, serverTimestamp} from 'firebase/firestore';
 import { auth, db, storage } from 'src/libs/firebase';
-import { VideoDropzone } from './video-dropzone';
+import { Videos, VideoDropzone } from './video-dropzone';
 
 import { DetailsCard } from './details-card';
 import { PrivacyCard } from "./privacy-card";
@@ -14,6 +14,8 @@ import XIcon from '@untitled-ui/icons-react/build/esm/X';
 
 interface VideosUploaderProps {
   onClose?: () => void;
+  title?: string;
+  description?: string;
   createdAt?: Date;
   sharedEmails?: string[];
   open?: boolean;
@@ -21,14 +23,14 @@ interface VideosUploaderProps {
   onUploadSuccess?: () => void;
 }
 
-export const VideoUploader: FC<VideosUploaderProps> = ({ onClose, open, onUpload, onUploadSuccess, sharedEmails }) => {
-
+export const VideoUploader: FC<VideosUploaderProps> = (props)   => {
+const { onClose, open = false, onUpload, onUploadSuccess, sharedEmails } = props;
 
   const user = auth.currentUser;
-  const uid = user ? user.uid : null;
-  const [files, setFiles] = useState<File[]>([]);
-  const [title, setTitle] = useState<string>('');
+    const uid = user!.uid;
 
+    const [files, setFiles] = useState<Videos[]>([]);
+  const [title, setTitle] = useState<string>('');
 
  const [description, setDescription] = useState<string>('');
   const [step, setStep] = useState(1);
@@ -162,9 +164,12 @@ export const VideoUploader: FC<VideosUploaderProps> = ({ onClose, open, onUpload
 
   const hasAnyFiles = files.length > 0;
 
-  return (
+  // @ts-ignore
+    // @ts-ignore
+    return (
       <Dialog fullWidth
-              maxWidth="sm" open={open} onClose={onClose}>
+              maxWidth="sm" open={!!open}
+              onClose={onClose}>
         <Stack alignItems="center" direction="row" justifyContent="space-between" spacing={3} sx={{ px: 3, py: 2 }}>
           <IconButton color="inherit"
                       onClick={onClose}>
@@ -175,10 +180,10 @@ export const VideoUploader: FC<VideosUploaderProps> = ({ onClose, open, onUpload
         </Stack>
         <DialogContent>
           <VideoDropzone
-              accept="video/*"
+
               caption="Max file size is 3 MB"
               files={files}
-              onDrop={handleDrop}
+
               onRemove={handleRemove}
               onRemoveAll={handleRemoveAll}
               videoLink={videoLink}
@@ -197,8 +202,8 @@ export const VideoUploader: FC<VideosUploaderProps> = ({ onClose, open, onUpload
                           handleNext();
                         }}
                         onBack={handleBack}
-                        onRemove={handleRemove}
-                        onRemoveAll={handleRemoveAll}
+
+
                     />
                 )}
                 {step === PRIVACY_STEP && (

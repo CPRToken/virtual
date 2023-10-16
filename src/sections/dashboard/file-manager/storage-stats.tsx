@@ -136,6 +136,8 @@ export const StorageStats: FC = () => {
         let totalDOCs = 0;
         let totalDOCSize = 0;
 
+
+      if (auth.currentUser) {
       // For Videos
       const videoStorageRef = ref(storage, `/${auth.currentUser.uid}/videos`);
       let listResults = await listAll(videoStorageRef);
@@ -178,6 +180,10 @@ export const StorageStats: FC = () => {
           totalPNGs++;
         }
       });
+      } else {
+        // Handle the case where currentUser is null
+      }
+
 
       setCurrentUsageBytes(totalSize); // Set the total storage used
       setTotals([

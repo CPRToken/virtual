@@ -39,8 +39,9 @@ const Page: NextPage = () => {
   const user = auth.currentUser;
   const uid = user ? user.uid : null;
   const { anchorRef, handleOpen, handleClose, open: popoverOpen } = usePopover();
-  const [videoUrls, setVideoUrls] = useState([]);
-  const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
+    const [videoUrls, setVideoUrls] = useState<{ url: string; videoId: string; }[]>([]);
+
+    const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
   const [userUrl, setUserUrl] = useState('');
 
 
@@ -61,7 +62,7 @@ const Page: NextPage = () => {
   }, [uid]);
 
 
-  const handleItemOpen = (url: string) => {
+    const handleItemOpen = (url: string, videoId: string) => {
     if (!url) return console.error('URL is undefined');
     handleOpen();
     const videoName = decodeURIComponent(url.split('/').pop()?.split('?')[0] || '').split('/').pop();
@@ -191,7 +192,7 @@ const Page: NextPage = () => {
                         >
                             <div style={{ maxWidth: '100vw', maxHeight: '100vh', overflow: 'hidden' }}>
 
-                                <VideoPlayer videoUrl={selectedVideoUrl} onClose={handleClose} />
+
                             </div>
                         </Popover>
 
@@ -218,7 +219,6 @@ const Page: NextPage = () => {
           description={description}
             onClose={uploadDialog.handleClose}
             open={uploadDialog.open}
-            uid={uid}
             onUploadSuccess={fetchVideos}
 
         />
