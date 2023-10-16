@@ -18,20 +18,18 @@ class BlogApi {
       querySnapshot.forEach((doc) => {
         const user = doc.data();
         data.push({
-
           email: user.email,
           name: `${user.firstName} ${user.lastName}`,
           avatar: user.avatar,
-
-
           cover: user.cover,
           originCity: user.originCity,
           highSchool: user.highSchool,
           university: user.university,
-
-         quote: user.quote,
-
+          quote: user.quote,
+          dob: user.dob,  // Add this
+          userUrl: user.userUrl  // Add this
         });
+
       });
     } catch (error) {
       console.error("Error fetching users:", error);
