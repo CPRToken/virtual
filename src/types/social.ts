@@ -10,12 +10,12 @@ export interface Profile {
     lastName?: string;
     email: string;
     gender?: string;
+    placesWorked?: string;
     maritalStatus?: string;
     originCity?: string,
     highSchool?: string;
     university?: string;
-    currentCity?: string;
-    quote?: string;
+       quote?: string;
     userUrl?: string;
 
 }

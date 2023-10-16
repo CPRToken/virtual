@@ -12,13 +12,13 @@ import SvgIcon from '@mui/material/SvgIcon';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import type { Theme } from '@mui/material/styles/createTheme';
- import { getInitials } from 'src/utils/get-initials';
+import { getInitials } from 'src/utils/get-initials';
 import {useEffect, useState} from "react";
-import {Profile, Comment} from "../../../types/social";
+import {Profile} from "../../../types/social";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import { db} from "src/libs/firebase";
 import {socialApi} from "src/api/social/socialApi";
-import { doc, getDoc, updateDoc, serverTimestamp} from "firebase/firestore";
+import { doc, getDoc, updateDoc} from "firebase/firestore";
 
 
 interface SocialCommentAddProps {
@@ -30,8 +30,9 @@ export const SocialCommentAdd: FC<SocialCommentAddProps> = (props) => {
     const [user, setUser] = useState<Profile | null>(null);
     const auth = getAuth();
     const { postId } = props;
-  const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-    const [comment, setComment] = useState<Comment[]>([]);
+    const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const [comment, setComment] = useState<string>('');
+
 
 
 
@@ -89,7 +90,9 @@ export const SocialCommentAdd: FC<SocialCommentAddProps> = (props) => {
                     console.log("Successfully added the comment");
 
                     // Clear the comment text field
-                    setComment('');
+                    setComment(''); // Empty string
+
+
                 }
 
             } catch (err) {
@@ -133,7 +136,7 @@ export const SocialCommentAdd: FC<SocialCommentAddProps> = (props) => {
                         onChange={(e) => setComment(e.target.value)}
                     />
 
-                  <Stack
+                    <Stack
                         alignItems="center"
                         direction="row"
                         justifyContent="space-between"

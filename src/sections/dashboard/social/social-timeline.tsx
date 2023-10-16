@@ -35,7 +35,7 @@ export const SocialTimeline: FC<SocialProfileTimelineProps> = (props) => {
                     xs={12}
                 >
                     <SocialAbout
-                        currentCity={profile.currentCity}
+                        currentCity={profile.originCity}
 
 
                         email={profile.email}
@@ -57,8 +57,8 @@ export const SocialTimeline: FC<SocialProfileTimelineProps> = (props) => {
                             <SocialPostCard
                                 key={post.id}
                                 postId={post.id}
-                                authorAvatar={post.author.avatar}
-                                authorName={post.author.name}
+                                avatar={post.avatar}
+                                authorName={post.name}
                                 comments={post.comments}
                                 createdAt={post.createdAt}
                                 isLiked={post.isLiked}
@@ -82,6 +82,7 @@ export const SocialTimeline: FC<SocialProfileTimelineProps> = (props) => {
 
 SocialTimeline.propTypes = {
     posts: PropTypes.array, // Removed .isRequired
+    // @ts-ignore
     profile: PropTypes.object.isRequired,
 
 
