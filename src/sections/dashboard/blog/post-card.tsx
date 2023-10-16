@@ -30,7 +30,7 @@ interface PostCardProps {
   originCity?: string,
   highSchool?: string;
   university?: string;
-    quote: string;
+    quote?: string;
   userUrl?: string;
   sx?: SxProps;
 
