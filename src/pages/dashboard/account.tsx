@@ -1,6 +1,5 @@
 import type { ChangeEvent } from 'react';
 import type { NextPage } from 'next';
-import { subDays, subHours, subMinutes, subMonths } from 'date-fns';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
@@ -122,7 +121,7 @@ const Page: NextPage = () => {
               email={user.email || ''}
               name={user.name || ''}
               maritalStatus={user.maritalStatus || ''}
-              currentCity={user.currentCity || ''}
+              originCity={user.originCity || ''}
               quote={user.quote || ''}
               university={user.university || ''}
             />
