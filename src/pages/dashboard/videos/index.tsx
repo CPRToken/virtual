@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import { Layout as DashboardLayout } from "src/layouts/dashboard";
-import { Grid, Box, Dialog, Stack, Button, Typography, Container, SvgIcon } from '@mui/material';
+import { Grid, Box,  Stack, Button, Typography, Container, SvgIcon } from '@mui/material';
 import { Seo } from 'src/components/seo';
 import { VideoUploader } from './video-uploader';
 import { db, auth, storage } from 'src/libs/firebase';
@@ -11,7 +11,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { useSettings } from 'src/hooks/use-settings';
 import { useDialog } from 'src/hooks/use-dialog';
 import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats';
-import VideoPlayer from 'src/sections/components/modals/modal-video';
 import { useRouter } from 'next/router'
 import { getMetadata } from 'firebase/storage';
 import { usePopover } from "src/hooks/use-popover"
@@ -20,7 +19,7 @@ import Popover from '@mui/material/Popover';
 
 
 // Get the current user
-const user = auth.currentUser;
+
 
 
 

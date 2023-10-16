@@ -121,8 +121,7 @@ const Page: NextPage = () => {
               email={user.email || ''}
               name={user.name || ''}
               maritalStatus={user.maritalStatus || ''}
-              originCity={user.originCity || ''}
-              quote={user.quote || ''}
+               quote={user.quote || ''}
               university={user.university || ''}
             />
           )}
