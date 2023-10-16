@@ -72,7 +72,7 @@ export const SocialAbout: FC<SocialAboutProps> = (props) => {
             <Typography
                 color="text.primary"
                 sx={{ mb: 2 }}
-                variant="subtitle3"
+                variant="body2"
             >
 
               {quote}
