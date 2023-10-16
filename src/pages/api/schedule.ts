@@ -19,7 +19,6 @@ export async function sendScheduledEmails() {
     const schedulesCollection = db.collection('schedules');
 
     const now = Timestamp.now(); // Gets the current Timestamp
-
     // Filter for records that are scheduled up to the current time
     const querySnapshot = await schedulesCollection.where('scheduleDate', '<=', now).get();
 

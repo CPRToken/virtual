@@ -232,41 +232,9 @@ export const PagesPopover: FC = () => (
                         : {};
 
                       return (
-                        <li key={child.title}>
-                          <ButtonBase
-                            sx={{
-                              alignItems: 'center',
-                              borderRadius: 1,
-                              display: 'flex',
-                              justifyContent: 'flex-start',
-                              px: '12px',
-                              py: '6px',
-                              textAlign: 'left',
-                              width: '100%',
-                              '&:hover': {
-                                backgroundColor: 'action.hover',
-                              },
-                            }}
-                            {...linkProps}
-                          >
-                            <Box
-                              component="span"
-                              sx={{
-                                color: 'text.secondary',
-                                display: 'block',
-                                fontFamily: (theme) => theme.typography.fontFamily,
-                                fontSize: 14,
-                                fontWeight: 500,
-                                lineHeight: '24px',
-                                whiteSpace: 'nowrap',
-                              }}
-                            >
-                              {child.title}
-                            </Box>
-                          </ButtonBase>
-                        </li>
-                      );
-                    })}
+                        
+
+
                   </Stack>
                 )}
               </li>

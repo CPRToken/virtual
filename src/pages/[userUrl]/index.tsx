@@ -1,34 +1,34 @@
 import type { ChangeEvent } from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import type { NextPage } from 'next';
-import MessageChatSquareIcon from '@untitled-ui/icons-react/build/esm/MessageChatSquare';
+
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import UserPlus02Icon from '@untitled-ui/icons-react/build/esm/UserPlus02';
 import Avatar from '@mui/material/Avatar';
-import { alpha } from '@mui/system/colorManipulator';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import {ModalOffer} from "src/sections/components/modals/modal-offer";
+
 import { socialApi } from 'src/api/social/socialApi';
 import { RouterLink } from 'src/components/router-link';
 import { Seo } from 'src/components/seo';
 import { usePageView } from 'src/hooks/use-page-view';
 
-import { paths } from 'src/paths';
+
 import { SocialPostCard } from 'src/sections/dashboard/social/social-post-card';
 import { SocialTimeline } from 'src/sections/dashboard/social/social-timeline';
 import type { Profile, Post } from 'src/types/social';
 import { useRouter } from 'next/router';
 
-import { doc, query, where, collection, getDocs } from "firebase/firestore";
+import { query, where, collection, getDocs } from "firebase/firestore";
 
 
 

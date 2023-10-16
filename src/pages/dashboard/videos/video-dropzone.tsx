@@ -6,7 +6,6 @@ import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import XIcon from '@untitled-ui/icons-react/build/esm/X';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';

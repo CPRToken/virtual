@@ -202,10 +202,7 @@ const Page: NextPage = () => {
                       spacing={1}
                     >
                       <Typography variant="subtitle2">user_id:</Typography>
-                      <Chip
-                        label={customer.id}
-                        size="small"
-                      />
+                     
                     </Stack>
                   </Stack>
                 </Stack>

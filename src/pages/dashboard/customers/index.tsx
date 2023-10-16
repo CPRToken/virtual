@@ -1,6 +1,7 @@
 import type { ChangeEvent, MouseEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
+
 import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01';
 import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
 import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
@@ -11,17 +12,22 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
-import {useTranslation} from "react-i18next";
-import { customersApi } from 'src/api/customers';
-import { Seo } from 'src/components/seo';
-import { useMounted } from 'src/hooks/use-mounted';
+import {Profile} from 'src/types/social';
 import { usePageView } from 'src/hooks/use-page-view';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { CustomerListSearch } from 'src/sections/dashboard/customer/customer-list-search';
 import { CustomerListTable } from 'src/sections/dashboard/customer/customer-list-table';
-import type { Customer } from 'src/types/customer';
-import {tokens} from "../../../locales/tokens";
+
+import {collection, getDocs} from "firebase/firestore";
+import {db} from "../../../libs/firebase";
+
+import {useRouter} from "next/router";
+import {Seo} from "../../../components/seo";
+
+
+
+
 
 interface Filters {
   query?: string;
@@ -30,7 +36,8 @@ interface Filters {
   isReturning?: boolean;
 }
 
-interface CustomersSearchState {
+
+interface UsersSearchState {
   filters: Filters;
   page: number;
   rowsPerPage: number;
@@ -38,8 +45,8 @@ interface CustomersSearchState {
   sortDir: 'asc' | 'desc';
 }
 
-const useCustomersSearch = () => {
-  const [state, setState] = useState<CustomersSearchState>({
+const useUsersSearch = () => {
+  const [state, setState] = useState<UsersSearchState>({
     filters: {
       query: undefined,
       hasAcceptedMarketing: undefined,
@@ -52,6 +59,9 @@ const useCustomersSearch = () => {
     sortDir: 'desc',
   });
 
+
+
+
   const handleFiltersChange = useCallback((filters: Filters): void => {
     setState((prevState) => ({
       ...prevState,
@@ -60,24 +70,24 @@ const useCustomersSearch = () => {
   }, []);
 
   const handleSortChange = useCallback(
-    (sort: { sortBy: string; sortDir: 'asc' | 'desc' }): void => {
-      setState((prevState) => ({
-        ...prevState,
-        sortBy: sort.sortBy,
-        sortDir: sort.sortDir,
-      }));
-    },
-    []
+      (sort: { sortBy: string; sortDir: 'asc' | 'desc' }): void => {
+        setState((prevState) => ({
+          ...prevState,
+          sortBy: sort.sortBy,
+          sortDir: sort.sortDir,
+        }));
+      },
+      []
   );
 
   const handlePageChange = useCallback(
-    (event: MouseEvent<HTMLButtonElement> | null, page: number): void => {
-      setState((prevState) => ({
-        ...prevState,
-        page,
-      }));
-    },
-    []
+      (event: MouseEvent<HTMLButtonElement> | null, page: number): void => {
+        setState((prevState) => ({
+          ...prevState,
+          page,
+        }));
+      },
+      []
   );
 
   const handleRowsPerPageChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
@@ -96,151 +106,135 @@ const useCustomersSearch = () => {
   };
 };
 
-interface CustomersStoreState {
-  customers: Customer[];
-  customersCount: number;
+
+
+
+
+interface UserStoreState {
+  users: Profile[];
+  usersCount: number;
 }
 
-const useCustomersStore = (searchState: CustomersSearchState) => {
-  const isMounted = useMounted();
-  const [state, setState] = useState<CustomersStoreState>({
-    customers: [],
-    customersCount: 0,
-  });
 
-  const handleCustomersGet = useCallback(async () => {
-    try {
-      const response = await customersApi.getCustomers(searchState);
 
-      if (isMounted()) {
-        setState({
-          customers: response.data,
-          customersCount: response.count,
-        });
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [searchState, isMounted]);
 
-  useEffect(
-    () => {
-      handleCustomersGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]
-  );
 
-  return {
-    ...state,
-  };
-};
 
-const useCustomersIds = (customers: Customer[] = []) => {
-  return useMemo(() => {
-    return customers.map((customer) => customer.id);
-  }, [customers]);
-};
 
 const Page: NextPage = () => {
-  const customersSearch = useCustomersSearch();
-  const customersStore = useCustomersStore(customersSearch.state);
-  const customersIds = useCustomersIds(customersStore.customers);
-  const customersSelection = useSelection<string>(customersIds);
-  const { t } = useTranslation();
+
+  const usersSearch = useUsersSearch();
+  const usersSelection = useSelection();
+  const [usersStore, setUsersStore] = useState<UserStoreState>({ users: [], usersCount: 0 });
+
+  const router = useRouter();
+  const [users, setUsers] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      const fetchedUsers = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      setUsers(fetchedUsers);
+    }
+
+    fetchUsers();
+  }, []);
+
+
+
+
 
   usePageView();
 
   return (
-    <>
-      <Seo title="Dashboard: Customer List" />
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8,
-        }}
-      >
-        <Container maxWidth="xl">
-          <Stack spacing={4}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
-              <Stack spacing={1}>
-                <Typography variant="h4">{t(tokens.nav.customers)}</Typography>
-                <Stack
-                  alignItems="center"
+      <>
+        <Seo title="Dashboard: Customer List" />
+        <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              py: 8,
+            }}
+        >
+          <Container maxWidth="xl">
+            <Stack spacing={4}>
+              <Stack
                   direction="row"
-                  spacing={1}
+                  justifyContent="space-between"
+                  spacing={4}
+              >
+                <Stack spacing={1}>
+                  <Typography variant="h4">Customers</Typography>
+                  <Stack
+                      alignItems="center"
+                      direction="row"
+                      spacing={1}
+                  >
+                    <Button
+                        color="inherit"
+                        size="small"
+                        startIcon={
+                          <SvgIcon>
+                            <Upload01Icon />
+                          </SvgIcon>
+                        }
+                    >
+                      Import
+                    </Button>
+                    <Button
+                        color="inherit"
+                        size="small"
+                        startIcon={
+                          <SvgIcon>
+                            <Download01Icon />
+                          </SvgIcon>
+                        }
+                    >
+                      Export
+                    </Button>
+                  </Stack>
+                </Stack>
+                <Stack
+                    alignItems="center"
+                    direction="row"
+                    spacing={3}
                 >
                   <Button
-                    color="inherit"
-                    size="small"
-                    startIcon={
-                      <SvgIcon>
-                        <Upload01Icon />
-                      </SvgIcon>
-                    }
+                      startIcon={
+                        <SvgIcon>
+                          <PlusIcon />
+                        </SvgIcon>
+                      }
+                      variant="contained"
                   >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    size="small"
-                    startIcon={
-                      <SvgIcon>
-                        <Download01Icon />
-                      </SvgIcon>
-                    }
-                  >
-                    Export
+                    Add
                   </Button>
                 </Stack>
               </Stack>
-              <Stack
-                alignItems="center"
-                direction="row"
-                spacing={3}
-              >
-                <Button
-                  startIcon={
-                    <SvgIcon>
-                      <PlusIcon />
-                    </SvgIcon>
-                  }
-                  variant="contained"
-                >
-                  Add
-                </Button>
-              </Stack>
+              <Card>
+                <CustomerListSearch
+                    onFiltersChange={usersSearch.handleFiltersChange} // Update this function to filter users
+                    onSortChange={usersSearch.handleSortChange}  // Update this function to sort users
+                    sortBy={usersSearch.state.sortBy}  // Update this state variable
+                    sortDir={usersSearch.state.sortDir}  // Update this state variable
+                />
+                <CustomerListTable
+                    count={users.length}
+                    items={users}
+
+
+                    onPageChange={usersSearch.handlePageChange}
+                    onRowsPerPageChange={usersSearch.handleRowsPerPageChange}
+                    onSelectAll={usersSelection.handleSelectAll}
+                    onSelectOne={usersSelection.handleSelectOne}
+                    page={usersSearch.state.page}
+                    rowsPerPage={usersSearch.state.rowsPerPage}
+                />
+              </Card>
             </Stack>
-            <Card>
-              <CustomerListSearch
-                onFiltersChange={customersSearch.handleFiltersChange}
-                onSortChange={customersSearch.handleSortChange}
-                sortBy={customersSearch.state.sortBy}
-                sortDir={customersSearch.state.sortDir}
-              />
-              <CustomerListTable
-                count={customersStore.customersCount}
-                items={customersStore.customers}
-                onDeselectAll={customersSelection.handleDeselectAll}
-                onDeselectOne={customersSelection.handleDeselectOne}
-                onPageChange={customersSearch.handlePageChange}
-                onRowsPerPageChange={customersSearch.handleRowsPerPageChange}
-                onSelectAll={customersSelection.handleSelectAll}
-                onSelectOne={customersSelection.handleSelectOne}
-                page={customersSearch.state.page}
-                rowsPerPage={customersSearch.state.rowsPerPage}
-                selected={customersSelection.selected}
-              />
-            </Card>
-          </Stack>
-        </Container>
-      </Box>
-    </>
+          </Container>
+        </Box>
+      </>
   );
 };
 

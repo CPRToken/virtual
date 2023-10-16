@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import { db } from 'src/libs/firebase';
 import Grid from '@mui/material/Unstable_Grid2';
-import Box from '@mui/material/Box';
+
 import { PostCard } from 'src/sections/dashboard/blog/post-card';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useTheme } from '@mui/material/styles';
 
 
 interface Cap {
     avatar: string;
     name: string;
     dob: Timestamp;
-    dod: string;
+    originCity: string;
+     dod: string;
     cover: string;
     quote: string;
-    gender: string;
+    gender?: string;
 }
 
 
@@ -68,9 +68,10 @@ export const HomeCaps: React.FC = () => {
                             <PostCard
                                 avatar={cap.avatar}
                                 name={cap.name}
-                                dob={formattedDob}
+                                dob={formattedDob.toString()}
                                 dod={cap.dod}// <-- Use the formatted date here
                                 cover={cap.cover}
+                                originCity={cap.originCity}
                                 quote={cap.quote}
                                 gender={cap.gender}
                                 sx={{ maxHeight: '150px', width: '90%' }}

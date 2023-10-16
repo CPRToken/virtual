@@ -7,7 +7,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import { format } from 'date-fns';
-import Star01Icon from '@untitled-ui/icons-react/build/esm/Star01';
+
 import DotsVerticalIcon from '@untitled-ui/icons-react/build/esm/DotsVertical';
 import Globe01Icon from '@untitled-ui/icons-react/build/esm/Globe03';
 import Avatar from '@mui/material/Avatar';
@@ -19,7 +19,7 @@ import { usePopover } from 'src/hooks/use-popover';
 import type { Item } from 'src/types/file-manager';
 import { bytesToSize } from 'src/utils/bytes-to-size';
 import { FotosMenu } from './fotos-menu';
-import {  ref, getMetadata } from "firebase/storage";
+
 
 interface ThumbnailCardProps {
   item: Item;
@@ -31,7 +31,7 @@ interface ThumbnailCardProps {
 }
 
 export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
-  const {  imageUrls, item, onDelete, onFavorite, onOpen } = props;
+  const {  imageUrls, item, onDelete, onOpen } = props;
   const popover = usePopover<HTMLButtonElement>();
 
   const handleDelete = useCallback((): void => {
@@ -45,15 +45,11 @@ export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
     size += `• ${item.itemsCount} items`;
   }
 
-  const createdAt = item.createdAt instanceof Date ? format(item.createdAt, 'MMM dd, yyyy')
+    // @ts-ignore
+    const createdAt = format(new Date(item.createdAt), 'dd MMM, yyyy');
 
-    : 'Unknown date';
-
-
-  const showShared = !item.isPublic && (item.shared || []).length > 0;
-
-  return (
-    <>
+    return (
+        <>
       <Card
         key={item.id}
         sx={{

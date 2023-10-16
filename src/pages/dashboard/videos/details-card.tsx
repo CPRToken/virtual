@@ -50,7 +50,7 @@ export const DetailsCard: FC<DetailsCardProps> = ({ onDetailsSubmit }) => {
             color="primary"
             onClick={() => {
               // Passing the title and description back to parent
-              onDetailsSubmit({ title, description });
+              onDetailsSubmit({ title, description, videoLink });
             }}
           >
             Next

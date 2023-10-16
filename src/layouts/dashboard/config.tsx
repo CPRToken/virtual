@@ -106,8 +106,7 @@ export const useSections = () => {
               icon: <SvgIcon fontSize="small"><Users03Icon /></SvgIcon>,
               items: [
                 { title: t(tokens.nav.list), path: paths.dashboard.customers.index },
-                { title: t(tokens.nav.details), path: paths.dashboard.customers.details },
-                { title: t(tokens.nav.edit), path: paths.dashboard.customers.edit },
+
               ],
             },
             {

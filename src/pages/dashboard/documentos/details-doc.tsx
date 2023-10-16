@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 interface DetailsDocProps {
     onDetailsSubmit: (details: { title: string; description: string; }) => void;
     onNext?: () => void;
+    onRemove: (file: File) => void;
+    onRemoveAll: () => void;
   onBack: () => void;
 }
 

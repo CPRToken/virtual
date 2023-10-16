@@ -149,10 +149,8 @@ const Page: NextPage = () => {
                 <PostCard
                   avatar={caps.avatar}
                   name={caps.name}
-                  email={caps.email}
                   cover={caps.cover}
                   dob={caps.dob}
-
                   quote={caps.quote}
                   gender={caps.gender}
                   sx={{ height: '100%' }}
