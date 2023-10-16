@@ -41,7 +41,6 @@ const Page: NextPage = () => {
   const { anchorRef, handleOpen, handleClose, open: popoverOpen } = usePopover();
     const [videoUrls, setVideoUrls] = useState<{ url: string; videoId: string; }[]>([]);
 
-    const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
   const [userUrl, setUserUrl] = useState('');
 
 

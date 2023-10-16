@@ -17,9 +17,9 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {auth, db, storage }  from "../../../libs/firebase";
+import {auth, db }  from "../../../libs/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import { useEffect, useState} from 'react';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 
 
@@ -31,23 +31,17 @@ interface AccountGeneralSettingsProps {
   email: string;
   name?: string;
   maritalStatus?: string;
-   originCity?: string;
-    highSchool?: string;
+     highSchool?: string;
     university?: string;
-    currentCity?: string;
-    placesWorked?: string;
-    currentJobCompany?: string;
-    currentJobTitle?: string;
-    previousJobCompany?: string;
-    previousJobTitle?: string;
-    quote?: string;
+        placesWorked?: string;
+       quote?: string;
 }
 
 
 
 
 export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) => {
-    const { avatar, name, quote, email, maritalStatus, university, currentCity } = props;
+    const { avatar, name, quote, email, maritalStatus, university } = props;
     const [uid, setUid] = useState<string | null>(null); // Add this line to hold uid this line to hold uid
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(name);
@@ -114,6 +108,7 @@ export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) =
   };
 
   const handleSaveClick = async () => {
+      if (uid) {
     const userRef = doc(db, 'users', uid);
 
     await updateDoc(userRef, {
@@ -121,6 +116,9 @@ export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) =
     });
 
     setIsEditingName(false);
+        } else {
+
+      }
   };
 
 
@@ -295,7 +293,7 @@ export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) =
                         color="inherit"
                         size="small"
                     >
-                        <Typography variant="">{t(tokens.headings.changeAvatar)}</Typography>
+                        <Typography >{t(tokens.headings.changeAvatar)}</Typography>
                     </Button>
                   </Stack>
                   <Stack alignItems="center" direction="row" spacing={2}>
@@ -550,7 +548,6 @@ AccountGeneralSettings.propTypes = {
   maritalStatus: PropTypes.string,
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  currentCity: PropTypes.string,
     highSchool: PropTypes.string,
     quote: PropTypes.string,
 };
