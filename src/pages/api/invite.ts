@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from 'next/types';
 import nodemailer from 'nodemailer';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const transporter = nodemailer.createTransport({
     host: "mail.virtualeternity.cl",
     port: 587,
