@@ -21,7 +21,6 @@ import { useMounted } from 'src/hooks/use-mounted';
 import { usePageView } from 'src/hooks/use-page-view';
 
 import { paths } from 'src/paths';
-import { PostNewsletter } from 'src/sections/dashboard/blog/post-newsletter';
 import { PostCard } from 'src/sections/dashboard/blog/post-card';
 import type { Caps } from 'src/types/caps';
 
@@ -189,7 +188,7 @@ const Page: NextPage = () => {
             </Button>
           </Stack>
           <Box sx={{ mt: 8 }}>
-            <PostNewsletter />
+
           </Box>
         </Container>
       </Box>
