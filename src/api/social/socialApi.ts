@@ -59,7 +59,7 @@ class SocialApi {
       });
   }
 
-  async getPosts(request: GetPostsRequest = {}, callback: (posts: Post[]) => void): Promise<() => void> {
+  async getPosts(request: GetPostsRequest, callback: (posts: Post[]) => void): Promise<() => void> {
     const uid = request.uid;
 
     if (!uid) {
@@ -79,8 +79,11 @@ class SocialApi {
         const postData = doc.data();
         return {
           id: doc.id,
+          postId: postData.postId,  // Add this
+          avatar: postData.avatar,  // Add this
+          name: postData.name,  // Add this
           author: {
-            id: postData.uid,  // Assuming uid is the user ID
+            id: postData.uid,
             avatar: postData.avatar,
             name: postData.name,
           },
