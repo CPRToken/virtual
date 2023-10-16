@@ -1,4 +1,3 @@
-
 import { NextPage } from 'next';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -8,28 +7,22 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Checkbox from '@mui/material/Checkbox';
-
-
 import FormHelperText from '@mui/material/FormHelperText';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import parseISO from 'date-fns/parseISO';
 
 import { RouterLink } from 'src/components/router-link';
 import { Seo } from 'src/components/seo';
 
 import { GuestGuard } from 'src/guards/guest-guard';
 import { IssuerGuard } from 'src/guards/issuer-guard';
-
 import { useRouter } from 'src/hooks/use-router';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import AdapterDateFns from '@mui/x-date-pickers/AdapterDateFns';
+import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import { Layout as AuthLayout } from 'src/layouts/auth/modern-layout';
 import { paths } from 'src/paths';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { tokens } from 'src/locales/tokens';
 import { Issuer } from 'src/utils/auth';
 import { doc, setDoc } from "firebase/firestore";
 import { db } from 'src/libs/firebase';
@@ -38,6 +31,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { addDoc, collection } from 'firebase/firestore';
 import { serverTimestamp, Timestamp } from "firebase/firestore";
 import MenuItem from '@mui/material/MenuItem';
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 
 
@@ -88,7 +82,7 @@ const validationSchema = Yup.object({
 
 
 
-const Page = () => {
+const Page: NextPage = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -187,7 +181,8 @@ const Page = () => {
 
       } catch (error) {
         console.error("Error during user creation or data saving:", error);
-        setErrors({ submit: error.message });
+        setErrors({ email: error.message });
+
       } finally {
         setSubmitting(false);
       }
@@ -206,6 +201,9 @@ const Page = () => {
       setCurrentStep(currentStep - 1);
     }
   };
+
+
+
 
   return (
       <>
@@ -281,18 +279,21 @@ const Page = () => {
                   />
 
 
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            label="Fecha de nacimiento"
+                            value={formik.values.dob}
+                            onChange={(newValue) => {
+                              formik.setFieldValue("dob", newValue);
+                            }}
+                        />
+                      </LocalizationProvider>
 
 
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                                label="Date of Birth"
-                                value={formik.values.dob}
-                                onChange={(newValue) => {
-                                    formik.setFieldValue("dob", newValue);
-                                }}
-                                renderInput={(params) => <TextField {...params} />}
-                            />
-                        </LocalizationProvider>
+
+
+
+
 
 
                       <Button

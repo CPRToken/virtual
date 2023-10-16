@@ -21,7 +21,8 @@ import { StorageStats } from "../../../sections/dashboard/file-manager/storage-s
 const Page: NextPage = () => {
     const [imageUrls, setImageUrls] = useState<Array<{ url: string, name: string }>>([]);
     const [open, setOpen] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
     const settings = useSettings();
     const uploadDialog = useDialog();
     const user = auth.currentUser;
@@ -134,7 +135,7 @@ const Page: NextPage = () => {
                   </Grid>
 
                   {/* Add this block to show ImageViewer when open is true */}
-                  {open && (
+                  {open && selectedImage && (
                       <ImageViewer
                           imageUrl={selectedImage}
                           onClose={handleClose}
@@ -152,8 +153,7 @@ const Page: NextPage = () => {
         <FotosUploader
             onClose={uploadDialog.handleClose}
             open={uploadDialog.open}
-            uid={uid}
-            onUploadSuccess={fetchFotos}
+             onUploadSuccess={fetchFotos}
         />
     </>
   );

@@ -298,6 +298,7 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                   </Box>
 
                     {isScheduledShare && (
+
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
                                 label="Share on Date and Time"
