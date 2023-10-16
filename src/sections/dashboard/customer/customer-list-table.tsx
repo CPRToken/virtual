@@ -22,12 +22,12 @@ import Typography from '@mui/material/Typography';
 import { RouterLink } from 'src/components/router-link';
 import { Scrollbar } from 'src/components/scrollbar';
 import { paths } from 'src/paths';
-import type { Customer } from 'src/types/customer';
+import type { User } from 'src/types/user';
 import { getInitials } from 'src/utils/get-initials';
 
 interface CustomerListTableProps {
   count?: number;
-  items?: Customer[];
+  items?: User[];
   onDeselectAll?: () => void;
   onDeselectOne?: (customerId: string) => void;
   onPageChange?: (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
@@ -44,11 +44,11 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
     count = 0,
     items = [],
     onDeselectAll,
-    onDeselectOne,
+
     onPageChange = () => {},
     onRowsPerPageChange,
     onSelectAll,
-    onSelectOne,
+
     page = 0,
     rowsPerPage = 0,
     selected = [],
@@ -129,27 +129,20 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
           </TableHead>
           <TableBody>
             {items.map((customer) => {
-              const isSelected = selected.includes(customer.id);
+                const isSelected = selected.indexOf(customer.id) !== -1;
               const location = `${customer.city}, ${customer.state}, ${customer.country}`;
               const totalSpent = numeral(customer.totalSpent).format(`${customer.currency}0,0.00`);
 
               return (
+                  // eslint-disable-next-line react/jsx-key
                 <TableRow
                   hover
-                  key={customer.id}
+
                   selected={isSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={isSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>): void => {
-                        if (event.target.checked) {
-                          onSelectOne?.(customer.id);
-                        } else {
-                          onDeselectOne?.(customer.id);
-                        }
-                      }}
-                      value={isSelected}
+
                     />
                   </TableCell>
                   <TableCell>
