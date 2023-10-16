@@ -9,10 +9,10 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { tokens } from 'src/locales/tokens';
 
-interface Schedule {
+export interface Schedule {
     id?: string;
-    title: string;
-    contentType: string;
+    title?: string;
+    contentType?: string;
 
     description: string;
     createdAt: Date;
@@ -54,10 +54,8 @@ export const ScheduledEmails: FC<NewOverviewScheduleProps> = (props) => {
                 </ListItem>
 
                 {schedules.map((message) => {
-                    const createdDate = new Date(message.createdAt.seconds * 1000).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' }).toUpperCase();
-                    const scheduledDate = new Date(message.scheduleDate.seconds * 1000).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' }).toUpperCase();
-
-
+                    const createdDate = new Date(message.createdAt).toLocaleString();
+                    const scheduledDate = new Date(message.scheduleDate).toLocaleString();
 
                     return (
                         <ListItem key={message.id} style={{ display: 'flex', padding: '10px' }}>

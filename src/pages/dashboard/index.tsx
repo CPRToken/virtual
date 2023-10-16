@@ -1,11 +1,8 @@
 import type { NextPage } from 'next';
-
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
-
 import Typography from '@mui/material/Typography';
 
 import { Seo } from 'src/components/seo';
@@ -13,7 +10,7 @@ import { usePageView } from 'src/hooks/use-page-view';
 import { useSettings } from 'src/hooks/use-settings';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { OverviewBanner } from 'src/sections/dashboard/overview/overview-banner';
-import {ScheduledEmails} from './scheduled-emails';
+import { Schedule, ScheduledEmails } from './scheduled-emails';
 
 import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats';
 
@@ -33,7 +30,8 @@ const user = auth.currentUser;
 
 const Page: NextPage = () => {
   const settings = useSettings();
-    const [schedules, setSchedules] = useState<{ id: string; [key: string]: any; }[]>([]);
+    const [schedules, setSchedules] = useState<Schedule[]>([]);
+
 
     useEffect(() => {
         const fetchSchedules = async () => {
@@ -41,7 +39,7 @@ const Page: NextPage = () => {
             if (user) {
                 const uid = user.uid;
                 const querySnapshot = await getDocs(query(collection(db, 'schedules'), where('uid', '==', uid)));
-                setSchedules(querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+                setSchedules(querySnapshot.docs.map((doc) => { return { id: doc.id, ...doc.data() } as Schedule;  }));
             }
         };
 
