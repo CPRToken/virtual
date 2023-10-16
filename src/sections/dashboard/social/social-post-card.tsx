@@ -22,7 +22,6 @@ import Typography from '@mui/material/Typography';
 import type { Comment} from 'src/types/social';
 import { SocialComment } from './social-comment';
 import { SocialCommentAdd } from './social-comment-add';
-
 import { db, auth } from 'src/libs/firebase';
 import { arrayRemove, arrayUnion, getDoc, increment, doc, updateDoc } from 'firebase/firestore';
 
@@ -57,6 +56,7 @@ export const SocialPostCard: FC<SocialPostCardProps> = (props) => {
 
     const [isLiked, setIsLiked] = useState<boolean>(isLikedProp ?? false);
     const [likes, setLikes] = useState<number>(likesProp ?? 0);
+
 
 
 
@@ -159,7 +159,9 @@ export const SocialPostCard: FC<SocialPostCardProps> = (props) => {
                             color="text.secondary"
                             variant="caption"
                         >
-                            {createdAt && formatDistanceToNowStrict(new Date(createdAt))} ago
+                            {createdAt && formatDistanceToNowStrict(new Date(createdAt * 1000))} ago
+
+
 
 
 
