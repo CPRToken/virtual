@@ -53,17 +53,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ documentUrl, onClose }) => {
               </SvgIcon>
             </IconButton>
           </Stack>
-          {documentUrl.endsWith('.pdf') ? (
-              <iframe
-                  src={documentUrl}
-                  width="100%"
-                  height="100%"
-                  type="application/pdf">
-              </iframe>
-          ) : documentUrl.endsWith('.docx') ? (
-              // Handle .docx display here
-              <div>DOCX Display</div>
-          ) : null }
+
           {onClose && (
               <IconButton
                   onClick={onClose}
