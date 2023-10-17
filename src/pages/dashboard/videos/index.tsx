@@ -4,7 +4,7 @@ import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import { Layout as DashboardLayout } from "src/layouts/dashboard";
 import { Grid, Box,  Stack, Button, Typography, Container, SvgIcon } from '@mui/material';
 import { Seo } from 'src/components/seo';
-import { VideoUploader } from './video-uploader';
+import { VideoUploader } from '../../../sections/dashboard/videos/video-uploader';
 import { db, auth, storage } from 'src/libs/firebase';
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";

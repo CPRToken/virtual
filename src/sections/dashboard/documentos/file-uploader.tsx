@@ -6,9 +6,9 @@ import XIcon from '@untitled-ui/icons-react/build/esm/X';
 import { serverTimestamp, doc, setDoc, getDoc} from 'firebase/firestore';
 import {ref, getDownloadURL, uploadBytes} from 'firebase/storage';
 import { auth, db, storage } from 'src/libs/firebase';
-import { FileDropzone } from 'src/pages/dashboard/documentos/file-dropzone';
-import {PrivacyDoc} from 'src/pages/dashboard/documentos/privacy-doc';
-import {DetailsDoc} from 'src/pages/dashboard/documentos/details-doc';
+import { FileDropzone } from 'src/sections/dashboard/documentos/file-dropzone';
+import {PrivacyDoc} from 'src/sections/dashboard/documentos/privacy-doc';
+import {DetailsDoc} from 'src/sections/dashboard/documentos/details-doc';
 import { Box, Dialog, DialogContent, IconButton, Stack, SvgIcon } from '@mui/material';
 
 interface FileUploaderProps {

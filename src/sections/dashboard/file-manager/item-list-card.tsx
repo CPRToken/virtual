@@ -55,8 +55,10 @@ export const ItemListCard: FC<ItemListCardProps> = (props) => {
         size += `• ${item.itemsCount} items`;
     }
 
-    const createdAt = item.createdAt && format(item.createdAt, 'MMM dd, yyyy');
-  const showShared = !item.isPublic && (item.shared || []).length > 0;
+    const createdAt = item.createdAt ? format(new Date(item.createdAt), 'MMM dd, yyyy') : 'N/A';
+
+
+    const showShared = !item.isPublic && (item.shared || []).length > 0;
 
   return (
     <>
