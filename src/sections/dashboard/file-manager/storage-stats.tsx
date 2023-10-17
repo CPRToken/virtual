@@ -24,7 +24,7 @@ import { bytesToSize } from 'src/utils/bytes-to-size';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {  ref,  listAll, getMetadata } from "firebase/storage";
-import { db, auth , storage } from 'src/libs/firebase';
+import { auth , storage } from 'src/libs/firebase';
 import { tokens } from 'src/locales/tokens';
 
 

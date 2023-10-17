@@ -79,7 +79,7 @@ export const ItemSearch: FC<ItemSearchProps> = (props) => {
   );
 
   const handleViewChange = useCallback(
-    (event: MouseEvent<HTMLElement>, value: View) => {
+    (_event: MouseEvent<HTMLElement>, value: View) => {
       onViewChange?.(value);
     },
     [onViewChange]

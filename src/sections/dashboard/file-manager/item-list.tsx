@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TablePagination from '@mui/material/TablePagination';
-import { bytesToSize } from 'src/utils/bytes-to-size';
 import { Scrollbar } from 'src/components/scrollbar';
 import type { Item } from 'src/types/file-manager';
 
@@ -92,8 +91,7 @@ export const ItemList: FC<ItemListProps> = (props) => {
                   <ItemListRow
                     key={item.id}
                     item={item}
-                    size={bytesToSize(item.size)}
-                    onDelete={onDelete}
+                   onDelete={onDelete}
                     onFavorite={onFavorite}
                     onOpen={onOpen}
                   />

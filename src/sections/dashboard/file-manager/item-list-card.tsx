@@ -28,6 +28,7 @@ interface ItemListCardProps {
   item: Item;
 name?: string;
 size?: number;
+createdAt?: Timestamp | null;
   onDelete?: (itemId: string) => void;
   onShare?: (itemId: string) => void;
   onFavorite?: (itemId: string, value: boolean) => void;
@@ -35,7 +36,12 @@ size?: number;
 }
 
 export const ItemListCard: FC<ItemListCardProps> = (props) => {
-  const { item,  onDelete, onFavorite, onOpen } = props;
+  const { item,
+    onDelete,
+       onFavorite,
+    onOpen
+  } = props;
+
   const popover = usePopover<HTMLButtonElement>();
 
   const handleDelete = useCallback((): void => {
@@ -43,17 +49,13 @@ export const ItemListCard: FC<ItemListCardProps> = (props) => {
     onDelete?.(item.id);
   }, [item, popover, onDelete]);
 
+    let size = bytesToSize(item.size);
 
+    if (item.type === 'folder') {
+        size += `• ${item.itemsCount} items`;
+    }
 
-
-  if (item.type === 'folder') {
-
-  }
-  const createdAt = item.createdAt instanceof Timestamp
-      ? format(item.createdAt.toDate(), 'MMM dd, yyyy')
-      : 'Unknown date';
-  const size = item.size ? bytesToSize(item.size) : 'Unknown size';
-
+    const createdAt = item.createdAt && format(item.createdAt, 'MMM dd, yyyy');
   const showShared = !item.isPublic && (item.shared || []).length > 0;
 
   return (
