@@ -10,6 +10,7 @@ import { tokens } from 'src/locales/tokens';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import { useSettings } from 'src/hooks/use-settings';
+import Image from 'next/image';
 
 export const OverviewBanner: FC = (props) => {
   const { handleDrawerOpen } = useSettings();
@@ -40,17 +41,22 @@ export const OverviewBanner: FC = (props) => {
       })}
       {...props}
     >
-      <Box
-        sx={{
-          width: 200,
-          '& img': {
-            width: '100%',
-          },
-        }}
-      >
-          <img src={theme.palette.mode === 'dark' ? "/assets/person-standing-dark.png" : "/assets/person-standing.png"} />
-      </Box>
-      <Box sx={{ flexGrow: 1 }}>
+        <Box
+            sx={{
+                width: 200,
+            }}
+        >
+            <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+                <Image
+                    src={theme.palette.mode === 'dark' ? "/assets/person-standing-dark.png" : "/assets/person-standing.png"}
+                    layout="fill"
+                    objectFit="contain"
+                    alt="Person Standing"
+                />
+            </div>
+        </Box>
+
+        <Box sx={{ flexGrow: 1 }}>
         <Typography
           color="primary.main"
           sx={{ mt: 3, fontSize: '1.2rem' }}

@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image';
+
 
 const sliderSettings = {
   arrows: false,
@@ -38,10 +40,13 @@ export const OverviewTips: FC<OverviewTipsProps> = (props) => {
           height: '100%',
         }}
       >
-        <Box sx={{ mb: 6 }}>
-          <img src="/assets/next-tip.svg" />
-        </Box>
-        <Box
+          <Box sx={{ mb: 6 }}>
+              <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+                  <Image src="/assets/next-tip.svg" layout="fill" objectFit="contain" alt="Next Tip" />
+              </div>
+          </Box>
+
+          <Box
           sx={{
             flexGrow: 1,
             '& .slick-slider': {

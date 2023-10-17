@@ -8,6 +8,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 
+
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
@@ -162,15 +163,14 @@ export const HomeSendero: FC = () => {
             xs={12}
             md={6}
           >
-            <Box
-              sx={{
-                '& img': {
-                  width: '100%',
-                },
-              }}
-            >
-              <img src={image} />
-            </Box>
+              <Box
+
+              >
+                  <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+                      <Image src={image} layout="fill" objectFit="contain" alt="Description" />
+                  </div>
+              </Box>
+
           </Grid>
 
         </Grid>

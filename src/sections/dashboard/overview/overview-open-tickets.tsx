@@ -9,6 +9,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image';
 
 interface OverviewOpenTicketsProps {
   amount: number;
@@ -31,13 +32,11 @@ export const OverviewOpenTickets: FC<OverviewOpenTicketsProps> = (props) => {
           py: 3,
         }}
       >
-        <div>
-          <img
-            src="/assets/iconly/iconly-glass-paper.svg"
-            width={48}
-          />
-        </div>
-        <Box sx={{ flexGrow: 1 }}>
+          <div style={{ position: 'relative', width: 48, height: 'auto' }}>
+              <Image src="/assets/iconly/iconly-glass-paper.svg" layout="fill" objectFit="contain" alt="Paper Icon" />
+          </div>
+
+          <Box sx={{ flexGrow: 1 }}>
           <Typography
             color="text.secondary"
             variant="body2"

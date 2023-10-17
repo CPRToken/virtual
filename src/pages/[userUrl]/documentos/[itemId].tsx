@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import { getDownloadURL, ref } from 'firebase/storage';
-import { auth, db, storage } from 'src/libs/firebase';
+import { auth, storage } from 'src/libs/firebase';
 import { onAuthStateChanged } from "firebase/auth";
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
@@ -47,7 +47,7 @@ const DocPage = () => {
     });
 
     return () => unsubscribe();
-  }, [itemId, userUrl]);
+  }, [itemId, userUrl, uid]); //
 
 
   return (
