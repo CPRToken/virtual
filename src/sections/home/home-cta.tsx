@@ -10,7 +10,7 @@ import Image from 'next/image';
 
 export const HomeCta: FC = () => {
     const theme = useTheme();
-    const logoSrc = theme.palette.mode === 'dark' ? 'assets/sendero-dark.png' : 'assets/sendero-light.png';
+    const logoSrc = theme.palette.mode === 'dark' ? '/assets/sendero-dark.png' : '/assets/sendero-light.png';
 
 
 

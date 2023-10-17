@@ -15,20 +15,23 @@ import { useTheme } from '@mui/material/styles';
 interface Feature {
   id: string;
   title: string;
+  width?: number;
+  height?: number;
   description: string;
   imageDark: string;
   imageLight: string;
 }
 
 const features: Feature[] = [
-  {
-    id: 'experts',
-    title: ' Estás planeando para el futuro o para el momento actual?',
-    description:
-      "Obtén un Presupuesto para un Funeral, y un Funeral Virtual.",
-    imageDark: '/assets/parque.jpg',
-    imageLight: '/assets/parque.jpg',
-  },
+    {
+        id: 'experts',
+        title: ' Estás planeando para el futuro o para el momento actual?',
+        description: "Obtén un Presupuesto para un Funeral, y un Funeral Virtual.",
+        imageDark: '/assets/parque.jpg',
+        imageLight: '/assets/parque.jpg',
+        width: 500,  // Add width
+        height: 300,  // Add height
+    },
   {
     id: 'figma',
     title: 'Crematorio Sendero',
@@ -53,7 +56,7 @@ export const HomeSendero: FC = () => {
   const [activeFeature, setActiveFeature] = useState<number>(0);
   const feature = features[activeFeature];
   const image = theme.palette.mode === 'dark' ? feature?.imageDark : feature?.imageLight;
-  const logoSrc = theme.palette.mode === 'dark' ? 'assets/sendero-dark.png' : 'assets/sendero-light.png';
+  const logoSrc = theme.palette.mode === 'dark' ? '/assets/sendero-dark.png' : '/assets/sendero-light.png';
 
   return (
     <Box
@@ -167,7 +170,8 @@ export const HomeSendero: FC = () => {
 
               >
                   <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
-                      <Image src={image} layout="fill" objectFit="contain" alt="Description" />
+                      <Image src={image} width={feature?.width} height={feature?.height} alt="Description" />
+
                   </div>
               </Box>
 
