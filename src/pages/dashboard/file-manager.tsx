@@ -1,13 +1,12 @@
 import type { ChangeEvent, MouseEvent } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { NextPage } from 'next';
-import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
+
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
-import SvgIcon from '@mui/material/SvgIcon';
+
 import Typography from '@mui/material/Typography';
 import { Seo } from 'src/components/seo';
 import { useDialog } from 'src/hooks/use-dialog';
@@ -20,17 +19,12 @@ import { ItemList } from 'src/sections/dashboard/file-manager/item-list';
 import { ItemSearch } from 'src/sections/dashboard/file-manager/item-search';
 import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats';
 import type { Item } from 'src/types/file-manager';
-import {db, auth, storage} from 'src/libs/firebase';
-import {onSnapshot, query, collection, deleteDoc, where, doc, getDoc} from 'firebase/firestore';
+import {db, auth} from 'src/libs/firebase';
+import {onSnapshot, query, collection, deleteDoc,  doc, getDoc} from 'firebase/firestore';
 import {useTranslation} from "react-i18next";
 import {tokens} from "src/locales/tokens";
 
 import { useRouter } from 'next/router'
-import {getDownloadURL, listAll, ref} from "firebase/storage";
-import { usePopover } from "src/hooks/use-popover"
-import Popover from '@mui/material/Popover';
-
-import {t} from "i18next";
 
 
 // Get the current user
@@ -116,8 +110,8 @@ interface ItemsStoreState {
 }
 
 const useItemsStore = (searchState: ItemsSearchState) => {
-  const isMounted = useMounted();
-  const [state, setState] = useState<ItemsStoreState>({
+    useMounted();
+    const [state, setState] = useState<ItemsStoreState>({
     items: [],
     itemsCount: 0,
   });
@@ -141,7 +135,7 @@ const useItemsStore = (searchState: ItemsSearchState) => {
                 unsubscribe();
             };
         }
-    }, [searchState, user, setState]);
+    }, [searchState, setState]);
 
 
 
@@ -150,7 +144,7 @@ const useItemsStore = (searchState: ItemsSearchState) => {
             const user = auth.currentUser;
             if (user) {
                 await deleteDoc(doc(db, `users/${user.uid}/folders/${itemId}`));
-            };
+            }
         } , [] );
 
 
@@ -197,9 +191,7 @@ const useCurrentItem = (items: Item[], itemId?: string): Item | undefined => {
 
 const Page: NextPage = () => {
   const router = useRouter()
-  const folderIds = router.query?.folderId ?? [];
-  const folderId = folderIds[folderIds.length -1]
-  const { t } = useTranslation();
+    const { t } = useTranslation();
   const user = auth.currentUser;
   const uid = user ? user.uid : null;
 
@@ -208,12 +200,10 @@ const Page: NextPage = () => {
   const itemsSearch = useItemsSearch();
   const itemsStore = useItemsStore(itemsSearch.state);
   const [view, setView] = useState<View>('grid');
-  const uploadDialog = useDialog();
-  const detailsDialog = useDialog<string>();
-    const { anchorRef, handleOpen, handleClose, open: popoverOpen } = usePopover();
-
-  const currentItem = useCurrentItem(itemsStore.items, detailsDialog.data);
-     const [userUrl, setUserUrl] = useState('');
+    useDialog();
+    const detailsDialog = useDialog<string>();
+    useCurrentItem(itemsStore.items, detailsDialog.data);
+    const [, setUserUrl] = useState('');
 
 
     useEffect(() => {

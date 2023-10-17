@@ -5,6 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image';
 
 interface LanguageOption {
   icon: string;
@@ -16,10 +17,7 @@ const languageOptions: LanguageOption[] = [
     icon: '/assets/flags/flag-us.svg',
     label: 'English',
   },
-  {
-    icon: '/assets/flags/flag-de.svg',
-    label: 'German',
-  },
+
   {
     icon: '/assets/flags/flag-ch.svg',
     label: 'Spanish',
@@ -43,20 +41,19 @@ export const Modal2: FC = () => (
       {languageOptions.map((option) => (
         <MenuItem key={option.label}>
           <ListItemIcon>
-            <Box
-              sx={{
-                display: 'flex',
-                height: 20,
-                width: 20,
-                '& img': {
-                  width: '100%',
-                },
-              }}
-            >
-              <img
-                alt={option.label}
-                src={option.icon}
-              />
+              <Box
+                  sx={{
+                      display: 'flex',
+                      height: 20,
+                      width: 20,
+                  }}
+              >
+                <Image
+                    alt={option.label}
+                    src={option.icon}
+                    width={20}
+                    height={20}
+                />
             </Box>
           </ListItemIcon>
           <ListItemText primary={<Typography variant="subtitle2">{option.label}</Typography>} />

@@ -9,10 +9,9 @@ import { Layout as ComponentsLayout } from 'src/layouts/components';
 import { Layout as MarketingLayout } from 'src/layouts/marketing';
 import { Previewer } from 'src/sections/components/previewer';
 import { Table1 } from 'src/sections/components/tables/table-1';
-import { Table2 } from 'src/sections/components/tables/table-2';
+
 import { Table3 } from 'src/sections/components/tables/table-3';
 import { Table4 } from 'src/sections/components/tables/table-4';
-import { Table5 } from 'src/sections/components/tables/table-5';
 import { Table6 } from 'src/sections/components/tables/table-6';
 import { Table7 } from 'src/sections/components/tables/table-7';
 import { Table8 } from 'src/sections/components/tables/table-8';
@@ -25,10 +24,7 @@ const components: { element: JSX.Element; title: string }[] = [
     element: <Table1 />,
     title: 'Table 1',
   },
-  {
-    element: <Table2 />,
-    title: 'Table 2',
-  },
+
   {
     element: <Table3 />,
     title: 'Table 3',
@@ -37,10 +33,7 @@ const components: { element: JSX.Element; title: string }[] = [
     element: <Table4 />,
     title: 'Table 4',
   },
-  {
-    element: <Table5 />,
-    title: 'Table 5',
-  },
+
   {
     element: <Table6 />,
     title: 'Table 6',

@@ -7,7 +7,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import { format } from 'date-fns';
-
+import Image from 'next/image';
 import DotsVerticalIcon from '@untitled-ui/icons-react/build/esm/DotsVertical';
 import Globe01Icon from '@untitled-ui/icons-react/build/esm/Globe03';
 import Avatar from '@mui/material/Avatar';
@@ -68,22 +68,23 @@ export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
         variant="outlined"
       >
         <Stack
-          alignItems="center"
-          direction="row"
-          justifyContent="space-between"
-          spacing={3}
-          sx={{
-            pt: 2,
-            px: 2,
-          }}
+            alignItems="center"
+            direction="row"
+            justifyContent="space-between"
+            spacing={3}
+            sx={{
+              pt: 2,
+              px: 2,
+            }}
         >
-          {/* Add this block to render the image */}
           {imageUrls && (
-            <img src={imageUrls}
-                 alt="Thumbnail"
-                 style={{ width: '100%', height: 'auto' }} />
+              <Image
+                  src={imageUrls}
+                  alt="Thumbnail"
+                  width={500}  // Specify the width
+                  height={300}  // Specify the height
+              />
           )}
-
         </Stack>
         <Box sx={{ p: 2 }}>
 

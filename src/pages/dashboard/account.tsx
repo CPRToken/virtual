@@ -25,9 +25,7 @@ import type { Profile } from 'src/types/social';
 import {auth} from "../../libs/firebase";
 import {tokens} from "../../locales/tokens";
 import {useTranslation} from "react-i18next";
-
-const now = new Date();
-
+new Date();
 const tabs = [
   { label: 'General', value: 'general' },
 
@@ -37,10 +35,10 @@ const tabs = [
 ];
 
 const Page: NextPage = () => {
-    const [uid, setUid] = useState<string | null>(auth.currentUser ? auth.currentUser.uid : null);
+    const [uid] = useState<string | null>(auth.currentUser ? auth.currentUser.uid : null);
     const [user, setUser] = useState<Profile | null>(null);
 
-    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const [, setAvatarUrl] = useState<string | null>(null);
     const [currentTab, setCurrentTab] = useState<string>('general');
 
     const { t } = useTranslation();

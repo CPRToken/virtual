@@ -103,21 +103,7 @@ export const Table8: FC = () => (
                     direction="row"
                     spacing={2}
                   >
-                    <Box
-                      sx={{
-                        height: 36,
-                        width: 36,
-                        '& img': {
-                          height: 36,
-                          width: 36,
-                        },
-                      }}
-                    >
-                      <img
-                        alt={country.name}
-                        src={country.flag}
-                      />
-                    </Box>
+
                     <Typography variant="subtitle2">{country.name}</Typography>
                   </Stack>
                 </TableCell>
