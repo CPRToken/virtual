@@ -5,6 +5,8 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import Image from 'next/image';
+
 
 export const HomeCta: FC = () => {
     const theme = useTheme();
@@ -29,17 +31,11 @@ export const HomeCta: FC = () => {
         >
             <Container maxWidth="lg">
                 <Box position="relative">
-                    <img
+                    <Image
                         src={logoSrc}
                         alt="Sendero Logo"
-                        style={{
-                            position: 'absolute',
-                            top: '0%',  // Adjust as needed
-                            left: '-20%',  // Adjust as needed
-                            zIndex: 10,
-                            width: '20%',  // Adjust as needed
-                            height: 'auto'  // Maintains aspect ratio
-                        }}
+                        layout="fill"
+                        objectFit="contain"
                     />
 
                     <Stack spacing={2} style={{ paddingTop: '100px', paddingLeft: '40px', paddingBottom: '40px' }}>

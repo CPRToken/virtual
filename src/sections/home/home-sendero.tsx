@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import LinkExternal01Icon from '@untitled-ui/icons-react/build/esm/LinkExternal01';
+import Image from 'next/image';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
-import SvgIcon from '@mui/material/SvgIcon';
+
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
@@ -66,20 +67,12 @@ export const HomeSendero: FC = () => {
     >
       <Container maxWidth="lg">
         <Box position="relative">
-          <img
-              src={logoSrc}
-              alt="Sendero Logo"
-              style={{
-                position: 'absolute',
-                top: '-15%',  // Adjust as needed
-                bottom: '0%',  // Adjust as needed
-                left: '-8%',  // Adjust as needed
-
-                zIndex: 10,
-                width: '15%',  // Adjust as needed
-                height: 'auto'  // Maintains aspect ratio
-              }}
-          />
+            <Image
+                src={logoSrc}
+                alt="Sendero Logo"
+                layout="fill"
+                objectFit="contain"
+            />
         <Stack
           spacing={2}
           sx={{ mb: 8 }}

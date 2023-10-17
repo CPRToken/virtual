@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image';
 
 import { codeStyle } from 'src/utils/code-style';
 
@@ -99,21 +100,26 @@ export const HomeCodeSamples: FC = () => {
                   direction="row"
                   spacing={1}
                 >
-                  <Box
-                    sx={{
-                      borderRadius: '4px',
-                      flex: '0 0 auto',
-                      height: 20,
-                      overflow: 'hidden',
-                      width: 20,
-                      '& img': {
-                        width: '100%',
-                      },
-                    }}
-                  >
-                    <img src={sample.icon} />
-                  </Box>
-                  <Typography
+                    <Box
+                        sx={{
+                            borderRadius: '4px',
+                            flex: '0 0 auto',
+                            height: 20,
+                            overflow: 'hidden',
+                            width: 20,
+                        }}
+                    >
+                        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                            <Image
+                                src={sample.icon}
+                                layout="fill"
+                                objectFit="contain"
+                                alt="Description for the icon" // Add an appropriate description
+                            />
+                        </div>
+                    </Box>
+
+                    <Typography
                     sx={{ color: 'neutral.300' }}
                     variant="body2"
                   >
