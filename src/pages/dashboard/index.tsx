@@ -10,7 +10,8 @@ import { usePageView } from 'src/hooks/use-page-view';
 import { useSettings } from 'src/hooks/use-settings';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { OverviewBanner } from 'src/sections/dashboard/overview/overview-banner';
-import { Schedule, ScheduledEmails } from './scheduled-emails';
+import ScheduledEmails, { Schedule } from './scheduled-emails';
+
 
 import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats';
 

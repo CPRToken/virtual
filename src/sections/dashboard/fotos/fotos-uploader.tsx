@@ -26,14 +26,13 @@ export const FotosUploader: FC<FotosUploaderProps> = (props) => {
 
   const user = auth.currentUser;
   const uid = user ? user.uid : null;
-  const settings = useSettings();
-
+  useSettings();
   const uploadFile = () => {
     if (fotosUpload === null || uid === null) return;
 
     const imageRef = ref(storage, `${uid}/fotos/${fotosUpload.name}`);
     uploadBytes(imageRef, fotosUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
+      getDownloadURL(snapshot.ref).then(() => {
         setFotosUpload(null);
         setFiles([]);
         if (onUploadSuccess) {

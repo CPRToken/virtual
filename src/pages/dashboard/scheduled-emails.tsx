@@ -24,7 +24,7 @@ interface NewOverviewScheduleProps {
     schedules: Schedule[];
 }
 
-export const ScheduledEmails: FC<NewOverviewScheduleProps> = (props) => {
+const ScheduledEmails: FC<NewOverviewScheduleProps> = (props) => {
     const { schedules } = props;
 
 
@@ -88,6 +88,9 @@ export const ScheduledEmails: FC<NewOverviewScheduleProps> = (props) => {
         </Card>
     );
 };
+
+export default ScheduledEmails;
+
 
 ScheduledEmails.propTypes = {
     schedules: PropTypes.array.isRequired,
