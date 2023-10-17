@@ -8,8 +8,6 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "dev:host": "next dev -H 192.168.1.5",
-
     "export": "next export",
     "lint": "next lint",
     "lint-fix": "next lint --fix",
@@ -17,8 +15,6 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
-    "@auth0/auth0-spa-js": "2.0.8",
-    "@aws-amplify/auth": "5.5.3",
     "@emotion/cache": "11.11.0",
     "@emotion/react": "11.11.1",
     "@emotion/server": "11.11.0",
@@ -44,7 +40,6 @@
     "@untitled-ui/icons-react": "0.1.1",
     "algoliasearch": "^4.19.1",
     "apexcharts": "3.41.0",
-    "aws-amplify": "5.3.3",
     "date-fns": "^2.30.0",
     "draft-js": "0.11.7",
     "express": "^4.18.2",
@@ -76,7 +71,6 @@
     "react-map-gl": "7.1.1",
     "react-markdown": "8.0.7",
     "react-quill": "^2.0.0",
-    "react-redux": "8.1.1",
     "react-slick": "0.29.0",
     "react-syntax-highlighter": "15.5.0",
     "redux-devtools-extension": "2.13.9",
