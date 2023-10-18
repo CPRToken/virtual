@@ -66,7 +66,7 @@ const Page: NextPage = () => {
 
 
              if (isMounted()) {
-                 router.push(paths.dashboard.fileManager);
+                 router.push(paths.dashboard.index);
             }
         } catch (err) {
             console.error(err);
