@@ -26,7 +26,11 @@ export const HomeHero: FC = () => {
             pt: '120px',
             pb: '120px',
             height: '80vh',  // 100% of the viewport height
-            width: '100vw',   //
+            width: '100vw',
+            '@media (max-width:600px)': {
+              height: '60vh',  // Adjust this value as needed
+              // Add any other adjustments for mobile here
+            }
           }}
       >
           <Container maxWidth="lg">

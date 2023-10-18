@@ -204,17 +204,21 @@ export const TopNav: FC<TopNavProps> = (props) => {
             spacing={2}
             sx={{ flexGrow: 1 }}
           >
-              <Button
-                  component="a"
-                  size={mdUp ? 'medium' : 'small'}
-                  href="/auth/firebase/login"
-                  target=""
-                  variant="outlined"
-                  sx={{
-                      borderColor: 'yourBorderColor',
-                      borderWidth: 2, // Increase outline width
-                      fontWeight: 'bold' // Make font bold
-                  }}
+            <Button
+              component="a"
+              size={mdUp ? 'medium' : 'small'}
+              href="/auth/firebase/login"
+              target=""
+              variant="outlined"
+              sx={{
+                width: mdUp ? 'auto' : '90%',  // Adjust the width here
+                maxWidth: '150px', //
+                marginLeft: '-50px',  // Force the button to the left
+                marginRight: 'auto',  // Add some right margin for spacing
+                borderColor: 'yourBorderColor',
+                borderWidth: 2,
+                fontWeight: 'bold'
+              }}
               >
                   {t(tokens.headings.logIn)}
               </Button>
