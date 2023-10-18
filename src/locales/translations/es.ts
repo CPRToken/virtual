@@ -39,7 +39,7 @@ export const es = {
   [tokens.nav.mail]: 'Correo',
   [tokens.nav.management]: 'Gestión',
   [tokens.nav.orderList]: 'Pedidos',
-  [tokens.nav.overview]: 'Visión General',
+  [tokens.nav.overview]: 'Resumen',
   [tokens.nav.pages]: 'Páginas de administración',
   [tokens.nav.postCreate]: 'Crear Capsula',
   [tokens.nav.postDetails]: 'Detalles del Articulo',

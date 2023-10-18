@@ -145,8 +145,8 @@ export const Layout: FC<LayoutProps> = (props) => {
               <Box
                 sx={{
                   color: 'text.primary',
-                  fontFamily: "Montserrat, sans-serif",
-                 fontSize: { xs: 31, md: 25 },
+                  fontFamily: "inherit",
+                 fontSize: { xs: 25, md: 27 },
                   fontWeight: { xs: 450, md: 500 },  // Lighter weight for mobile, bolder for PC
                   letterSpacing: '0.4px',
                   lineHeight: 2.5,

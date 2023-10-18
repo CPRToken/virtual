@@ -4,18 +4,16 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 import Image from 'next/image';
 
 
 export const HomeCta: FC = () => {
-    const theme = useTheme();
-    const logoSrc = theme.palette.mode === 'dark' ? '/assets/sendero-dark.png' : '/assets/sendero-light.png';
+  const logoSrc = '/assets/sendero-dark.png';
 
 
 
 
-    return (
+  return (
         <Box
             sx={{
                 backgroundRepeat: 'no-repeat',
@@ -25,18 +23,15 @@ export const HomeCta: FC = () => {
                 color: 'neutral.100',
                 pt: '80px',
                 pb: '120px',
-                height: '600px',
+                height: '650px',
                 width: '100%',
             }}
         >
             <Container maxWidth="lg">
                 <Box position="relative">
-                    <Image
-                        src={logoSrc}
-                        alt="Sendero Logo"
-                        layout="fill"
-                        objectFit="contain"
-                    />
+                  <div style={{ position: 'absolute', top: '-60px', left: '-10px' }}>
+                    <Image src={logoSrc} alt="Sendero Logo" width={180} height={50} objectFit="contain" />
+                  </div>
 
                     <Stack spacing={2} style={{ paddingTop: '100px', paddingLeft: '40px', paddingBottom: '40px' }}>
                         <Typography
@@ -45,7 +40,7 @@ export const HomeCta: FC = () => {
                             variant="h3"
                             style={{ paddingBottom: '20px', paddingTop: '20px' }}
                         >
-          Estás planeando para el futuro o para el momento actual?
+          Estás planeando para el futuro?
         </Typography>
         <Typography
           align="center"
@@ -73,22 +68,31 @@ export const HomeCta: FC = () => {
           Funeraria Sendero, saben lo crucial que es ofrecer un servicio de primera y estar disponibles cuando más los necesitas
         </Typography>
       </Stack>
-      <Stack
-        alignItems="center"
-        direction="row"
-        justifyContent="center"
-        spacing={2}
-        sx={{ mt: 3 }}
-      >
-        <Button
-          component="a"
-          href="https://www.funerariasendero.cl/"
-          target="_blank"
-          variant="contained"
-        >
-         Visita
-        </Button>
-      </Stack>
+                  <Stack
+                    alignItems="center"
+                    direction="row"
+                    justifyContent="center"
+                    spacing={2}
+                    sx={{ mt: 7 }}
+                  >
+                    <Button
+                      component="a"
+                      href="https://www.funerariasendero.cl/"
+                      target=""
+                      variant="outlined"
+                      sx={{
+                        fontSize: '18px',  // Text size
+                        width: '110px',  // Make the button wider
+                        padding: '5px 16px',
+                        borderColor: 'yourBorderColor',
+                        borderWidth: 2,
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      Visita
+                    </Button>
+
+                  </Stack>
                 </Box>
     </Container>
 </Box>

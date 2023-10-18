@@ -48,10 +48,10 @@ export const HomeCaps: React.FC = () => {
         <Container maxWidth="lg">
 
 
-            <Typography variant="h4" sx={{ paddingTop: '100px', paddingBottom: '15px', textAlign: 'center' }}>
+            <Typography variant="h4" sx={{ paddingTop: '100px', paddingBottom: '20px', textAlign: 'center' }}>
                 Descubre nuestras cápsulas virtuales
             </Typography>
-            <Typography variant="subtitle2" sx={{ paddingTop: '8px', paddingBottom: '10px', textAlign: 'left' }}>
+            <Typography variant="subtitle1" sx={{ paddingTop: '8px', paddingBottom: '10px', textAlign: 'left' }}>
                 Nuestras cápsulas virtuales no sólo preservan tus recuerdos, sino que también los inmortalizan como NFT en la blockchain, asegurando que tu memoria virtual perdure aún más en el tiempo.
             </Typography>
 

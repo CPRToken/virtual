@@ -25,20 +25,22 @@ interface Feature {
 const features: Feature[] = [
     {
         id: 'experts',
-        title: ' Estás planeando para el futuro o para el momento actual?',
+        title: ' Estás planeando para el futuro?',
         description: "Obtén un Presupuesto para un Funeral, y un Funeral Virtual.",
         imageDark: '/assets/parque.jpg',
         imageLight: '/assets/parque.jpg',
-        width: 500,  // Add width
-        height: 300,  // Add height
+        width: 530,  // Add width
+        height: 330,  // Add height
     },
   {
     id: 'figma',
     title: 'Crematorio Sendero',
     description:
-      "Ofrecemos una variedad de categorías de ánforas, pensadas para satisfacer las necesidades de cada tipo de familia..",
+      "Ofrecemos una variedad de categorías de ánforas, pensadas para satisfacer las necesidades de cada familia.",
     imageDark: '/assets/cremation.png',
     imageLight: '/assets/cremation.png',
+    width: 530,  // Add width
+    height: 330,  //
   },
   {
     id: 'tech',
@@ -47,6 +49,8 @@ const features: Feature[] = [
       'Construido con tecnologías modernas, hemos utilizado las últimas tendencias en desarrollo web para asegurar rapidez, elegancia y escalabilidad',
     imageDark: '/assets/park.png',
     imageLight: '/assets/park.png',
+    width: 530,  // Add width
+    height: 330,  //
   },
 
 ];
@@ -71,13 +75,12 @@ export const HomeSendero: FC = () => {
     >
       <Container maxWidth="lg">
         <Box position="relative">
-            <Image
-                src={logoSrc}
-                alt="Sendero Logo"
-                layout="fill"
-                objectFit="contain"
-            />
-        <Stack
+          <div style={{ position: 'absolute', top: '-90px', left: '-10px' }}>
+            <Image src={logoSrc} alt="Sendero Logo" width={185} height={50} objectFit="contain" />
+          </div>
+
+
+          <Stack
           spacing={2}
           sx={{ mb: 8 }}
         >
@@ -99,13 +102,13 @@ export const HomeSendero: FC = () => {
         <Grid
           alignItems="center"
           container
-          spacing={3}
+          spacing={4}
         >
           <Grid
             xs={12}
             md={6}
           >
-            <Stack spacing={1}>
+            <Stack spacing={2}>
               {features.map((feature, index) => {
                 const isActive = activeFeature === index;
 
@@ -183,18 +186,21 @@ export const HomeSendero: FC = () => {
             direction="row"
             justifyContent="center"
             spacing={2}
-            sx={{ mt: 7 }}
+            sx={{ mt: 9, mb: -3 }}
         >
           <Button
-              component="a"
-              href="https://www.funerariasendero.cl/"
-              target=""
-              variant="outlined"
-              sx={{
-                borderColor: 'yourBorderColor',
-                borderWidth: 2, // Increase outline width
-                fontWeight: 'bold' // Make font bold
-              }}
+            component="a"
+            href="https://www.funerariasendero.cl/"
+            target=""
+            variant="outlined"
+            sx={{
+              fontSize: '17px',  // Text size
+              width: '110px',  // Make the button wider
+              padding: '5px 16px',
+              borderColor: 'yourBorderColor',
+              borderWidth: 2,
+              fontWeight: 'bold'
+            }}
           >
             Visita
           </Button>
