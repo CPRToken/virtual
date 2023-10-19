@@ -101,7 +101,8 @@ export const useSections = () => {
                   path: paths.dashboard.customers.index,
                   icon: <SvgIcon fontSize="small"><Users03Icon /></SvgIcon>,
                   items: [
-                    { title: t(tokens.nav.list), path: paths.dashboard.customers.index },
+                    { title: t(tokens.nav.list),
+                      path: paths.dashboard.customers.index },
                   ],
                 },
                 {
@@ -116,21 +117,24 @@ export const useSections = () => {
             },
             {
               title: t(tokens.nav.auth),
-              path: paths.dashboard.authDemo,
-              icon: <SvgIcon fontSize="small"><Lock01Icon /></SvgIcon>,
+              icon: (
+                  <SvgIcon fontSize="small"><Lock01Icon /></SvgIcon>
+              ),
               items: [
                 {
                   title: t(tokens.nav.login),
                   items: [
-                    { title: 'Classic', path: paths.dashboard.authDemo.login.classic },
-                    { title: 'Modern', path: paths.dashboard.authDemo.login.modern },
+                    { title: 'Classic',
+                      path: paths.authDemo.login.classic },
+                    { title: 'Modern',
+                      path: paths.authDemo.login.modern },
                   ],
                 },
                 {
                   title: t(tokens.nav.register),
                   items: [
-                    { title: 'Classic', path: paths.dashboard.authDemo.register.classic },
-                    { title: 'Modern', path: paths.dashboard.authDemo.register.modern },
+                    { title: 'Classic', path: paths.authDemo.register.classic },
+                    { title: 'Modern', path: paths.authDemo.register.modern },
                   ],
                 },
 
@@ -138,22 +142,22 @@ export const useSections = () => {
               {
                 title: t(tokens.nav.forgotPassword),
                 items: [
-                  { title: 'Classic', path: paths.dashboard.authDemo.forgotPassword.classic },
-                  { title: 'Modern', path: paths.dashboard.authDemo.forgotPassword.modern },
+                  { title: 'Classic', path: paths.authDemo.forgotPassword.classic },
+                  { title: 'Modern', path: paths.authDemo.forgotPassword.modern },
                 ],
               },
               {
                 title: t(tokens.nav.resetPassword),
                 items: [
-                  { title: 'Classic', path: paths.dashboard.authDemo.resetPassword.classic },
-                  { title: 'Modern', path: paths.dashboard.authDemo.resetPassword.modern },
+                  { title: 'Classic', path: paths.authDemo.resetPassword.classic },
+                  { title: 'Modern', path: paths.authDemo.resetPassword.modern },
                 ],
               },
               {
                 title: t(tokens.nav.verifyCode),
                 items: [
-                  { title: 'Classic', path: paths.dashboard.authDemo.verifyCode.classic },
-                  { title: 'Modern', path: paths.dashboard.authDemo.verifyCode.modern },
+                  { title: 'Classic', path: paths.authDemo.verifyCode.classic },
+                  { title: 'Modern', path: paths.authDemo.verifyCode.modern },
                 ],
               },
 
