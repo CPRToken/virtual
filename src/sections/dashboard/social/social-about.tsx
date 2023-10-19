@@ -115,7 +115,8 @@ export const SocialAbout: FC<SocialAboutProps> = (props) => {
                     primary={
 
                       <Typography variant="subtitle2">
-                        {placesWorked} Worked at {placesWorked}
+                        Lugares donde trabajé: <br />
+                        {placesWorked}
                         <Link
                             color="text.primary"
                             href="#"
@@ -130,7 +131,7 @@ export const SocialAbout: FC<SocialAboutProps> = (props) => {
                           color="text.primary"
                           variant="subtitle2"
                       >
-                        Past: {}{' '}
+
                         <Link
                             color="text.secondary"
                             href="#"
@@ -159,8 +160,9 @@ export const SocialAbout: FC<SocialAboutProps> = (props) => {
                           sx={{ cursor: 'pointer' }}
                           variant="body2"
                       >
-                        Attended: {highSchool} <br />
-                        College:  {university}
+                        Escuelas:  <br />
+                        Liceo: {highSchool} <br />
+                        Universidad:  {university}
                       </Link>
                     }
                 />

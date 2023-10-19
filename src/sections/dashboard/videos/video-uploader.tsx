@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc, getDoc, serverTimestamp} from 'firebase/firestore';
 import { auth, db, storage } from 'src/libs/firebase';
 import { Videos, VideoDropzone } from './video-dropzone';
-
 import { DetailsCard } from './details-card';
 import { PrivacyCard } from "./privacy-card";
 import { Box, Dialog, DialogContent, IconButton, Stack, SvgIcon } from '@mui/material';
@@ -183,7 +182,7 @@ const { onClose, open = false, onUpload, onUploadSuccess, sharedEmails } = props
 
               caption="Max file size is 3 MB"
               files={files}
-
+              onDrop={handleDrop}
               onRemove={handleRemove}
               onRemoveAll={handleRemoveAll}
               videoLink={videoLink}

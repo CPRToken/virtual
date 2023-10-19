@@ -22,6 +22,7 @@ export type Videos = FileWithPath;
 interface VideosDropzoneProps extends DropzoneOptions {
     caption?: string;
     files?: Videos[];
+    onDrop?: (files: Videos[]) => void;
     accept?: Accept;
     onRemove?: (file: Videos) => void;
     onRemoveAll?: () => void;

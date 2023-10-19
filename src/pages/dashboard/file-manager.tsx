@@ -14,7 +14,6 @@ import { useMounted } from 'src/hooks/use-mounted';
 import { usePageView } from 'src/hooks/use-page-view';
 import { useSettings } from 'src/hooks/use-settings';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-
 import { ItemList } from 'src/sections/dashboard/file-manager/item-list';
 import { ItemSearch } from 'src/sections/dashboard/file-manager/item-search';
 import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats';
@@ -191,6 +190,8 @@ const useCurrentItem = (items: Item[], itemId?: string): Item | undefined => {
 
 const Page: NextPage = () => {
   const router = useRouter()
+  const folderIds = router.query?.folderId ?? [];
+  const folderId = folderIds[folderIds.length -1]
     const { t } = useTranslation();
   const user = auth.currentUser;
   const uid = user ? user.uid : null;
@@ -202,8 +203,9 @@ const Page: NextPage = () => {
   const [view, setView] = useState<View>('grid');
     useDialog();
     const detailsDialog = useDialog<string>();
-    useCurrentItem(itemsStore.items, detailsDialog.data);
-    const [, setUserUrl] = useState('');
+
+  const currentItem = useCurrentItem(itemsStore.items, detailsDialog.data);
+  const [userUrl, setUserUrl] = useState('');
 
 
     useEffect(() => {

@@ -21,14 +21,11 @@ import type { Item } from 'src/types/file-manager';
 import { bytesToSize } from 'src/utils/bytes-to-size';
 import { ItemIcon } from './item-icon';
 import { ItemMenu } from './item-menu';
-import { Timestamp} from "@firebase/firestore";
+
 
 
 interface ItemListCardProps {
   item: Item;
-name?: string;
-size?: number;
-createdAt?: Timestamp | null;
   onDelete?: (itemId: string) => void;
   onShare?: (itemId: string) => void;
   onFavorite?: (itemId: string, value: boolean) => void;
@@ -55,10 +52,7 @@ export const ItemListCard: FC<ItemListCardProps> = (props) => {
         size += `• ${item.itemsCount} items`;
     }
 
-    const createdAt = item.createdAt ? format(new Date(item.createdAt), 'MMM dd, yyyy') : 'N/A';
 
-
-    const showShared = !item.isPublic && (item.shared || []).length > 0;
 
   return (
     <>
@@ -147,45 +141,21 @@ export const ItemListCard: FC<ItemListCardProps> = (props) => {
                 variant="body2"
               >
 
-                <span>Size: {size}</span>
+                <span>Porte: {size}</span>
               </Typography>
             </div>
             <div>
-              {item.isPublic && (
-                <Tooltip title="Public">
-                  <Avatar
-                    sx={{
-                      height: 32,
-                      width: 32,
-                    }}
-                  >
-                    <SvgIcon fontSize="small">
-                      <Globe01Icon />
-                    </SvgIcon>
-                  </Avatar>
-                </Tooltip>
-              )}
-              {showShared && (
-                <AvatarGroup max={3}>
-                  {item.shared?.map((person) => (
-                    <Avatar
-                      key={person.name}
-                      src={person.avatar}
-                      sx={{
-                        height: 32,
-                        width: 32,
-                      }}
-                    />
-                  ))}
-                </AvatarGroup>
-              )}
+              {item.isPublic}
+
+
+
             </div>
           </Stack>
           <Typography
             color="text.secondary"
             variant="caption"
           >
-            Created at {createdAt}
+
           </Typography>
         </Box>
       </Card>

@@ -128,7 +128,7 @@ const Page: NextPage = () => {
                                         }
                                         variant="contained"
                                     >
-                                        Upload Document
+                                        Subir documento
                                     </Button>
                                 </Stack>
                             </Stack>

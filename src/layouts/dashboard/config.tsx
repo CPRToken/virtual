@@ -3,17 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@mui/material/SvgIcon';
 import { useEffect, useMemo, useState } from 'react';
-
-
-
 import File01Icon from 'src/icons/untitled-ui/duocolor/file-01';
-
 import HomeSmileIcon from 'src/icons/untitled-ui/duocolor/home-smile';
-
-
 import Lock01Icon from 'src/icons/untitled-ui/duocolor/lock-01';
-
-
 import Upload04Icon from 'src/icons/untitled-ui/duocolor/upload-04';
 import Users03Icon from 'src/icons/untitled-ui/duocolor/users-03';
 import XSquareIcon from 'src/icons/untitled-ui/duocolor/x-square';
@@ -21,7 +13,6 @@ import { tokens } from 'src/locales/tokens';
 import { paths } from 'src/paths';
 import { db, auth } from 'src/libs/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-
 
 
 
@@ -69,26 +60,25 @@ export const useSections = () => {
   }, [currentUser]);
 
 
+
+
+
   return useMemo(() => {
     return [
       {
+        subheader: t(tokens.nav.dashboard),
         items: [
           {
             title: t(tokens.nav.overview),
             path: paths.dashboard.index,
             icon: <SvgIcon fontSize="small"><HomeSmileIcon /></SvgIcon>,
           },
-
           {
             title: t(tokens.nav.account),
             path: paths.dashboard.account,
             icon: <SvgIcon fontSize="small"><HomeSmileIcon /></SvgIcon>,
           },
-
-
           {
-
-
             title: t(tokens.nav.profile),
             path: `/dashboard/${userUrl}`,
             icon: <SvgIcon fontSize="small"><Upload04Icon /></SvgIcon>,
@@ -98,83 +88,75 @@ export const useSections = () => {
             path: paths.dashboard.fileManager,
             icon: <SvgIcon fontSize="small"><Upload04Icon /></SvgIcon>,
           },
+        ],
+      },
 
-          ...(userRole === 'admin' ? [
+      ...(userRole.includes('admin')
+          ? [
             {
-              title: t(tokens.nav.customers),
-              path: paths.dashboard.customers.index,
-              icon: <SvgIcon fontSize="small"><Users03Icon /></SvgIcon>,
+              subheader: t(tokens.nav.pages),
               items: [
-                { title: t(tokens.nav.list), path: paths.dashboard.customers.index },
-
-              ],
-            },
-            {
+                {
+                  title: t(tokens.nav.customers),
+                  path: paths.dashboard.customers.index,
+                  icon: <SvgIcon fontSize="small"><Users03Icon /></SvgIcon>,
+                  items: [
+                    { title: t(tokens.nav.list), path: paths.dashboard.customers.index },
+                  ],
+                },
+                {
               title: t(tokens.nav.capsules),
               path: paths.dashboard.capsules.index,
               icon: <SvgIcon fontSize="small"><File01Icon /></SvgIcon>,
             },
-
             {
               title: t(tokens.nav.postCreate),
               path: paths.dashboard.capsules.postCreate,
               icon: <SvgIcon fontSize="small"><Users03Icon /></SvgIcon>,
             },
-          ] : [])
-        ],
-        subheader: t(tokens.nav.dashboard),
-      },
-      ...(userRole === 'admin'
-        ? [
-          {
-            subheader: t(tokens.nav.pages), // This should appear now
-            items: [
-              {
-                title: t(tokens.nav.auth),
-            subheader: t(tokens.nav.pages),
+            {
+              title: t(tokens.nav.auth),
+              path: paths.dashboard.authDemo,
+              icon: <SvgIcon fontSize="small"><Lock01Icon /></SvgIcon>,
+              items: [
+                {
+                  title: t(tokens.nav.login),
+                  items: [
+                    { title: 'Classic', path: paths.dashboard.authDemo.login.classic },
+                    { title: 'Modern', path: paths.dashboard.authDemo.login.modern },
+                  ],
+                },
+                {
+                  title: t(tokens.nav.register),
+                  items: [
+                    { title: 'Classic', path: paths.dashboard.authDemo.register.classic },
+                    { title: 'Modern', path: paths.dashboard.authDemo.register.modern },
+                  ],
+                },
 
 
-
-            icon: <SvgIcon fontSize="small"><Lock01Icon /></SvgIcon>,
-            items: [
-              {
-
-                title: t(tokens.nav.login),
-                items: [
-                  { title: 'Classic', path: paths.authDemo.login.classic },
-                  { title: 'Modern', path: paths.authDemo.login.modern },
-                ],
-              },
-              {
-                title: t(tokens.nav.register),
-                items: [
-                  { title: 'Classic', path: paths.authDemo.register.classic },
-                  { title: 'Modern', path: paths.authDemo.register.modern },
-                ],
-              },
               {
                 title: t(tokens.nav.forgotPassword),
                 items: [
-                  { title: 'Classic', path: paths.authDemo.forgotPassword.classic },
-                  { title: 'Modern', path: paths.authDemo.forgotPassword.modern },
+                  { title: 'Classic', path: paths.dashboard.authDemo.forgotPassword.classic },
+                  { title: 'Modern', path: paths.dashboard.authDemo.forgotPassword.modern },
                 ],
               },
               {
                 title: t(tokens.nav.resetPassword),
                 items: [
-                  { title: 'Classic', path: paths.authDemo.resetPassword.classic },
-                  { title: 'Modern', path: paths.authDemo.resetPassword.modern },
+                  { title: 'Classic', path: paths.dashboard.authDemo.resetPassword.classic },
+                  { title: 'Modern', path: paths.dashboard.authDemo.resetPassword.modern },
                 ],
               },
               {
                 title: t(tokens.nav.verifyCode),
                 items: [
-                  { title: 'Classic', path: paths.authDemo.verifyCode.classic },
-                  { title: 'Modern', path: paths.authDemo.verifyCode.modern },
+                  { title: 'Classic', path: paths.dashboard.authDemo.verifyCode.classic },
+                  { title: 'Modern', path: paths.dashboard.authDemo.verifyCode.modern },
                 ],
               },
-            ],
-          },
+
           {
             title: t(tokens.nav.error),
             icon: <SvgIcon fontSize="small"><XSquareIcon /></SvgIcon>,
@@ -183,11 +165,18 @@ export const useSections = () => {
               { title: '404', path: paths.notFound },
               { title: '500', path: paths.serverError },
             ],
-          },
+
+            },
             ],
-          },
-        ]
-        : []),
+            },
+            ],
+            },
+            ]
+            : []),
     ];
-  }, [t, userRole, userUrl]);  // Included userUrl in the dependency array
-};
+    }
+    , [t, userRole, userUrl]);
+}
+
+
+

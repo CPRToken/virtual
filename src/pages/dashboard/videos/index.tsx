@@ -138,7 +138,7 @@ const Page: NextPage = () => {
                               }
                           }}
                       >
-                          Upload Video
+                          Subir Video
                       </Button>
                   </Stack>
               </Stack>

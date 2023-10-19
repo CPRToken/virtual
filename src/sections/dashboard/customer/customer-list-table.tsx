@@ -120,18 +120,20 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                   }}
                 />
               </TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Orders</TableCell>
-              <TableCell>Spent</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell>Detalles</TableCell>
+
+               <TableCell>Nombre</TableCell>
+              <TableCell>Origen y Escuelas</TableCell>
+
+              <TableCell align="right">Equipo</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((customer) => {
                 const isSelected = selected.indexOf(customer.id) !== -1;
-              const location = `${customer.city}, ${customer.state}, ${customer.country}`;
-              const totalSpent = numeral(customer.totalSpent).format(`${customer.currency}0,0.00`);
+                const name = `${customer.firstName} ${customer.lastName}`;
+                const location = `${customer.originCity}, ${customer.university}, ${customer.highSchool}`;
+              const team = `${customer.team} `;
 
               return (
                   // eslint-disable-next-line react/jsx-key
@@ -145,6 +147,7 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
 
                     />
                   </TableCell>
+
                   <TableCell>
                     <Stack
                       alignItems="center"
@@ -154,8 +157,8 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                       <Avatar
                         src={customer.avatar}
                         sx={{
-                          height: 42,
-                          width: 42,
+                          height: 44,
+                          width: 44,
                         }}
                       >
                         {getInitials(customer.name)}
@@ -167,7 +170,7 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                           href={paths.dashboard.customers.details}
                           variant="subtitle2"
                         >
-                          {customer.name}
+
                         </Link>
                         <Typography
                           color="text.secondary"
@@ -177,29 +180,14 @@ export const CustomerListTable: FC<CustomerListTableProps> = (props) => {
                         </Typography>
                       </div>
                     </Stack>
-                  </TableCell>
+                  </TableCell> <TableCell>{name}</TableCell>
+
                   <TableCell>{location}</TableCell>
-                  <TableCell>{customer.totalOrders}</TableCell>
-                  <TableCell>
-                    <Typography variant="subtitle2">{totalSpent}</Typography>
-                  </TableCell>
+
+
+
                   <TableCell align="right">
-                    <IconButton
-                      component={RouterLink}
-                      href={paths.dashboard.customers.edit}
-                    >
-                      <SvgIcon>
-                        <Edit02Icon />
-                      </SvgIcon>
-                    </IconButton>
-                    <IconButton
-                      component={RouterLink}
-                      href={paths.dashboard.customers.details}
-                    >
-                      <SvgIcon>
-                        <ArrowRightIcon />
-                      </SvgIcon>
-                    </IconButton>
+                    {team}
                   </TableCell>
                 </TableRow>
               );

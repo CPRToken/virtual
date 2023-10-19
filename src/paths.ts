@@ -76,6 +76,31 @@ export const paths = {
     },
 
 
+      authDemo: {
+          forgotPassword: {
+              classic: '/auth-demo/forgot-password/classic',
+              modern: '/auth-demo/forgot-password/modern',
+          },
+          login: {
+              classic: '/auth-demo/login/classic',
+              modern: '/auth-demo/login/modern',
+          },
+          register: {
+              classic: '/auth-demo/register/classic',
+              modern: '/auth-demo/register/modern',
+          },
+          resetPassword: {
+              classic: '/auth-demo/reset-password/classic',
+              modern: '/auth-demo/reset-password/modern',
+          },
+          verifyCode: {
+              classic: '/auth-demo/verify-code/classic',
+              modern: '/auth-demo/verify-code/modern',
+          },
+      },
+
+
+
     products: {
       index: '/dashboard/products',
       create: '/dashboard/products/create',

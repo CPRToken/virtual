@@ -1,12 +1,13 @@
 import type { ChangeEvent, MouseEvent } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-
+import { useTranslation } from 'react-i18next';
 import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01';
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
+
 import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { tokens } from 'src/locales/tokens';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -18,7 +19,6 @@ import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { CustomerListSearch } from 'src/sections/dashboard/customer/customer-list-search';
 import { CustomerListTable } from 'src/sections/dashboard/customer/customer-list-table';
-
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "../../../libs/firebase";
 
@@ -125,7 +125,7 @@ const Page: NextPage = () => {
 
   const usersSearch = useUsersSearch();
   const usersSelection = useSelection();
-  const [usersStore, setUsersStore] = useState<UserStoreState>({ users: [], usersCount: 0 });
+    const { t } = useTranslation();
 
   const router = useRouter();
   const [users, setUsers] = useState<any[]>([]);
@@ -164,7 +164,8 @@ const Page: NextPage = () => {
                   spacing={4}
               >
                 <Stack spacing={1}>
-                  <Typography variant="h4">Customers</Typography>
+                  <Typography variant="h4">{t(tokens.nav.customers)}</Typography>
+
                   <Stack
                       alignItems="center"
                       direction="row"
@@ -194,22 +195,7 @@ const Page: NextPage = () => {
                     </Button>
                   </Stack>
                 </Stack>
-                <Stack
-                    alignItems="center"
-                    direction="row"
-                    spacing={3}
-                >
-                  <Button
-                      startIcon={
-                        <SvgIcon>
-                          <PlusIcon />
-                        </SvgIcon>
-                      }
-                      variant="contained"
-                  >
-                    Add
-                  </Button>
-                </Stack>
+
               </Stack>
               <Card>
                 <CustomerListSearch

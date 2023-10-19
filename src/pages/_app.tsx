@@ -85,6 +85,7 @@ const CustomApp = (props: CustomAppProps) => {
 
                       return (
                         <ThemeProvider theme={theme}>
+
                           <Head>
                             <meta
                               name="color-scheme"
