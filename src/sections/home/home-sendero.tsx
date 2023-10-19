@@ -29,8 +29,8 @@ const features: Feature[] = [
         description: "Obtén un Presupuesto para un Funeral, y un Funeral Virtual.",
         imageDark: '/assets/parque.jpg',
         imageLight: '/assets/parque.jpg',
-        width: 530,  // Add width
-        height: 330,  // Add height
+        width: 550,  // Add width
+        height: 350,
     },
   {
     id: 'figma',
@@ -39,8 +39,8 @@ const features: Feature[] = [
       "Ofrecemos una variedad de categorías de ánforas, pensadas para satisfacer las necesidades de cada familia.",
     imageDark: '/assets/cremation.png',
     imageLight: '/assets/cremation.png',
-    width: 530,  // Add width
-    height: 330,  //
+      width: 550,  // Add width
+      height: 350,  //
   },
   {
     id: 'tech',
@@ -49,8 +49,8 @@ const features: Feature[] = [
       'Construido con tecnologías modernas, hemos utilizado las últimas tendencias en desarrollo web para asegurar rapidez, elegancia y escalabilidad',
     imageDark: '/assets/park.png',
     imageLight: '/assets/park.png',
-    width: 530,  // Add width
-    height: 330,  //
+      width: 550,  // Add width
+      height: 350,
   },
 
 ];
@@ -142,15 +142,24 @@ export const HomeSendero: FC = () => {
                   >
                     <Typography
                       color="inherit"
-                      sx={{ mb: 1 }}
-                      variant="h6"
-                    >
+                      variant="h3"
+                      sx={{
+                          paddingTop: '8px',
+                          paddingBottom: '10px',
+                          textAlign: 'left',
+                          fontSize: { xs: '1.4rem', sm: '1.2rem' }  // Add this line
+                      }}>
                       {feature.title}
                     </Typography>
                     <Typography
                       color="inherit"
-                      variant="body2"
-                    >
+                      variant="body1"
+                      sx={{
+                          paddingTop: '8px',
+                          paddingBottom: '10px',
+                          textAlign: 'left',
+                          fontSize: { xs: '1.3rem', sm: '1rem' }  // Add this line
+                      }}>
                       {feature.description}
                     </Typography>
                     {feature.id === 'figma' && (

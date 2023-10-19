@@ -56,7 +56,7 @@ const CustomApp = (props: CustomAppProps) => {
         <title>Virtual Eternity</title>
         <meta
           name="viewport"
-          content="initial-scale=0.8, width=device-width"
+          content="initial-scale=0.9, width=device-width"
         />
       </Head>
 

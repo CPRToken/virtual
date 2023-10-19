@@ -60,45 +60,52 @@ export const PostCard: FC<PostCardProps> = (props) => {
 
 
   return (
-
-      <Card {...other} sx={{ width: '100%', height: '100%' }}>
-
-
-
-      <CardMedia
-              component={RouterLink}
-              href={paths.dashboard.capsules.postDetails}
-              image={cover}
-              sx={{ height: 200, paddingBottom: '-20px' }}
+      <Card {...other} sx={{ width: '100%', height: { xs: '100%', md: '100%' } }}>
+        <CardMedia
+            component={RouterLink}
+            href={paths.dashboard.capsules.postDetails}
+            image={cover}
+            sx={{ height: { xs: 90, md: 200 }, paddingBottom: '0px' }}
         />
         <CardContent>
-          <Stack alignItems="center"
-                 direction="column"
-                 spacing={2}
-                 sx={{ padding: '0px' }}>
-            <Box sx={{ paddingTop: '-20px', paddingBottom: '-15px', paddingLeft: '4px', paddingRight: '4px' }}>
-              <Avatar src={avatar}
-                      sx={{ width: 150, height: 150 }}>{getInitials(name)}</Avatar>
+          <Stack alignItems="center" direction="column" spacing={2} sx={{ padding: '0px' }}>
+            <Box sx={{
+              paddingTop: { xs: '-20px', md: '0px' },
+              paddingBottom: { xs: '0px', md: '0px' },
+              paddingLeft: '4px',
+              paddingRight: '4px'
+            }}>
+              <Avatar src={avatar} sx={{
+                width: { xs: 100, md: 150 },
+                height: { xs: 100, md: 150 }
+              }}>
+
+              </Avatar>
             </Box>
             <Typography variant="subtitle2"
-                        sx={{ padding: '8px' }}>
+                sx={{
+                  padding: '8px',
+                  fontSize: { xs: '1.1rem', sm: '1rem' }
+                }}>
               {dob} - {dod}
             </Typography>
           </Stack>
           <Link
               color="text.primary"
-              variant="h5"
-              sx={{ paddingTop: '0px', paddingBottom: '10px', paddingLeft: '4px', paddingRight: '4px' }}
+              variant="h6"
+              sx={{ paddingTop: '0px', paddingBottom: '20px', paddingLeft: '4px', paddingRight: '4px' }}
           >
             {name}
           </Link>
           <Typography
               color="text.secondary"
               sx={{
-
                 mt: 1,
-
-                paddingTop: '4px', paddingBottom: '0px', paddingLeft: '2px', paddingRight: '2px'
+                paddingTop: '4px',
+                paddingBottom: '0px',
+                paddingLeft: '2px',
+                paddingRight: '2px',
+                fontSize: { xs: '0.9rem', sm: '0.9rem' }
               }}
               variant="body2"
           >

@@ -23,7 +23,7 @@ interface Cap {
 export const HomeCaps: React.FC = () => {
 
     const [caps, setCaps] = useState<Cap[]>([]);
-
+    const numberOfItems = window.innerWidth <= 600 ? 4 : 6;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,23 +48,30 @@ export const HomeCaps: React.FC = () => {
         <Container maxWidth="lg">
 
 
-            <Typography variant="h4" sx={{ paddingTop: '100px', paddingBottom: '20px', textAlign: 'center' }}>
+            <Typography variant="h3" sx={{ paddingTop: '100px', paddingBottom: '20px', textAlign: 'center' }}>
                 Descubre nuestras cápsulas virtuales
             </Typography>
-            <Typography variant="subtitle1" sx={{ paddingTop: '8px', paddingBottom: '10px', textAlign: 'left' }}>
-                Nuestras cápsulas virtuales no sólo preservan tus recuerdos, sino que también los inmortalizan como NFT en la blockchain, asegurando que tu memoria virtual perdure aún más en el tiempo.
+            <Typography
+                variant="subtitle1"
+                        sx={{
+                            paddingTop: '8px',
+                            paddingBottom: '10px',
+                            textAlign: 'left',
+                            fontSize: { xs: '1.3rem', sm: '1.2rem' }  // Add this line
+                        }}>
+                No sólo preservan tus recuerdos, sino que también los inmortalizan como NFT en la blockchain, asegurando que tu memoria virtual perdure aún más en el tiempo.
             </Typography>
+
+
 
             <Grid container spacing={4} sx={{ paddingLeft: '0px', paddingRight: '0px', paddingTop: '50px',  paddingBottom: '10px', marginTop: '15px', marginBottom: '50px' }}>
 
-
-
-                {caps.slice(0, 6).map((cap, index) => {
+                {caps.slice(0, numberOfItems).map((cap, index) => {
                     const formattedDob = cap.dob.toDate().getFullYear(); // <-- Format the date here
 
 
                     return (
-                        <Grid key={index} xs={12} md={4} sx={{ padding: 2 }}>
+                        <Grid key={index} xs={6} md={4} sx={{ padding: 2 }}>
                             <PostCard
                                 avatar={cap.avatar}
                                 name={cap.name}
@@ -74,7 +81,11 @@ export const HomeCaps: React.FC = () => {
                                 originCity={cap.originCity}
                                 quote={cap.quote}
                                 gender={cap.gender}
-                                sx={{ maxHeight: '150px', width: '90%' }}
+                                sx={{
+                                    maxHeight: { xs: '80px', sm: 'auto' },
+                                    minHeight: { xs: '80px', sm: 'auto' },
+                                    width: '100%'
+                                }}
                                 // <-- Set a fixed width here
                             />
                         </Grid>

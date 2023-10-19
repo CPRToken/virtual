@@ -44,6 +44,7 @@ export const HomeHero: FC = () => {
                           component="span"
                           color="primary.main"
                           variant="inherit"
+
                       ><br />
                           Recuerdos duraderos
                       </Typography>  <br />
@@ -52,7 +53,7 @@ export const HomeHero: FC = () => {
                   <Typography
                       color="text.primary"
                       sx={{
-                          fontSize:19,
+                          fontSize: { xs: '1.5rem', sm: '1.2rem' },  // Change these sizes as needed
                           fontWeight: 500,
                       }}
                   >
@@ -79,7 +80,9 @@ export const HomeHero: FC = () => {
               component={RouterLink}
               href={paths.auth.firebase.register}
 
-              sx={(theme) =>
+              sx={(theme) => ({
+                  fontSize: { xs: '1.1rem', sm: '0.9rem' },  // Add this line for font size
+                  ...(
                 theme.palette.mode === 'dark'
                   ? {
                       backgroundColor: 'neutral.50',
@@ -95,7 +98,8 @@ export const HomeHero: FC = () => {
                         backgroundColor: 'neutral.700',
                       },
                     }
-              }
+                  ),
+              })}
               variant="contained"
             >
               Registrar

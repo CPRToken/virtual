@@ -21,15 +21,15 @@ export const HomeCta: FC = () => {
                 backgroundSize: 'cover',
                 backgroundImage: 'linear-gradient(rgba(0, 0, 139, 0.30), rgba(0, 0, 139, 0.4)), url("/assets/parque.jpg")',
                 color: 'neutral.100',
-                pt: '80px',
-                pb: '120px',
-                height: '650px',
+                pt: '30px',
+                pb: '10px',
+                height: '750px',
                 width: '100%',
             }}
         >
             <Container maxWidth="lg">
                 <Box position="relative">
-                  <div style={{ position: 'absolute', top: '-60px', left: '-10px' }}>
+                  <div style={{ position: 'absolute', top: '-10px', left: '-10px' }}>
                     <Image src={logoSrc} alt="Sendero Logo" width={180} height={50} objectFit="contain" />
                   </div>
 
@@ -46,8 +46,12 @@ export const HomeCta: FC = () => {
           align="center"
           color="inherit"
           variant="subtitle1"
-          style={{ paddingBottom: '20px',whiteSpace: 'pre-line' ,  }}
-        >
+          sx={{
+              paddingTop: '0px',
+              paddingBottom: '-20px',
+              textAlign: 'left',
+              fontSize: { xs: '1.4rem', sm: '1.2rem' }  // Add this line
+          }}>
           Obtén un Presupuesto para un Funeral, y un Funeral Virtual.
           Consulta las opciones de precios para los servicios que necesitas.
         </Typography>
@@ -55,26 +59,34 @@ export const HomeCta: FC = () => {
           align="center"
           color="inherit"
           variant="subtitle1"
-          style={{ paddingBottom: '20px',whiteSpace: 'pre-line' }}
-        >
+          sx={{
+              paddingTop: '8px',
+              paddingBottom: '10px',
+              textAlign: 'left',
+              fontSize: { xs: '1.3rem', sm: '1.2rem' }  // Add this line
+          }}>
           En la Funeraria Sendero, tienen todo lo que se necesita para un adiós inolvidable para esa persona querida.
         </Typography>
         <Typography
           align="center"
           color="inherit"
           variant="subtitle1"
-          style={{ paddingBottom: '20px',whiteSpace: 'pre-line' }}
-        >
+          sx={{
+              paddingTop: '8px',
+              paddingBottom: '30px',
+              textAlign: 'left',
+              fontSize: { xs: '1.3rem', sm: '1.2rem' }  // Add this line
+          }}>
           Funeraria Sendero, saben lo crucial que es ofrecer un servicio de primera y estar disponibles cuando más los necesitas
         </Typography>
       </Stack>
-                  <Stack
-                    alignItems="center"
-                    direction="row"
-                    justifyContent="center"
-                    spacing={2}
-                    sx={{ mt: 7 }}
-                  >
+                    <Stack
+                        alignItems="center"
+                        direction="row"
+                        justifyContent="center"
+                        spacing={2}
+                        sx={{ mt: { xs: 2, md: 6 }, mb: { xs: 10, md: 7 } }}
+                    >
                     <Button
                       component="a"
                       href="https://www.funerariasendero.cl/"
