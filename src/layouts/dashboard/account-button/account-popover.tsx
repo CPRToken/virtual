@@ -92,14 +92,39 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
           disableScrollLock
           onClose={onClose}
           open={!!open}
-          PaperProps={{ sx: { width: 230 } }}
+          PaperProps={{
+            sx: {
+              width: {
+                xs: '250px', // Width for small screens
+                md: '250px', // Width for medium and up
+              },
+            }
+          }}
           {...other}
       >
         <Box sx={{ p: 2 }}>
-          <Typography variant="body2">{user?.name}</Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: {
+                xs: '21px',  // For small screens
+                md: '17px'  // For medium and up
+              }
+            }}
+          >
+            {user?.name}
+          </Typography>
+
           <Typography
               color="text.secondary"
               variant="body2"
+              sx={{
+                fontSize: {
+                  xs: '18px', // For phones or small screens
+                  sm: '15px', // For larger screens
+                  // Add more breakpoints as needed
+                },
+              }}
           >
             {user?.email}
           </Typography>
@@ -121,7 +146,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
                 <User03Icon />
               </SvgIcon>
             </ListItemIcon>
-            <ListItemText primary={<Typography variant="body1">{t('nav.profile')}</Typography>} />
+            <ListItemText primary={<Typography variant="body1" sx={{fontSize: { xs: '21px', md: '16px' }}}>{t('nav.profile')}</Typography>} />
           </ListItemButton>
           <ListItemButton
               component={RouterLink}
@@ -138,7 +163,7 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
                 <Settings04Icon />
               </SvgIcon>
             </ListItemIcon>
-            <ListItemText primary={<Typography variant="body1">{t('nav.settings')}</Typography>} />
+            <ListItemText primary={<Typography variant="body1" sx={{fontSize: { xs: '21px', md: '16px' }}}>{t('nav.settings')}</Typography>} />
           </ListItemButton>
           <ListItemButton
               component={RouterLink}
@@ -155,7 +180,21 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
                 <CreditCard01Icon />
               </SvgIcon>
             </ListItemIcon>
-            <ListItemText primary={<Typography variant="body1">{t('nav.billing')}</Typography>} />
+            <ListItemText primary={
+
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: {
+                    xs: '21px', // For phones or small screens
+                    sm: '16px', // For larger screens
+                    // Add more breakpoints as needed
+                  },
+                }}
+              >
+                {t('nav.billing')}
+              </Typography>
+            } />
           </ListItemButton>
         </Box>
         <Divider sx={{ my: '0 !important' }} />
@@ -167,12 +206,19 @@ export const AccountPopover: FC<AccountPopoverProps> = (props) => {
             }}
         >
           <Button
-              color="inherit"
-              onClick={handleLogout}
-              size="large"
+            color="inherit"
+            onClick={handleLogout}
+            size="large"
+            sx={{
+              fontSize: {
+                xs: '21px',  // For small screens
+                md: '15px'  // For medium and up
+              }
+            }}
           >
             {t(tokens.headings.logout)}
           </Button>
+
         </Box>
       </Popover>
   );

@@ -10,8 +10,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import type { Theme } from '@mui/material/styles/createTheme';
 import { useTheme } from '@mui/material/styles';
 
-
-import { RouterLink } from 'src/components/router-link';
 import { Scrollbar } from 'src/components/scrollbar';
 import { usePathname } from 'src/hooks/use-pathname';
 import { paths } from 'src/paths';
@@ -212,6 +210,13 @@ export const TopNav: FC<TopNavProps> = (props) => {
           alignItems="center"
           direction="row"
           spacing={2}
+          sx={{
+            fontSize: {
+              xs: '21px', // for phones or small screens
+              sm: '16px', // for larger screens
+              // Add more breakpoints as needed
+            },
+          }}
         >
           <LanguageSwitch />
 
