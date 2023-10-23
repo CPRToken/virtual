@@ -17,7 +17,7 @@ import { RouterLink } from 'src/components/router-link';
 
 import { usePathname } from 'src/hooks/use-pathname';
 import { useWindowScroll } from 'src/hooks/use-window-scroll';
-import Image from 'next/image';
+
 
 import { paths } from 'src/paths';
 
@@ -74,7 +74,6 @@ export const TopNav: FC<TopNavProps> = (props) => {
   });
 
     const { t } = useTranslation();
-    const { i18n } = useTranslation();
 
   return (
     <Box
@@ -165,27 +164,7 @@ export const TopNav: FC<TopNavProps> = (props) => {
                 component="nav"
                 sx={{ height: '100%' }}
               >
-                  <Box>
 
-
-
-                      <Stack direction="row" spacing={2} sx={{ padding: 2 }}>
-                          <Image
-                              src="/assets/flags/flag-uk.svg"
-                              alt="English"
-                              width={40}
-                              height={40}
-                              onClick={() => i18n.changeLanguage('en')}
-                          />
-                          <Image
-                              src="/assets/flags/flag-ch.svg"
-                              alt="Spanish"
-                              width={40}
-                              height={40}
-                              onClick={() => i18n.changeLanguage('es')}
-                          />
-                      </Stack>
-                  </Box>
 
                 <Stack
                   component="ul"

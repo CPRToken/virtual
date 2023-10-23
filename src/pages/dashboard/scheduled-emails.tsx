@@ -54,9 +54,8 @@ const ScheduledEmails: FC<NewOverviewScheduleProps> = (props) => {
                 </ListItem>
 
                 {schedules.map((message) => {
-                    const createdDate = new Date(message.createdAt).toLocaleString();
-                    const scheduledDate = new Date(message.scheduleDate).toLocaleString();
-
+                    const createdDate = new Date((message.createdAt as any).seconds * 1000);
+                    const scheduledDate = new Date((message.scheduleDate as any).seconds * 1000);
                     return (
                         <ListItem key={message.id} style={{ display: 'flex', padding: '10px' }}>
                             <ListItemText style={{ width: '15%', paddingRight: '5px', textAlign: 'left' }}

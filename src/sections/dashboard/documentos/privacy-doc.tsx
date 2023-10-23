@@ -1,11 +1,10 @@
 import React, {FC, useEffect, useState} from 'react';
-
-import { RadioGroup, FormControlLabel, Radio, TextField, Button, Box, Typography, FilledTextFieldProps, OutlinedTextFieldProps, StandardTextFieldProps, TextFieldVariants} from '@mui/material';
+import { RadioGroup, FormControlLabel, Radio, TextField, Button, Box, Typography} from '@mui/material';
 import {Chip, Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import '@mui/material/styles';
 import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
-import {addDoc, collection, serverTimestamp} from 'firebase/firestore';
+import {addDoc, collection, serverTimestamp , Timestamp} from 'firebase/firestore';
 import {socialApi} from "src/api/social/socialApi";
 import type {Profile} from 'src/types/social';
 import {db, auth} from 'src/libs/firebase';
@@ -88,65 +87,69 @@ export const PrivacyDoc: FC<PrivacyDocProps> = (props) => {
         const senderName = user ? user.name : null;
         const allEmails = [currentEmail, ...emails].join(",");
 
-        const payload = {
+
+
+      let firestoreTimestamp = null;
+      if (scheduleDate) {
+        firestoreTimestamp = Timestamp.fromDate((scheduleDate as any).$d);
+
+
+      }
+
+
+          const payload = {
             uid: uid,
             contentType: 'document',
             to: allEmails,
             name: senderName,
             downloadUrl: pdfDownloadUrl,
             subject: title,
-            text: `${senderName} has sent you a private video titled "${title}"].
-Description: "${description}" "${allEmails}" "${pdfDownloadUrl}"
+            text: `${senderName} has sent you a private video titled "${title}".
+            Description: "${description}" "${allEmails}" "${pdfDownloadUrl}"`
+          };
 
-`,
-            scheduledFor: isScheduledShare && scheduleDate ? scheduleDate.toISOString() : null
+          try {
+            if (!isScheduledShare) {
+        await fetch('/api/email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      if (isScheduledShare && scheduleDate && uid) {
+        const scheduleRef = collection(db, 'schedules');
+
+
+
+
+
+
+
+        const data = {
+          createdAt: serverTimestamp(),
+          uid: uid,
+          contentType: 'document',
+          title: title,
+          name: senderName,
+          description: description,
+          downloadUrl: pdfDownloadUrl,
+          scheduleDate: firestoreTimestamp,  // updated this line
+          to: currentEmail,
         };
 
-        try {
-            // Always send the email payload to your endpoint
-            if (!isScheduledShare) {
-                await fetch('/api/email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-            }
+        await addDoc(scheduleRef, data);
+      }
 
-            if (isScheduledShare && scheduleDate && uid) {
-
-
-                const scheduleRef = collection(db, 'schedules');
-
-                const data = {
-
-
-                    createdAt: serverTimestamp(),
-                    uid: uid,
-                    contentType: 'document',
-                    title: title,
-                    name: senderName,
-                    description: description,
-                    downloadUrl: pdfDownloadUrl,
-                    scheduleDate: scheduleDate,
-                    to: currentEmail,
-
-                };
-
-                await addDoc(scheduleRef, data);
-            }
-
-
-            handleCloseShareModal();
-
-        } catch (error) {
-            console.error('Failed to send email:', error);
-        } finally {
-            handleCloseShareModal();
-        }
+      handleCloseShareModal();
+    } catch (error) {
+        console.error('Failed to send email:', error);
+      } finally {
+        handleCloseShareModal();
+      }
     };
-
 
     const handleSubmit = () => {
         if (onUpload) {

@@ -4,7 +4,7 @@ import { sendScheduledEmails } from './schedule';
 import cron from 'node-cron';
 
 // Schedule the function to run every minute
-cron.schedule('*/10 * * * *', sendScheduledEmails);
+cron.schedule('*/1 * * * *', sendScheduledEmails);
 
 
 const handler = (_req: NextApiRequest, res: NextApiResponse) => {

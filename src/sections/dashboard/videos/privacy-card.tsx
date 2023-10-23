@@ -1,21 +1,20 @@
 import React, {FC, useEffect, useState} from 'react';
-
 import { RadioGroup, FormControlLabel, Radio, TextField, Button, Box, Typography } from '@mui/material';
 import { Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import '@mui/material/styles';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { addDoc, collection, serverTimestamp} from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, Timestamp } from 'firebase/firestore';
 import {socialApi} from "src/api/social/socialApi";
 import type { Profile } from 'src/types/social';
 import { db, auth } from 'src/libs/firebase';
 import {usePageView} from "src/hooks/use-page-view";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {useTranslation} from "react-i18next";
+import {tokens} from "src/locales/tokens";
 
 
-// ...
 interface PrivacyCardProps {
-  onUpload: (data: { visibility: string, scheduleDate?: Date, sharedEmails: string[] }) => void;
+  onUpload: (data: { visibility: string, sharedEmails: string[] }) => void;
   videoLink?: string;
   downloadURL?: string;
   description?: string;
@@ -35,6 +34,7 @@ export const PrivacyCard: FC<PrivacyCardProps> = (props) => {
   const [emails, setEmails] = useState<string[]>([]);
   const [user , setUser] = useState<Profile | null>(null);
   const [currentEmail, setCurrentEmail] = useState("");
+    const { t } = useTranslation();
 
 
 
@@ -62,9 +62,6 @@ export const PrivacyCard: FC<PrivacyCardProps> = (props) => {
 
 
 
-
-
-
   usePageView();
 
 
@@ -84,12 +81,9 @@ export const PrivacyCard: FC<PrivacyCardProps> = (props) => {
     };
 
 
-
   const handleRemoveEmail = (emailToRemove: string) => {
     setEmails(prev => prev.filter(email => email !== emailToRemove));
   };
-
-
 
 
     const handleSendEmail = async () => {
@@ -97,7 +91,15 @@ export const PrivacyCard: FC<PrivacyCardProps> = (props) => {
         const senderName = user ? user.name : null;
         const allEmails = [currentEmail, ...emails].join(",");
 
-        const payload = {
+
+
+        let scheduledDate = null;
+        if (scheduleDate) {
+            scheduledDate = Timestamp.fromDate((scheduleDate as any).$d);
+
+        }
+
+            const payload = {
             uid: uid,
             contentType: 'video',
             to: allEmails,
@@ -105,31 +107,27 @@ export const PrivacyCard: FC<PrivacyCardProps> = (props) => {
             downloadUrl: downloadUrl,
             subject: title,
             text: `${senderName} has sent you a private video titled "${title}"].
-Description: "${description}" "${allEmails}" "${downloadUrl}"
-
-`,
-
-
-            scheduledFor: isScheduledShare && scheduleDate ? scheduleDate.toISOString() : null
+Description: "${description}" "${allEmails}" "${downloadUrl}"`,
         };
 
+
         try {
-            // Always send the email payload to your endpoint
-          if (!isScheduledShare) {
-            await fetch('/api/email', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(payload)
-            });
-          }
+            if (!isScheduledShare) {
+                await fetch('/api/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+            }
 
             if (isScheduledShare && scheduleDate && uid) {
-
-
-
                 const scheduleRef = collection(db, 'schedules');
+
+
+
+
 
                 const data = {
 
@@ -141,9 +139,8 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                   name: senderName,
                     description: description,
                     downloadUrl: downloadUrl,
-                    scheduleDate: scheduleDate,
+                    scheduleDate: scheduledDate,
                     to:  currentEmail,
-
                 };
 
                 await addDoc(scheduleRef, data);
@@ -172,19 +169,19 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
 
 
 
-
-
   return (
         <Box display="flex" flexDirection="column" height="auto" width="100%">
 
             <Typography variant="h5" gutterBottom>
-                Privacidad
+                {t(tokens.form.privacy)}
             </Typography>
 
-            <FormControlLabel
+
+          <FormControlLabel
                 value="saveOrPublish"
                 control={<Radio />}
-                label="Save or publish"
+                label={t(tokens.form.saveOrPublish)}
+
                 onChange={(e) => setVisibility((e.target as HTMLInputElement).value)}
             />
 
@@ -195,14 +192,15 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                         control={<Radio />}
                         label={
                             <Box>
-                                Private
-                                <Typography variant="caption" display="block">Only you and people you choose can watch your video</Typography>
+                                {t(tokens.form.private)}
+
+                                <Typography variant="caption" display="block">{t(tokens.form.privateVideoCaption)}</Typography>
                                 {visibility === 'private' && (
                                     <Button
                                         variant="outlined"
                                         onClick={handleOpenShareModal}
                                         style={{marginTop: '10px'}}>
-                                        SHARE PRIVATELY
+                                        {t(tokens.form.sharePrivately)}
                                     </Button>
                                 )}
                             </Box>
@@ -215,8 +213,8 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                         control={<Radio />}
                         label={
                             <Box>
-                                Public
-                                <Typography variant="caption" display="block">Everyone can watch your video</Typography>
+                                {t(tokens.form.public)}
+                                <Typography variant="caption" display="block">{t(tokens.form.publicVideoCaption)}</Typography>
                             </Box>
                         }
                     />
@@ -226,27 +224,29 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                         control={<Radio />}
                         label={
                             <Box>
-                                Unlisted
-                                <Typography variant="caption" display="block">Anyone with the video link can watch your video</Typography>
+                                {t(tokens.form.unlisted)}
+                                <Typography variant="caption"
+
+                                            display="block">{t(tokens.form.unlistedVideoCaption)}</Typography>
                             </Box>
                         }
                     />
                 </RadioGroup>
             </Box>
 
-            <Box mt={2} ml="auto" display="flex" justifyContent="space-between">
-                {onBack && <Button onClick={onBack} variant="outlined">Back</Button>}
+            <Box mt={2} ml="auto" display="flex" justifyContent="space-between" gap={2}>
+                {onBack && <Button onClick={onBack} variant="outlined">Previo</Button>}
                 <Button onClick={handleSubmit} variant="contained" color="primary">
-                    Save
+                    Guardar
                 </Button>
             </Box>
 
             {/* The modal/dialog section */}
             <Dialog open={openShareModal} onClose={handleCloseShareModal}>
-                <DialogTitle>Share Video Privately</DialogTitle>
+                <DialogTitle>Compartir privado</DialogTitle>
                 <DialogContent>
                     <Typography variant="caption">
-                        You can invite others to view your private video by entering in their email addresses below. Invitees must sign up to view the private video.
+                        Puedes invitar a otros a ver tu video privado ingresando sus direcciones de correo electrónico a continuación. Los invitados deben registrarse para ver el video privado.
                     </Typography>
 
                   <Box marginTop={2}>
@@ -257,13 +257,14 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                           onChange={() => setIsScheduledShare(false)}
                         />
                       }
-                      label="Send Now"
+                      label={t(tokens.form.sendNow)}
+
                     />
                   </Box>
 
                     <TextField
-                        label="Invitees"
-                        placeholder="Enter an email and press Enter"
+                        label="Invitados"
+                        placeholder="Ingrese un Email o más separados por comas"
                         fullWidth
                         value={currentEmail}
                         onChange={(e) => setCurrentEmail(e.target.value)}
@@ -291,7 +292,7 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
                           onChange={() => setIsScheduledShare(true)}
                         />
                       }
-                      label="Schedule"
+                      label="Programado"
                     />
 
 
@@ -299,9 +300,9 @@ Description: "${description}" "${allEmails}" "${downloadUrl}"
 
                     {isScheduledShare && (
 
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider  dateAdapter={AdapterDayjs}>
                             <DateTimePicker
-                                label="Share on Date and Time"
+                                label="Compartir en fecha y hora"
                                 value={scheduleDate}
                                 onChange={(date) => setScheduleDate(date)}
                             />

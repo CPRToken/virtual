@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import PropTypes from 'prop-types';
 import type { DropzoneOptions, Accept, FileWithPath } from 'react-dropzone';
 import { useDropzone } from 'react-dropzone';
 import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
@@ -14,8 +13,12 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-
+import { useTheme } from  '@mui/material/styles';
+import {useTranslation} from "react-i18next";
+import {tokens} from "src/locales/tokens";
+ import { useMediaQuery } from '@mui/material';
 import { bytesToSize } from 'src/utils/bytes-to-size';
+
 
 export type Videos = FileWithPath;
 
@@ -33,6 +36,11 @@ interface VideosDropzoneProps extends DropzoneOptions {
 export const VideoDropzone: FC<VideosDropzoneProps> = (props) => {
     const { caption, files = [], onRemove, videoLink, onRemoveAll, onUpload, ...other } = props;
     const { getRootProps, getInputProps, isDragActive } = useDropzone(other);
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+     const { t } = useTranslation();
+
+    const fontSize = isSmallScreen ? '21px' : '18px';  // Set your desired sizes
 
 
 
@@ -91,13 +99,14 @@ export const VideoDropzone: FC<VideosDropzoneProps> = (props) => {
                     <Stack spacing={1}>
                         <Typography
                             sx={{
+                                fontSize: fontSize,  // Set font size based on the screen size
                                 '& span': {
                                     textDecoration: 'underline',
                                 },
                             }}
                             variant="h6"
                         >
-                            <span>Click to upload</span> or drag and drop
+                            <span>{t(tokens.form.clickToUpload)}</span>
                         </Typography>
                         {caption && (
                             <Typography

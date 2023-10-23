@@ -25,10 +25,12 @@ interface VideosUploaderProps {
 export const VideoUploader: FC<VideosUploaderProps> = (props)   => {
 const { onClose, open = false, onUpload, onUploadSuccess, sharedEmails } = props;
 
-  const user = auth.currentUser;
-    const uid = user!.uid;
 
-    const [files, setFiles] = useState<Videos[]>([]);
+  const user = auth.currentUser;
+  const uid = user ? user.uid : null;
+
+
+  const [files, setFiles] = useState<Videos[]>([]);
   const [title, setTitle] = useState<string>('');
 
  const [description, setDescription] = useState<string>('');
@@ -57,25 +59,29 @@ const { onClose, open = false, onUpload, onUploadSuccess, sharedEmails } = props
 
 
     const uploadVideo = (file: File, uniqueID: string, sharedEmails: string[] = []) => {
+      if (uid) {  // Check if uid is not null
         const videoRef = ref(storage, `${uid}/videos/${uniqueID}`);
         uploadBytes(videoRef, file).then(snapshot => {
-            getDownloadURL(snapshot.ref).then(url => {
-                 const docRef = doc(db, "users", uid, "videos", uniqueID);
-                setDoc(docRef, {
-                    downloadUrl: url,
+          getDownloadURL(snapshot.ref).then(url => {
+            const docRef = doc(db, "users", uid, "videos", uniqueID);
+            setDoc(docRef, {
+              downloadUrl: url,
                     createdAt: serverTimestamp(),
                     title: title,
                     description: description,
                     sharedEmails: sharedEmails,
-                    fileSize: file.size,
-
-                });
-                if (onUploadSuccess) {
-                    onUploadSuccess();
-                }
+                fileSize: file.size,
             });
+              if (onUploadSuccess) {
+                  onUploadSuccess();
+              }
+          });
         });
+      } else {
+          // Handle the case where uid is null
+      }
     };
+
 
     const uploadFile = () => {
         const file = files[0];
@@ -85,23 +91,23 @@ const { onClose, open = false, onUpload, onUploadSuccess, sharedEmails } = props
     };
 
 
-    const handleDrop = (newFiles: File[], sharedEmails: string[] = []): void => {
-        setFiles(prevFiles => [...prevFiles, ...newFiles]);
-        setStep(DETAILS_STEP);
-
-        // Automatically trigger upload
-        const file = newFiles[0];
-        if (!file || !uid) return;
+        const handleDrop = (newFiles: File[]): void => {
+            setFiles(prevFiles => [...prevFiles, ...newFiles]);
+            setStep(DETAILS_STEP);
+            const file = newFiles[0];
+            if (!file || !uid) return;
 
 
 
 
-        const uniqueID = uuidv4();
-        const videoLink = `http://localhost:3000/${userUrl}/videos/${uniqueID}`;
+
+
+            const uniqueID = uuidv4();
+        const videoLink = `https:virtualeternity.cl/${userUrl}/videos/${uniqueID}`;
         setVideoLink(videoLink);
 
 
-
+        const fileExtension = file.name.split('.').pop();
 
 
         const videoRef = ref(storage, `${uid}/videos/${uniqueID}`);
@@ -119,10 +125,11 @@ const { onClose, open = false, onUpload, onUploadSuccess, sharedEmails } = props
                 setDoc(docRef, {
                     createdAt: serverTimestamp(),
                     downloadUrl: url,
-                    sharedEmails: sharedEmails,
-                    title: title,
-                    description: description,
                     fileSize: file.size,
+                    name: file.name,
+                    details: { title, description },
+
+                    extension: fileExtension,
 
                 });
                 if (onUploadSuccess) {
@@ -163,8 +170,7 @@ const { onClose, open = false, onUpload, onUploadSuccess, sharedEmails } = props
 
   const hasAnyFiles = files.length > 0;
 
-  // @ts-ignore
-    // @ts-ignore
+
     return (
       <Dialog fullWidth
               maxWidth="sm" open={!!open}

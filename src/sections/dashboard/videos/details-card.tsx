@@ -1,6 +1,8 @@
 // details.tsx
 import React, { FC, useState } from 'react';
 import { Button, TextField, Box } from '@mui/material';
+import {useTranslation} from "react-i18next";
+import {tokens} from "src/locales/tokens";
 
 import Typography from '@mui/material/Typography';
 
@@ -14,6 +16,7 @@ export const DetailsCard: FC<DetailsCardProps> = ({ onDetailsSubmit }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [videoLink, setVideoLink] = useState('');
+    const { t } = useTranslation();
 
     const handleNext = () => {
         console.log("Inside Details:", title, description); // Log here
@@ -26,17 +29,17 @@ export const DetailsCard: FC<DetailsCardProps> = ({ onDetailsSubmit }) => {
            height="100%">
         <Typography variant="h5"
                     gutterBottom>
-          Details
+            {t(tokens.form.details)}
         </Typography>
             <TextField
-                label="Title"
+                label="Título"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 fullWidth
                 margin="normal"
             />
             <TextField
-                label="Description"
+                label="Descripción"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 fullWidth
@@ -53,7 +56,7 @@ export const DetailsCard: FC<DetailsCardProps> = ({ onDetailsSubmit }) => {
               onDetailsSubmit({ title, description, videoLink });
             }}
           >
-            Next
+              Próximo
           </Button>
         </Box>
         </Box>

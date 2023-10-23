@@ -24,10 +24,7 @@ import { db, auth } from 'src/libs/firebase';
 import {useTranslation} from "react-i18next";
 import {tokens} from "src/locales/tokens";
 
-const now = new Date();
 
-
-const user = auth.currentUser;
 
 const Page: NextPage = () => {
   const settings = useSettings();
@@ -127,7 +124,7 @@ const Page: NextPage = () => {
                   {
                     title: 'Need help?',
                     content:
-                      'Preguunta a Jaime',
+                      'Pregunta a Jaime',
                   },
                   {
                     title: 'Tip 2.',
