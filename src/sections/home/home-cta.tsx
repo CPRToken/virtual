@@ -14,25 +14,24 @@ export const HomeCta: FC = () => {
 
 
   return (
-        <Box
-            sx={{
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center center',
-                backgroundSize: 'cover',
-                backgroundImage: 'linear-gradient(rgba(0, 0, 139, 0.30), rgba(0, 0, 139, 0.4)), url("/assets/parque.jpg")',
-                color: 'neutral.100',
-                pt: '30px',
-                pb: '10px',
-                height: '750px',
-                width: '100%',
-            }}
-        >
-            <Container maxWidth="lg">
-                <Box position="relative">
-                  <div style={{ position: 'absolute', top: '-10px', left: '-10px' }}>
-                    <Image src={logoSrc} alt="Sendero Logo" width={180} height={50} objectFit="contain" />
-                  </div>
-
+    <Box
+      sx={{
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover',
+        backgroundImage: 'linear-gradient(rgba(0, 0, 139, 0.30), rgba(0, 0, 139, 0.4)), url("/assets/parque.jpg")',
+        color: 'neutral.100',
+        pt: { xs: '30px', sm: '50px' },
+        pb: { xs: '10px', sm: '30px' },
+        height: { xs: 'auto', sm: '750px' },
+        width: '100%'
+      }}
+    >
+      <Container maxWidth="lg">
+        <Box position="relative">
+          <div style={{ position: 'absolute', top: '-10px', left: '-10px' }}>
+            <Image src={logoSrc} alt="Sendero Logo" width={180} height={50} objectFit="contain" />
+          </div>
                     <Stack spacing={2} style={{ paddingTop: '100px', paddingLeft: '40px', paddingBottom: '40px' }}>
                         <Typography
                             align="center"
@@ -85,28 +84,27 @@ export const HomeCta: FC = () => {
                         direction="row"
                         justifyContent="center"
                         spacing={2}
-                        sx={{ mt: { xs: 2, md: 6 }, mb: { xs: 10, md: 7 } }}
+                        sx={{ mt: { xs: 2, md: 6 }, mb: { xs: 8, md: 5 } }}
                     >
-                    <Button
-                      component="a"
-                      href="https://www.funerariasendero.cl/"
-                      target=""
-                      variant="outlined"
-                      sx={{
-                        fontSize: '18px',  // Text size
-                        width: '110px',  // Make the button wider
-                        padding: '5px 16px',
-                        borderColor: 'yourBorderColor',
-                        borderWidth: 2,
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Visita
-                    </Button>
+                      <Button
+                        component="a"
+                        href="https://www.funerariasendero.cl/"
+                        target=""
+                        variant="outlined"
+                        sx={{
+                          fontSize: { xs: '16px', sm: '18px' },
+                          width: { xs: '120px', sm: '110px' },
+                          padding: { xs: '10px 20px', sm: '5px 16px' },
+                          borderWidth: 2,
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        Visita
+                      </Button>
+                    </Stack>
+        </Box>
+      </Container>
 
-                  </Stack>
-                </Box>
-    </Container>
 </Box>
 
     );

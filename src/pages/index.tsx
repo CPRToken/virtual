@@ -24,7 +24,7 @@ const Page: NextPage = () => {
 
         <HomeCaps />
         <HomeCta />
-        <HomeSendero />
+
 
 
 
