@@ -19,7 +19,7 @@ import { Seo } from 'src/components/seo';
 import { GuestGuard } from 'src/guards/guest-guard';
 import { IssuerGuard } from 'src/guards/issuer-guard';
 import { useRouter } from 'src/hooks/use-router';
-import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
+import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import { Layout as AuthLayout } from 'src/layouts/auth/modern-layout';
 import { paths } from 'src/paths';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -41,7 +41,7 @@ interface Values {
   email: string;
   password: string;  policy: boolean;
   currentCity: string;
-  dob: string;
+  dob: Date | null;
   placesWorked: string;
   maritalStatus: string;
   highSchool: string;
@@ -74,7 +74,7 @@ onAuthStateChanged(auth, (user) => {
 const validationSchema = Yup.object({
   firstName: Yup.string().required('First name is required'),
   lastName: Yup.string().required('Last name is required'),
-  dob:  Yup.string().required('Gender is required'),
+  dob: Yup.date().nullable().required('DOB is required'),
   email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
   password: Yup.string().min(7).max(255).required('Password is required'),
   policy: Yup.boolean().oneOf([true], 'This field must be checked'),
@@ -125,7 +125,7 @@ const Page: NextPage = () => {
           uid: user.uid,
           firstName: values.firstName,
           lastName: values.lastName,
-            dob: Timestamp.fromDate(new Date(values.dob || '1980-01-01')),
+          dob: values.dob ? Timestamp.fromDate(values.dob) : null,
             email: user.email,
           quote: values.quote,
           cover: defaultCoverImageUrl,
@@ -280,15 +280,14 @@ const Page: NextPage = () => {
 
 
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker
-                            label="Fecha de nacimiento"
-                            value={formik.values.dob}
-                            onChange={(newValue) => {
-                              formik.setFieldValue("dob", newValue);
-                            }}
+                        <DatePicker  // Use DatePicker instead of DateTimePicker
+                          label="Fecha de nacimiento"
+                          value={formik.values.dob}
+                          onChange={(newValue) => {
+                            formik.setFieldValue("dob", newValue);
+                          }}
                         />
                       </LocalizationProvider>
-
 
 
 
