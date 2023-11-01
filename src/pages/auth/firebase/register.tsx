@@ -19,7 +19,7 @@ import { Seo } from 'src/components/seo';
 import { GuestGuard } from 'src/guards/guest-guard';
 import { IssuerGuard } from 'src/guards/issuer-guard';
 import { useRouter } from 'src/hooks/use-router';
-import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
+
 import { Layout as AuthLayout } from 'src/layouts/auth/modern-layout';
 import { paths } from 'src/paths';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -31,7 +31,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { addDoc, collection } from 'firebase/firestore';
 import { serverTimestamp, Timestamp } from "firebase/firestore";
 import MenuItem from '@mui/material/MenuItem';
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+
 
 
 
@@ -41,8 +41,7 @@ interface Values {
   email: string;
   password: string;  policy: boolean;
   currentCity: string;
-  dob: Date | null;
-  placesWorked: string;
+   placesWorked: string;
   maritalStatus: string;
   highSchool: string;
   university: string;
@@ -74,8 +73,7 @@ onAuthStateChanged(auth, (user) => {
 const validationSchema = Yup.object({
   firstName: Yup.string().required('First name is required'),
   lastName: Yup.string().required('Last name is required'),
-  dob: Yup.date().nullable().required('DOB is required'),
-  email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+   email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
   password: Yup.string().min(7).max(255).required('Password is required'),
   policy: Yup.boolean().oneOf([true], 'This field must be checked'),
 });
@@ -91,7 +89,6 @@ const Page: NextPage = () => {
       quote: '',
       firstName: '',
       lastName: '',
-        dob: null,
       email: '',
       gender: '',
       password: '',
@@ -125,8 +122,7 @@ const Page: NextPage = () => {
           uid: user.uid,
           firstName: values.firstName,
           lastName: values.lastName,
-          dob: values.dob ? Timestamp.fromDate(values.dob) : null,
-            email: user.email,
+           email: user.email,
           quote: values.quote,
           cover: defaultCoverImageUrl,
           gender: values.gender,
@@ -279,15 +275,6 @@ const Page: NextPage = () => {
                   />
 
 
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker  // Use DatePicker instead of DateTimePicker
-                          label="Fecha de nacimiento"
-                          value={formik.values.dob}
-                          onChange={(newValue) => {
-                            formik.setFieldValue("dob", newValue);
-                          }}
-                        />
-                      </LocalizationProvider>
 
 
 
