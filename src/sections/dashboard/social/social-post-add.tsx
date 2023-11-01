@@ -19,10 +19,10 @@ import {tokens} from "src/locales/tokens";
 import { getInitials } from 'src/utils/get-initials';
 import { useEffect, useState } from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {collection, doc, addDoc, updateDoc, serverTimestamp} from 'firebase/firestore';
+import {collection, addDoc, serverTimestamp} from 'firebase/firestore';
 
 
-import type {Profile, Post } from 'src/types/social';
+import type {Profile } from 'src/types/social';
 
 import { db} from "src/libs/firebase";
 import {socialApi} from "src/api/social/socialApi";
@@ -58,6 +58,8 @@ export const SocialPostAdd: FC = (props) => {
     });
     return unsubscribe;
   }, [auth]);
+
+
 
 
 

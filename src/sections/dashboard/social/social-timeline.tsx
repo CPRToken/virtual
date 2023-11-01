@@ -6,7 +6,7 @@ import { Profile, Post } from 'src/types/social';
 import { SocialPostAdd } from './social-post-add';
 import { SocialPostCard } from './social-post-card';
 import { SocialAbout } from './social-about';
-
+import { getAuth } from 'firebase/auth';
 
 
 interface SocialProfileTimelineProps {
@@ -19,7 +19,8 @@ interface SocialProfileTimelineProps {
 export const SocialTimeline: FC<SocialProfileTimelineProps> = (props) => {
     const { posts = [], profile, ...other } = props;
 
-
+    const currentUserUid = getAuth().currentUser?.uid;
+    const isOwner = currentUserUid === profile.uid;
 //I need the avatar and author name of the person who posted the post to display with the below rendering function. Is this the right file to render the saved posts in firestore?
   //  const [posts, setPosts] = useState<Post[]>([]);
 
@@ -36,12 +37,10 @@ export const SocialTimeline: FC<SocialProfileTimelineProps> = (props) => {
                 >
                     <SocialAbout
                         currentCity={profile.originCity}
-
-
                         email={profile.email}
                         gender={profile.gender}
                         originCity={profile.originCity}
-
+                        maritalStatus={profile.maritalStatus}
                         placesWorked={profile.placesWorked}
                         highSchool={profile.highSchool}
                         university={profile.university}
@@ -52,7 +51,7 @@ export const SocialTimeline: FC<SocialProfileTimelineProps> = (props) => {
                       xs={12}>
 
                     <Stack spacing={4}>
-                        <SocialPostAdd />
+                        {isOwner && <SocialPostAdd />}  {/* Conditionally render SocialPostAdd */}
                         {posts.map((post) => (
                             <SocialPostCard
                                 key={post.id}

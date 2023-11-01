@@ -6,7 +6,7 @@ export const en = {
   [tokens.nav.account]: 'Account',
   [tokens.nav.analytics]: 'Analytics',
   [tokens.nav.auth]: 'Auth',
-  [tokens.headings.whatsOnYourMind]: "Leave a message",
+  [tokens.headings.whatsOnYourMind]: "What's on your mind?",
   [tokens.headings.language]: "LANGUAGE",
 
   [tokens.nav.browse]: 'Browse',

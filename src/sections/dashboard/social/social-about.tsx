@@ -29,8 +29,7 @@ interface SocialAboutProps {
   highSchool?: string;
   university?: string;
   currentCity?: string;
-  userUrl?: string;
-  placesWorked?: string;
+   placesWorked?: string;
   quote?: string;
 }
 
@@ -44,8 +43,7 @@ export const SocialAbout: FC<SocialAboutProps> = (props) => {
     highSchool,
     university,
     currentCity,
-    userUrl,  //this is the url of the user's profile picture
-    placesWorked,
+   placesWorked,
     quote,
     ...other
   } = props;
@@ -227,9 +225,8 @@ SocialAbout.propTypes = {
     gender: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   originCity: PropTypes.string.isRequired,
-   maritalStatus: PropTypes.string.isRequired,
+   maritalStatus: PropTypes.string,
    placesWorked: PropTypes.string.isRequired,
-userUrl: PropTypes.string.isRequired,
   highSchool: PropTypes.string.isRequired,
   university: PropTypes.string.isRequired,
   quote: PropTypes.string.isRequired,
