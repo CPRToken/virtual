@@ -16,13 +16,13 @@ interface ItemMenuProps {
   storage: any;
 }
 
-export const FotosMenu: FC<ItemMenuProps> = (props) => {
+export const VideosMenu: FC<ItemMenuProps> = (props) => {
   const { anchorEl, onClose, open, onDelete, uid, fileName } = props;
 
   const deleteFile = async () => {
     if (uid === null || fileName === null) return;
 
-    const storagePath = `${uid}/fotos/${fileName}`;
+    const storagePath = `${uid}/videos/${fileName}`;
     const collectionName = "yourFirestoreCollectionName"; // Replace with your Firestore collection name
     const documentId = fileName; // Assuming you use fileName as document ID in Firestore
 
@@ -79,7 +79,7 @@ export const FotosMenu: FC<ItemMenuProps> = (props) => {
   return element;
 };
 
-FotosMenu.propTypes = {
+VideosMenu.propTypes = {
   anchorEl: PropTypes.any,
   onClose: PropTypes.func,
   onDelete: PropTypes.func,

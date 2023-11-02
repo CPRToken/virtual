@@ -4,6 +4,7 @@ export interface Profile {
     uid?: string;
     avatar?: string;
     bio?: string;
+    dob?: string;
     cover?: string;
     name?: string;
     firstName?: string;

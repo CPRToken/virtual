@@ -11,6 +11,7 @@ import Image from 'next/image';
 import DotsVerticalIcon from '@untitled-ui/icons-react/build/esm/DotsVertical';
 import Globe01Icon from '@untitled-ui/icons-react/build/esm/Globe03';
 import Avatar from '@mui/material/Avatar';
+import { storage, auth } from "src/libs/firebase";
 
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
@@ -26,12 +27,14 @@ interface ThumbnailCardProps {
   imageUrls?: string;
   onDelete?: (itemId: string) => void;
   onFavorite?: (itemId: string, value: boolean) => void;
-    onOpen?: () => void;  // Change this line
+  onOpen?: () => void;
 
 }
 
+
 export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
   const {  imageUrls, item, onDelete, onOpen } = props;
+  const uid = item.uid;
   const popover = usePopover<HTMLButtonElement>();
 
   const handleDelete = useCallback((): void => {
@@ -147,13 +150,17 @@ export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
           </IconButton>
 
       </Card>
-      <FotosMenu
-        anchorEl={popover.anchorRef.current}
-        onClose={popover.handleClose}
-        onDelete={handleDelete}
-        open={popover.open}
-      />
-    </>
+          <FotosMenu
+            anchorEl={popover.anchorRef.current}
+            onClose={popover.handleClose}
+            onDelete={handleDelete}
+            open={popover.open}
+            uid={uid} // Add this
+            fileName={item.name} // Assuming the file name is item.name
+            storage={storage} // Import and use the storage instance
+          />
+
+        </>
   );
 };
 

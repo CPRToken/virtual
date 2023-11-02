@@ -28,6 +28,7 @@ import { doc, updateDoc, getDoc } from "firebase/firestore";
 interface AccountGeneralSettingsProps {
     uid?: string;
   avatar: string;
+  dob?: string;
   email: string;
   name?: string;
   maritalStatus?: string;
@@ -41,7 +42,7 @@ interface AccountGeneralSettingsProps {
 
 
 export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) => {
-    const { avatar, name, quote, email, maritalStatus, university } = props;
+    const { avatar, name,dob, quote, email, maritalStatus, university } = props;
     const [uid, setUid] = useState<string | null>(null); // Add this line to hold uid this line to hold uid
   const [isEditingName, setIsEditingName] = useState(false);
   const [newName, setNewName] = useState(name);
@@ -49,6 +50,10 @@ export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) =
 
   const [isEditingQuote, setIsEditingQuote] = useState(false);
   const [newQuote, setNewQuote] = useState(quote);
+
+
+    const [isEditingDob, setIsEditingDob] = useState(false);
+    const [newDob, setNewDob] = useState(dob);
 
 
     const [isEditingMarital, setIsEditingMarital] = useState(false);
@@ -122,8 +127,30 @@ export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) =
   };
 
 
+    const handleEditDobClick = () => {
+        setIsEditingDob(true);
+    };
+    const handleSaveDobClick = async () => {
+        if (uid) {
+            const userRef = doc(db, 'users', uid);
+            await updateDoc(userRef, {
+                dob: newDob
+            });
+            setIsEditingDob(false);
+        } else {
+            // Handle the case when uid is null
+            console.error("UID is null. Cannot update document.");
+        }
+    };
 
-  //edit quote below
+
+
+
+
+
+
+
+    //edit quote below
 
   const handleEditQuoteClick = () => {
     setIsEditingQuote(true);
@@ -341,6 +368,37 @@ export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) =
                   </Stack>
 
 
+                    <Stack alignItems="center" direction="row" spacing={2}>
+                        <TextField
+                            defaultValue={newDob}
+                            label={t(tokens.form.dob)}
+                            disabled={!isEditingDob}
+                            onChange={(e) => setNewDob(e.target.value)}
+                            sx={{
+                                flexGrow: 1,
+                                '& .MuiOutlinedInput-notchedOutline': {
+                                    borderStyle: 'dashed',
+                                },
+                            }}
+                            inputProps={{
+                                pattern: "^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\\d{4}$"
+                            }}
+                            placeholder="Format: dd/mm/yyyy"
+                            error={!/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(newDob || "") && newDob !== ""}
+                        />
+                        {isEditingDob ? (
+                            <Button color="inherit" size="small" onClick={handleSaveDobClick}>
+                                Save
+                            </Button>
+                        ) : (
+                            <Button color="inherit" size="small" onClick={handleEditDobClick}>
+                                Edit
+                            </Button>
+                        )}
+                    </Stack>
+
+
+
 
 
                     <Stack alignItems="center" direction="row" spacing={2}>
@@ -545,6 +603,7 @@ export const AccountGeneralSettings: FC<AccountGeneralSettingsProps> = (props) =
 AccountGeneralSettings.propTypes = {
     uid: PropTypes.string,
   avatar: PropTypes.string.isRequired,
+    dob: PropTypes.string,
   maritalStatus: PropTypes.string,
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

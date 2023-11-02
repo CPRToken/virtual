@@ -87,6 +87,7 @@ const Page: NextPage = () => {
   const formik = useFormik({
     initialValues: {
       quote: '',
+      dob: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -120,6 +121,7 @@ const Page: NextPage = () => {
         // After successfully creating the user
         await setDoc(doc(db, 'users', user.uid), {
           uid: user.uid,
+          dob: values.dob,
           firstName: values.firstName,
           lastName: values.lastName,
            email: user.email,

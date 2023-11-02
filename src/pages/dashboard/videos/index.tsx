@@ -5,6 +5,7 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard";
 import { Grid, Box,  Stack, Button, Typography, Container, SvgIcon } from '@mui/material';
 import { Seo } from 'src/components/seo';
 import { VideoUploader } from '../../../sections/dashboard/videos/video-uploader';
+import { VideoThumbnailCard } from '../../../sections/dashboard/videos/video-thumbnail-card';
 import { db, auth, storage } from 'src/libs/firebase';
 import { ref, getDownloadURL, listAll } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
@@ -155,25 +156,19 @@ const Page: NextPage = () => {
                     <Grid container spacing={0}>
                         {videoUrls.map(({ url, videoId }, index) => (
                             <Grid item xs={6} sm={4} md={4} lg={3} key={index}>
-                                <div onClick={() => {
-
-                                    handleItemOpen(url, videoId);
-                                } }
-                                     style={{ padding: '8px' }}>
-                                    <video
-                                        style={{
-                                            width: '100%', // Takes the full width of the container
-                                            height: 'auto', // Adjusts the height automatically
-                                            objectFit: 'cover',
-                                            aspectRatio: '1/1',
-                                            borderRadius: '0.3rem'
-                                        }}
-                                    >
-                                        <source src={url} type="video/mp4" />
-                                    </video>
-                                </div>
+                                <VideoThumbnailCard
+                                    videoUrl={url}
+                                    item={{
+                                        id: index.toString(),
+                                        uid: uid,
+                                        size: 0, // Adjust this if you have the size
+                                        type: 'file',
+                                        isFavorite: false,
+                                        name: videoId
+                                    }}
+                                    onDelete={() => console.log("Delete")} // Modify this function as needed
+                                />
                             </Grid>
-
                         ))}
                         <Popover
                             open={popoverOpen}

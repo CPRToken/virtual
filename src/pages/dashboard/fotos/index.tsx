@@ -114,12 +114,11 @@ const Page: NextPage = () => {
                   <Grid container
                         spacing={1}>
                       {imageUrls.map((imageObj, index) => (
-                          <Grid item
-                                xs={3}
-                                key={index}>
+                        <Grid item xs={6} sm={6} md={3} key={index}>
                               <ThumbnailCard
                                   item={{
                                       id: index.toString(),
+                                     uid: uid,
                                       size: 0,
                                       type: 'file',
                                       isFavorite: false,

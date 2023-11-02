@@ -104,6 +104,7 @@ headings: {
 },
 
   form: {
+
     privateVideoCaption: 'form.privateVideoCaption',
     privacy: 'form.privacy',
     unlistedVideoCaption: 'form.unlistedVideoCaption',
@@ -135,6 +136,7 @@ headings: {
     currentJobTitle: 'form.currentJobTitle',
     previousJobCompany: 'form.previousJobCompany',
     previousJobTitle: 'form.previousJobTitle',
+    dob: 'form.dob',
     maritalStatus: 'form.maritalStatus',
     sendResetLink: 'form.sendResetLink',
     emailSentMessage: 'form.emailSentMessage',

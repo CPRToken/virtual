@@ -84,6 +84,7 @@ export const en = {
   [tokens.form.emailSentMessage]: 'If an account exists with this email, please check your inbox and follow the instructions.',
   [tokens.form.sendResetLink]: 'Send reset link',
   [tokens.form.maritalStatus]: 'Marital Status',
+  [tokens.form.dob]: 'Date of birth',
   [tokens.form.clickToUpload]: 'Click to upload',
   [tokens.form.details]: 'Details',
   [tokens.form.orDragAndDrop]: 'or drag and drop',

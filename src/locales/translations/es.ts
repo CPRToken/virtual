@@ -85,6 +85,7 @@ export const es = {
   [tokens.form.previousJobCompany]: 'Empresa del trabajo anterior',
   [tokens.form.previousJobTitle]: 'Título del trabajo anterior',
   [tokens.form.maritalStatus]: 'Estado civil',
+  [tokens.form.dob]: 'Fecha de nacimiento',
   [tokens.form.light]: 'Claro',
   [tokens.form.dark]: 'Oscuro',
   [tokens.form.details]: 'Detalles',

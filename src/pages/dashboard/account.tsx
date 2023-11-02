@@ -118,6 +118,7 @@ const Page: NextPage = () => {
               avatar={user.avatar || ''}
               email={user.email || ''}
               name={user.name || ''}
+              dob={user.dob || ''}
               maritalStatus={user.maritalStatus || ''}
                quote={user.quote || ''}
               university={user.university || ''}
