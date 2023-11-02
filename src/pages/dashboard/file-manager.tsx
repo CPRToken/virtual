@@ -340,7 +340,7 @@ const Page: NextPage = () => {
                   count={itemsStore.itemsCount}
                   items={sortedItems}
 
-                  onDelete={handleDelete}
+
                   onFavorite={itemsStore.handleFavorite}
                   onOpen={handleItemOpen}
                   onPageChange={itemsSearch.handlePageChange}

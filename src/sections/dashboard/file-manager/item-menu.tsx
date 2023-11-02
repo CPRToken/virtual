@@ -44,15 +44,7 @@ export const ItemMenu: FC<ItemMenuProps> = (props) => {
           </SvgIcon>
           Copy Link
         </MenuItem>
-        <MenuItem
-            onClick={onDelete}
-            sx={{ color: 'error.main' }}
-        >
-          <SvgIcon fontSize="small">
-            <Trash02Icon />
-          </SvgIcon>
-          Delete
-        </MenuItem>
+
       </Menu>
   );
 };

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import PropTypes from 'prop-types';
+import { ref, deleteObject } from "firebase/storage";
 
 import Trash02Icon from '@untitled-ui/icons-react/build/esm/Trash02';
 
@@ -15,13 +16,30 @@ interface ItemMenuProps {
   onClose?: () => void;
   onDelete?: () => void;
   open?: boolean;
-
-
+  uid: string | null;
+  fileName: string;
+  storage: any;
 }
 
 
+
 export const FotosMenu: FC<ItemMenuProps> = (props) => {
-  const {anchorEl, onClose, open, onDelete } = props; // <-- Add this line
+  const {anchorEl, onClose, open, onDelete, uid, storage, fileName } = props;
+
+
+  const deleteFile = () => {
+    if (uid === null || fileName === null) return;
+
+    const imageRef = ref(storage, `${uid}/fotos/${fileName}`);
+
+    deleteObject(imageRef).then(() => {
+      console.log("File deleted successfully");
+      // Refresh your UI here if needed
+    }).catch((error) => {
+      console.error("Error deleting file: ", error);
+    });
+  };
+
 
 
   let element = <><>
@@ -49,7 +67,11 @@ export const FotosMenu: FC<ItemMenuProps> = (props) => {
     >
 
       <MenuItem
-          onClick={onDelete}
+          onClick={() => {
+            console.log("Delete clicked");
+            deleteFile();  // Add this line
+            onDelete?.();
+          }}
           sx={{color: 'error.main'}}
       >
         <SvgIcon fontSize="small">
@@ -57,6 +79,8 @@ export const FotosMenu: FC<ItemMenuProps> = (props) => {
         </SvgIcon>
         Delete
       </MenuItem>
+
+
     </Menu>
 
 

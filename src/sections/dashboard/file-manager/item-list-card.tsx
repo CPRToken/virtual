@@ -1,20 +1,14 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import Star01Icon from '@untitled-ui/icons-react/build/esm/Star01';
 import DotsVerticalIcon from '@untitled-ui/icons-react/build/esm/DotsVertical';
-import Globe01Icon from '@untitled-ui/icons-react/build/esm/Globe03';
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-
 import SvgIcon from '@mui/material/SvgIcon';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { usePopover } from 'src/hooks/use-popover';
 import type { Item } from 'src/types/file-manager';

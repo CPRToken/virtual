@@ -45,8 +45,8 @@ export const ThumbnailCard: FC<ThumbnailCardProps> = (props) => {
     size += `• ${item.itemsCount} items`;
   }
 
-    // @ts-ignore
-    const createdAt = format(new Date(item.createdAt), 'dd MMM, yyyy');
+    const createdAt = item.createdAt ? format(new Date(item.createdAt), 'dd MMM, yyyy') : 'N/A';
+
 
     return (
         <>
